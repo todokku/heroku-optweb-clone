@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+      
+      <h:head>
+      	<title>Transação Documento</title>
+      </h:head>
+      
+      <f:metadata>
+      	<f:viewParam name="id" value="#{valCampBean.id_val_camp_trans_doc}"/>
+      </f:metadata>
+   
+   	  <ui:composition template="/template/interna.xhtml">
+   	  	<ui:define name="titulo">Transação Documento</ui:define>
+   	  		<ui:define name="corpo">
+   	  		
+   	  			<h:form id = "formMessages" >
+   	  			<p:messages id = "messages"
+   	  				autoUpdate="true"   	  				
+   	  				closable="true"
+   	  				showDetail="true"/>
+   	  			</h:form>
+   	  			
+   	  			<h:form id = "formCadastro">
+   	  				<div class = "ui-fluid">
+   	  			
+	   	  				<p:dataTable value = "#{transacaoDocumentoBean.lazymodel}"
+						var = "transacaoDocumento"									
+						rules = "rows"				
+						cellpadding ="20"								
+						selectionMode="single"	
+						selection="#{transacaoDocumentoBean.transacao_documentoSelecionada}"															
+						rows="20" 				
+						paginator="true"										
+						lazy="true"						
+						rowKey="#{transacaoDocumento.id_transacao_doc}"	>
+                    	      						
+							
+							<p:column  width = "100" headerText="Descrição">														
+								#{transacaoDocumento.id_transacao.descricao}																						
+							</p:column>
+																			
+							<p:column width = "17" headerText="Doc">														
+								#{transacaoDocumento.id_doc.id}															
+							</p:column>
+																							
+							<p:column width="80" headerText="Data.Ini">													
+							<h:outputText value="#{transacaoDocumento.data_ini}">
+								<f:convertDateTime pattern="dd-MM-yyyy" />
+							</h:outputText>						
+							</p:column>
+							
+							<p:column width="80" headerText="Data.Fim">															
+							<h:outputText value="#{transacaoDocumento.data_fim}">
+								<f:convertDateTime pattern="dd-MM-yyyy" />
+							</h:outputText>					
+							</p:column>
+																		
+							<p:column width="50" headerText="Hor.Ini">														
+								#{transacaoDocumento.horario_ini}						
+							</p:column>
+																														
+							<p:column width="50" headerText="Hor.Fim">								
+								#{transacaoDocumento.horario_fim}						
+							</p:column>					
+																									
+							<p:column width="86"  headerText="Estado">															
+								#{transacaoDocumento.estado}							
+							</p:column>
+														
+							<p:column width = "55" headerText="Un.Temp">														
+								#{transacaoDocumento.unidadeTempo}							
+							</p:column>
+							
+							<p:column width = "45" headerText="Tempo">														
+								#{transacaoDocumento.tempo_previsto} 							
+							</p:column>
+							
+							<p:column width="65" headerText="Arquivo">															
+								<p:commandLink ajax="false" value="#{transacaoDocumentoBean.tamanhoNomeArquivo(transacaoDocumento.nome_arquivo)}" style="text-decoration:none"  immediate="true" process="@this" update="@this">																	
+										<p:fileDownload value="#{transacaoDocumentoBean.streamedContent}"/>
+										<f:param name="idTransDoc" value="#{transacaoDocumento.id_transacao_doc}" />																	
+								</p:commandLink>							
+							</p:column>
+																			       																		
+									<f:facet name="footer">
+									
+									<div align="left">
+									
+											<p:commandButton icon="ui-icon-document" style="width:30px;height:30px" action="#{transacaoDocumentoBean.novo()}"/>
+																					
+											<p:commandButton icon="ui-icon-pencil" action="#{transacaoDocumentoBean.alterar()}"  style="width:30px;height:30px;margin-left:10px"/>
+																																						
+											<p:commandButton icon="ui-icon-trash"  action="#{transacaoDocumentoBean.excluir()}" 
+											 style="width:30px;
+											 height:30px;
+											 margin-left:10px">
+											 
+											 <p:confirm header="Confirmation" message="Confirmar exclusão?" icon="ui-icon-alert"/>
+											 
+											 </p:commandButton>
+											 
+											 <p:commandButton icon="ui-icon-arrowrefresh-1-w" action="/restrito/menu.xhtml"  style="width:30px;height:30px;margin-left:10px" />
+											 
+											 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+										       
+										        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />										       
+										        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+										   
+										    </p:confirmDialog>
+										    
+										    <p:ajaxStatus onstart="PF('dlg').show()" onsuccess="PF('dlg').hide()"/>
+									
+											<p:dialog modal="true" closable="false"  header="Processando" hideEffect="fade" resizable="false" responsive="true" showEffect="fade" widgetVar="dlg">
+												<p:graphicImage value = "/imagens/loadingBar-1.gif"/>											
+											</p:dialog>									
+									</div>													 					
+									</f:facet>				
+													
+						</p:dataTable>
+					
+   	  				</div>
+   	  			</h:form>
+   	  	
+   	  		</ui:define>
+   	  </ui:composition>	
+   
+   
+</html>

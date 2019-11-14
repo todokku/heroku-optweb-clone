@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Campo Adicional</title>
+</h:head> 
+  
+	<ui:composition template="/template/interna.xhtml">
+	
+		<ui:define name="titulo">Campo Adicional</ui:define>
+		
+			<ui:define name="corpo">			
+			
+				<h:form id = "formMesssages">
+					<p:messages id = "messages" autoUpdate="true" closable="true" showDetail="true"/>
+				</h:form>
+				
+					<h:form id = "formCadastro">
+							
+						<div class = "ui-fluid">
+						
+							<p:dataTable							
+								value = "#{campoAdicBean.listarPorCodEmCodFiCodUni(usuarioBean.usuarioLogin)}" 
+								var = "campoAdic"									
+								rules = "rows"				
+								cellpadding ="20"
+								selection = "#{campoAdicBean.campoAdicionalSelecionado}"			
+								selectionMode="single"
+								rowKey="#{campoAdic.id_camp_adic}"
+								reflow="true" 
+								rows="20" 							
+								paginator="true"
+								filteredValue="#{campoAdicBean.lista}"								
+								paginatorPosition="bottom">
+																
+								<f:facet name="header">Campo.Adicional</f:facet>				
+																														
+								<p:column width ="10" headerText="Codigo" >								
+									#{campoAdic.cod_campo}								
+								</p:column>
+														
+								<p:column width = "200" headerText="Descrição">
+									#{campoAdic.descricao}
+								</p:column>
+								
+								<p:column headerText="Grupo" width="100">
+									#{campoAdic.id_grupo_Valores.codigo} - #{campoAdic.id_grupo_Valores.descricao}
+								</p:column>
+								
+								<p:column width="40" headerText="Transação">									
+									#{campoAdic.id_transacao.descricao}
+								</p:column>	
+																								
+								<f:facet name="footer">
+												
+									<div align="left">
+																										
+									<p:commandButton icon="ui-icon-document" style="width:30px;height:30px;"  action="#{campoAdicBean.novo()}"/>
+													
+									<p:commandButton icon="ui-icon-pencil" action="#{campoAdicBean.alterar()}"  style="width:30px;height:30px;margin-left:10px" />
+																								
+									<p:commandButton icon="ui-icon-trash"  action="#{campoAdicBean.excluir()}" 
+									style="width:30px;height:30px;margin-left:10px">
+													 
+										<p:confirm header="Confirmation" message="Confirmar exclusão?" icon="ui-icon-alert"/>
+													 
+									</p:commandButton>
+													
+									<p:commandButton icon="ui-icon-arrowrefresh-1-w" action="/restrito/menu.xhtml"  style="width:30px;height:30px;margin-left:10px" />
+												
+										<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+											<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+											<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+										</p:confirmDialog>
+												    
+												    <p:ajaxStatus onstart="PF('dlg').show()" onsuccess="PF('dlg').hide()"/>
+													<p:dialog closable="false" draggable="false" header="Processando..." hideEffect="fade" modal="true" resizable="false" responsive="true" widgetVar="dlg">
+														<p:graphicImage value = "/imagens/loadingBar-1.gif"/>										
+													</p:dialog>
+													
+													</div>
+																						 					
+											</f:facet>																
+								
+							</p:dataTable><br/>			
+							
+						</div>
+				
+					</h:form>
+					
+			</ui:define>
+			
+	</ui:composition>
+   
+</html>

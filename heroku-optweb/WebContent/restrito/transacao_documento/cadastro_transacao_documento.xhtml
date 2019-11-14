@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+      
+<h:head>
+	<title>Cadastro Transação Documento</title> 
+		<f:metadata>
+			<f:viewParam name="tr" value="#{transacaoDocumentoBean.transacao_documentoSelecionada.id_transacao_doc}"/>	
+			<f:viewParam name="id" value="#{transacaoDocumentoBean.id_tipo_doc}"/>	
+			<f:viewParam name="doc" value="#{transacaoDocumentoBean.documento.id_doc}"/>		
+		</f:metadata>	  
+</h:head>
+   
+   	<ui:composition template="/template/interna.xhtml">
+   	
+   		<ui:define name="titulo">Cadastro Transação Documento</ui:define>
+   		
+   			<ui:define name="corpo">
+   			
+   				<h:form id = "formMessages">
+   					<p:messages autoUpdate="true"
+   					 closable="true"
+   					 id = "messages"/>
+   				</h:form>
+   				
+   				<h:form id = "formCadastroTransacaoDocumento" enctype="multipart/form-data">
+   							
+					<p:dialog closable="false" draggable="false" header="Processando..." hideEffect="fade" modal="true" resizable="false" responsive="true" widgetVar="dlg">
+						<p:graphicImage value = "/imagens/loadingBar-1.gif"/>										
+					</p:dialog>
+   				
+   					<div class = "ui-fluid">
+   						   						   								  						
+   						<p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
+   						 				  						   						  						
+   							   						  			         		 
+   							<p:outputLabel value="Transação:" for="idTrans"/>
+   							<p:selectOneMenu style="width:120px" value="#{transacaoDocumentoBean.iniciar(usuarioBean.usuarioLogin).id_transacao.id_transacao}" id = "idTrans" disabled="#{transacaoDocumentoBean.desabilitarCampos()}">
+   									<f:selectItem itemLabel="  Selecione  " noSelectionOption="true"/>   								
+   									<f:selectItems value ="#{transacaoBean.listarPorCodEmCodFiCodUni(usuarioBean.usuarioLogin)}" var="Trans" itemLabel="#{Trans.descricao}" itemValue="#{Trans.id_transacao}"/>
+   									<p:ajax event="change" listener="#{transacaoDocumentoBean.preencherCodDesc(usuarioBean.usuarioLogin)}" update="idCod idDesc"/>
+   							</p:selectOneMenu>	
+   							
+   								<p:outputLabel for = "codEmp" value = "Empresa:"/>
+															
+								<p:column width = "50">
+								
+									<p:inputText id = "codEmp" 															
+									maxlength="5"
+									size="5" 
+									value = "#{transacaoDocumentoBean.iniciar(usuarioBean.usuarioLogin).cod_empresa.cod_empresa}"								
+									disabled = "true"
+									style="width:25px"/>																
+									<p:outputLabel style="width:325px;margin-left:10px" value = "#{usuarioBean.usuarioLogin.cod_empresa.descricao}" />	 
+								
+								</p:column>
+								
+								<p:outputLabel for = "codFi" value = "Filial:"/>
+								
+								<p:column width = "50">	
+								<p:inputText id = "codFi"
+									maxlength="5"
+									size="5"  
+									value = "#{transacaoDocumentoBean.iniciar(usuarioBean.usuarioLogin).cod_filial.cod_filial}"							
+									disabled = "true"
+									style="width:25px"/>								
+								<p:outputLabel style="width:325px;margin-left:10px" value = "#{usuarioBean.usuarioLogin.cod_filial.descricao}" />	 
+								</p:column>
+								
+								<p:outputLabel for = "codUn" value = "Unidade:"/>
+								
+								<p:column width = "50">
+									<p:inputText id = "codUn"
+									maxlength="5"
+									size="5"  
+									value = "#{transacaoDocumentoBean.iniciar(usuarioBean.usuarioLogin).cod_unidade.cod_unidade}"
+									disabled = "true"
+									style="width:25px"/>								
+								<p:outputLabel style="width:325px;margin-left:10px" value = "#{usuarioBean.usuarioLogin.cod_unidade.descricao}" />	 
+								</p:column >
+   														
+   							   							 							
+   								<p:outputLabel for = "idCod" value="Código:"/>
+   								<p:inputText id = "idCod" value="#{transacaoDocumentoBean.transacao_documento.id_transacao.descricao}" maxlength="15" size = "15" style = "width:auto" disabled ="true"/>
+   							  							
+   								<p:outputLabel for = "idDesc" value="Descrição:"/>
+   								<p:inputText   id = "idDesc" value="#{transacaoDocumentoBean.transacao_documento.id_transacao.descricao}" maxlength="15" size = "15" style = "width:auto" disabled  ="true"/>
+   						  				
+   						  		<p:outputLabel  value= "Data Inicial:" for="idDatIni" rendered="#{transacaoDocumentoBean.desabilitarCampos()}"/>			
+   						  		<p:calendar rendered="#{transacaoDocumentoBean.desabilitarCampos()}"  pattern="dd-MM-yyyy" mask="true" id = "idDatIni"  value="#{transacaoDocumentoBean.iniciar(usuarioBean.usuarioLogin).data_ini}"/>			
+   						  				
+   						  		<p:outputLabel  value= "Data Final:" for="idDatFim" rendered="#{transacaoDocumentoBean.desabilitarCampos()}" />			
+   						  		<p:calendar rendered="#{transacaoDocumentoBean.desabilitarCampos()}"  pattern="dd-MM-yyyy" mask="true" id = "idDatFim"  value="#{transacaoDocumentoBean.iniciar(usuarioBean.usuarioLogin).data_fim}"/>	
+   						  	   						  				
+   						  		<p:outputLabel rendered="#{transacaoDocumentoBean.transacao_documentoSelecionada.id_transacao_doc != null}"  value= "Horário Inicial:" for="idHoIni"/>			
+   						  		<p:calendar  rendered="#{transacaoDocumentoBean.transacao_documentoSelecionada.id_transacao_doc != null}"  pattern="HH:mm" mask="true" id = "idHoIni"  value="#{transacaoDocumentoBean.iniciar(usuarioBean.usuarioLogin).horario_ini}" timeOnly="#{transacaoDocumentoBean.iniciar(usuarioBean.usuarioLogin).horario_ini == null}"/>			
+   						  	   						  				
+   						  		<p:outputLabel rendered="#{transacaoDocumentoBean.transacao_documentoSelecionada.id_transacao_doc != null}"  value= "Horário Final:" for="idHoFim"/>			
+   						  		<p:calendar rendered="#{transacaoDocumentoBean.transacao_documentoSelecionada.id_transacao_doc != null}"  pattern="HH:mm" mask="true" id = "idHoFim"  value="#{transacaoDocumentoBean.iniciar(usuarioBean.usuarioLogin).horario_fim}" timeOnly="#{transacaoDocumentoBean.iniciar(usuarioBean.usuarioLogin).horario_fim == null}"/>					
+   						  							  						    	
+						    	<p:outputLabel for="idEst" value = "Estado:" rendered = "#{transacaoDocumentoBean.transacao_documentoSelecionada.id_transacao_doc != null}"/>
+						    	<p:selectOneMenu  id = "idEst" value = "#{transacaoDocumentoBean.iniciar(usuarioBean.usuarioLogin).estado}"
+						    	size = "25"
+								maxlength="25"
+								style="width:120px"
+								rendered = "#{transacaoDocumentoBean.transacao_documentoSelecionada.id_transacao_doc != null}">	
+															
+						    		<f:selectItem noSelectionOption="true" itemLabel="  Selecione"/>
+									<f:selectItem itemDisabled="true" noSelectionOption="true" itemValue="Nao Iniciado" itemLabel="Não Iniciado"/>
+									<f:selectItem itemValue="Iniciado" itemLabel="Iniciado"/>
+									<f:selectItem itemValue="Parado" itemLabel="Parado"/>
+									<f:selectItem itemValue="Finalizado" itemLabel="Finalizado"/>
+							
+									<p:ajax event="change" listener="#{transacaoDocumentoBean.preencherDataeHora()}" update="idDatIni idDatFim idHoIni idHoFim" async="false"/>										
+							
+								</p:selectOneMenu>
+						   						   		   		
+						   		<p:outputLabel value="Unidade Tempo:"/>
+								 	<p:selectOneMenu style="width:120px" value="#{transacaoDocumentoBean.iniciar(usuarioBean.usuarioLogin).unidadeTempo}">
+								 		<f:selectItem noSelectionOption="true" itemLabel="  Selecione  "/>
+								 		<f:selectItem  itemValue="Segundos" itemLabel="Segundos"/>
+										<f:selectItem  itemValue="Minutos" itemLabel="Minutos"/>
+										<f:selectItem  itemValue="Horas" itemLabel="Horas"/>
+										<f:selectItem  itemValue="Dias" itemLabel="Dias"/>
+								    </p:selectOneMenu>						   		   		
+						   	
+						   	   							 							
+   							<p:outputLabel  value="Tempo:"/>
+   							<p:inputText  value="#{transacaoDocumentoBean.iniciar(usuarioBean.usuarioLogin).tempo_previsto}" maxlength="15" size = "15" style = "width:auto" />
+						   						   		   						   						   		   						   							 
+   							<p:outputLabel for = "idObs" value="Observação:"/>
+   							<p:inputTextarea id = "idObs"  value="#{transacaoDocumentoBean.iniciar(usuarioBean.usuarioLogin).observacao}"  maxlength="60" size = "60" style = "width:auto" />
+   							 
+   							<p:outputLabel value="Arquivo:"/> 
+   							<p:fileUpload  allowTypes="pdf,xlsx,doc,txt,html,jpeg,png,bmp" skinSimple="true" label="#{transacaoDocumentoBean.descricaoDeAnexo(transacaoDocumentoBean.iniciar(usuarioBean.usuarioLogin))}" value="#{transacaoDocumentoBean.arquivo}" mode="simple" style="width:250px"/> 
+   				  							    							    							 							  						     							  							  							
+   							<p:commandButton action = "#{transacaoDocumentoBean.salvar}" value="Salvar" id = "salvar" ajax="false" onclick="PF('dlg').show()"/>
+   							
+   							<p:commandButton icon="ui-icon-arrowrefresh-1-w" action="#{transacaoDocumentoBean.redireciona()}"  style="width:30px;height:30px"/>			           		   				 
+   							   			  						
+   						</p:panelGrid>
+   					
+   					</div>
+   					   					
+   				</h:form>
+   				
+   			</ui:define>
+   	
+   	</ui:composition>
+
+   
+   
+</html>

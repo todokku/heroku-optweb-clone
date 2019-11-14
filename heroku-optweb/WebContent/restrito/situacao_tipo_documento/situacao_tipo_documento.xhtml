@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+<title>Situação Tipo Documento</title>
+
+ 
+</h:head>
+
+	<ui:composition template="/template/interna.xhtml">
+		<ui:define name="titulo">Situação Tipo Documento</ui:define>
+			<ui:define name = "corpo">
+			
+				<h:form id = "formMessages">
+									
+				<p:messages 
+				
+				    id="messages"
+				    autoUpdate="true"					
+					closable = "true"
+					showDetail="true"/>
+				
+				</h:form>		
+							
+					<h:form id = "formCadastro">
+															
+						<div class = "ui-fluid">
+				
+							<p:dataTable value = "#{situacaoBean.listarPorCodEmpCodFiCodUni(usuarioBean.usuarioLogin)}" 
+							var = "situacao"									
+							rules = "rows"				
+							cellpadding ="20"
+							selection = "#{situacaoBean.situacao_Tipo_DocumentoSelecionado}"
+							selectionMode="single"		
+							rowKey="#{situacao.cod_campo}"
+							reflow="true" 
+							rows="5" 						
+							paginator="true"											
+							paginatorPosition="bottom">	
+															
+							<f:facet name="header">Situação.Tipo.Documento</f:facet>
+																			 								
+								<p:column width="50" headerText="Codigo">							
+									#{situacao.cod_campo}						 
+								</p:column>	
+																											 								
+								<p:column width="50" headerText="Descrição">							
+									#{situacao.descricao}						 
+								</p:column>	
+																																						
+								<p:column width="60" headerText="Tipo Documento">								
+									#{situacao.id_tipo_doc.id_tipo_doc}					
+								</p:column>		
+								
+								<p:column width="600" headerText="Descrição">
+									#{situacao.id_tipo_doc.descricao}									
+								</p:column>
+												
+																																
+								<f:facet name="footer">
+								
+									<div align="left">
+							
+										<p:commandButton icon="ui-icon-document" style="width:30px;height:30px" action="#{situacaoBean.novo()}"/>
+																				 							
+										<p:commandButton icon="ui-icon-pencil" action="#{situacaoBean.alterar()}"  style="width:30px;height:30px;margin-left:10px"/>
+										
+										<p:commandButton icon="ui-icon-trash" action="#{situacaoBean.excluir()}" style="width:30px;height:30px;margin-left:10px" update="@all">	
+										 
+											 <p:confirm header="Confirmation" message="Confirmar exclusão?" icon="ui-icon-alert"/>
+												 
+										</p:commandButton>
+										
+										<p:commandButton icon="ui-icon-arrowrefresh-1-w" action="#{usuarioBean.redirecionaMenu()}"  style="width:30px;height:30px;margin-left:10px" />
+																										 													
+									</div>
+								</f:facet>												
+					</p:dataTable>
+					
+					 
+												 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">											        
+											        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />											        
+											        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />											    
+											    </p:confirmDialog>	
+											    
+											    <p:ajaxStatus onstart="PF('dlg').show()" onsuccess="PF('dlg').hide()"/>
+												<p:dialog closable="false" draggable="false" header="Processando..." hideEffect="fade" modal="true" resizable="false" responsive="true" widgetVar="dlg">
+													<p:graphicImage value = "/imagens/loadingBar-1.gif"/>										
+												</p:dialog>				
+																											
+					</div>	
+								
+				</h:form>
+							
+			</ui:define>
+	</ui:composition>
+</html>

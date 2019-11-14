@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<Context reloadable = "true">
+
+<!--userXOU-->
+<!--BRfaOxd2SI88oxCl-->
+
+<Resource name="jdbc/Dfrbahc2ppl0skDB"
+auth = "Container"
+type = "javax.sql.DataSource"
+maxActive = "100"
+maxIdle = "100"
+maxWait = "10000"
+username = "xadqrtiwwjhlpv" 
+password = "7624cec09e1039cf18d64a332f4be8d942ad285df0711b5f0aaf28ffdb91faba"
+driverClassName="org.postgresql.Driver"
+url = "postgres://ec2-54-163-226-238.compute-1.amazonaws.com:5432/dfrbahc2ppl0sk"/>
+
+</Context>                                                                                                                                                                                                                                                                                                                                                                                           

@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+<title>Cadastro Layout Empresa</title>
+
+  <f:metadata>	
+	<f:viewParam name = "id" value = "#{layoutBean.layoutEmpresaSelecionada.id_layout}"/>
+</f:metadata>
+
+</h:head>
+
+	<ui:composition template="/template/interna.xhtml">
+		<ui:define name="titulo">Cadastro Layout Empresa</ui:define>
+			<ui:define name = "corpo">
+			
+				<h:form id = "formMessages">
+									
+				<p:messages 
+				
+				    id="messages"
+				    autoUpdate="true"					
+					closable = "true"
+					showDetail="true"/>
+				
+				</h:form>		
+							
+					<h:form id = "formCadastro">
+															
+						<div class = "ui-fluid">
+				
+							<p:dataTable value = "#{layoutBean.listarPorCodEmCodFiCodUni(usuarioBean.usuarioLogin)}" 
+							var = "layout"									
+							rules = "rows"				
+							cellpadding ="20"
+							selection = "#{layoutBean.layoutEmpresaSelecionada}"
+							selectionMode="single"		
+							rowKey="#{layout.id_layout}"
+							reflow="true" 
+							rows="20" 						
+							paginator="true"
+							filteredValue="#{layoutBean.lista}"							
+							paginatorPosition="bottom">	
+															
+							<f:facet name="header">Layout.Tipo.Doc.Empresa</f:facet>
+														 								
+								<p:column width="40" headerText="Codigo">							
+									#{layout.cod_campo}						 
+								</p:column>	
+								
+								<p:column width="40" headerText="Descrição">							
+									#{layout.descricao}						 
+								</p:column>	
+																															
+								<p:column width="40" headerText="Tipo.Doc">								
+									#{layout.id_tipo_doc.cod_campo}					
+								</p:column>		
+								
+								<p:column width="35" headerText="Sequência">								
+									#{layout.sequencia}				
+								</p:column>			
+																								
+								<p:column width="600" headerText="Descrição">								
+									#{layout.id_tipo_doc.descricao}				
+								</p:column>
+																						
+								<f:facet name="footer">
+								
+									<div align="left">
+							
+										<p:commandButton icon="ui-icon-document" style="width:30px;height:30px" action="#{layoutBean.novo()}"/>
+																				 							
+										<p:commandButton icon="ui-icon-pencil" action="#{layoutBean.alterar()}"  style="width:30px;height:30px;margin-left:10px"/>
+										
+										<p:commandButton icon="ui-icon-trash" action="#{layoutBean.excluir()}" style="width:30px;height:30px;margin-left:10px" update="formCadastro">	
+										 
+											 <p:confirm header="Confirmation" message="Confirmar exclusão?" icon="ui-icon-alert"/>
+												 
+										</p:commandButton>
+										
+										<p:commandButton icon="ui-icon-arrowrefresh-1-w" action="#{usuarioBean.redirecionaMenu()}"  style="width:30px;height:30px;margin-left:10px" />
+												 
+												 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">											        
+											        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />											        
+											        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />											    
+											    </p:confirmDialog>	
+											    
+											    <p:ajaxStatus onstart="PF('dlg').show()" onsuccess="PF('dlg').hide()"/>
+												<p:dialog closable="false" draggable="false" header="Processando..." hideEffect="fade" modal="true" resizable="false" responsive="true" widgetVar="dlg">
+													<p:graphicImage value = "/imagens/loadingBar-1.gif"/>										
+												</p:dialog>																		 													
+									</div>
+								</f:facet>												
+					</p:dataTable>
+																											
+					</div>	
+								
+				</h:form>
+							
+			</ui:define>
+	</ui:composition>
+</html>

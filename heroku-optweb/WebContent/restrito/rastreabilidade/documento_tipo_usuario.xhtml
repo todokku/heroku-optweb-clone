@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+
+<head>
+
+<style>
+			.old {
+			  background-color: red !important;
+			  color: #000000 !important;
+			}
+</style>
+</head>
+
+<h:head>
+
+
+
+	<title>Documentos</title>	
+	
+			
+	
+		<f:metadata>
+		<f:viewParam name="id" value="#{documentoBean.id_tipo_doc}"/>		
+	</f:metadata>
+	
+	
+</h:head>   
+
+
+
+
+	<ui:composition template="/template/interna.xhtml">
+		<ui:define name="titulo">Documentos</ui:define>
+			<ui:define name = "corpo">
+				
+			<p:ajaxStatus onstart="PF('dlg').show()" onsuccess="PF('dlg').hide()"/>		
+			<p:dialog
+				style="font-family: Verdana,Arial,Helvetica,sans-serif;font-size: 12px;"
+				closable="false" draggable="false" header="Processando..."
+				hideEffect="fade" modal="true" resizable="false" responsive="true"
+				widgetVar="dlg">
+				<p:graphicImage value="/imagens/loadingBar-1.gif" />
+			</p:dialog>
+								
+				<h:form id = "formMessages">				
+				
+					<p:messages id="messages" 
+	           		 closable = "true"
+	           		 showDetail="true"
+	           		 autoUpdate="true"/>
+				
+				</h:form>
+										
+					<h:form id = "formCadastro">
+																				
+					<p:dialog   draggable="false" positionType="fixed" resizable="false" showEffect="fade" hideEffect="fade" widgetVar="dlg"  modal="true" responsive="true" closable="false" header="Processando..." position="fixed center">
+							<p:graphicImage value="/imagens/loadingBar-1.gif" />    
+					</p:dialog>
+																																
+					<div class = "ui-fluid">
+													
+							<p:dataTable 
+							value = "#{documentoBean.lazyDocumento(usuarioBean.usuarioLogin)}" 
+							var = "documento"										
+							rules = "rows"				
+							cellpadding ="25"
+							selection = "#{documentoBean.documentoSelecionado}"			
+							selectionMode="single"
+							rowKey="#{documento.id_doc}"
+							reflow="true" 
+							rows="999" 
+							paginatorPosition="bottom"									
+							paginator="true"			
+							widgetVar="doctable"									
+							id="tableDoc"
+							scrollable="true"
+							scrollWidth="100%" 
+						    scrollHeight="150"
+						    lazy="true">
+						    						    		
+								<f:facet name="header">
+											
+								<p:panelGrid columns = "1"  styleClass="ui-panelgrid-blank">
+													
+									<p:row>	
+																			
+									<p:column style="margin:auto">
+										
+										<p:outputLabel value="Tipo:"/>
+										
+										<p:selectOneMenu  value="#{documentoBean.id_tipo_doc}" style="width:349px;margin:auto 0">
+											<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+											<f:selectItems value="#{usuario_tipo_docBean.listarPorIdUsuarioCodEmCodFiCodUni(usuarioBean.usuarioLogin)}" var="tipoDoc" itemLabel="#{tipoDoc.id_tipo_documento.descricao}" itemValue="#{tipoDoc.id_tipo_documento.id_tipo_doc}"/>
+											<p:ajax event="change"   listener="#{documentoBean.carregarDocTransDocCampAdic(usuarioBean.usuarioLogin)}" update="formCadastro:tableDoc"/>
+										</p:selectOneMenu>
+										
+										<p:commandButton icon="ui-icon-arrowrefresh-1-w" action="#{documentoBean.redirecionaMenu()}"  style="width:24px;height:24px;margin-right:12px" onstart="PF('dlg').show();PF('dlg').initPosition()" />									
+									
+									</p:column>
+						
+									</p:row>		
+												
+								</p:panelGrid>	
+											   																			
+							</f:facet>
+							<p:ajax event = "rowSelect" listener = "#{documentoBean.selecionarLinhaDocDetalhe}" update = "iddtl,idqrcode"/>
+										
+							<p:columns value="#{documentoBean.columns}" var="column"  filterBy="column.retornaValor(documento)}">
+								
+								<f:facet name="header">
+									<p:outputLabel value="#{column.header}" />
+								</f:facet>
+							
+							<p:outputLabel value="#{column.retornaValor(documento)}"/>
+														
+					   	    </p:columns>
+					   	    						
+							
+																			
+							
+																										
+					<f:facet name="footer">
+					
+						<div align="left">
+																							
+						 	<p:commandButton id="idqrcode" disabled="#{documentoBean.idDocDetalhe == null}"  style="width:30px;height:30px;" icon="ui-icon-arrowthick-1-s" ajax="false" immediate="true" update="@all" >				
+								<p:fileDownload value="#{documentoBean.GerarQRCODE()}" />									
+							</p:commandButton>		
+																			
+							<p:commandButton disabled="#{documentoBean.idDocDetalhe == null}" id="iddtl" icon="ui-icon-pencil" style="width:30px;height:30px;margin-left:10px" action="#{documentoBean.redirecionaRastreabilidadePorDocumento()}" onstart="PF('dlg').show();PF('dlg').initPosition()" oncomplete="PF('dlg').hide()"/>		
+												
+						</div>	
+										
+					</f:facet>		
+							
+					</p:dataTable>
+																																		
+					</div>	
+										
+				</h:form>
+							
+			</ui:define>
+	</ui:composition>
+</html>

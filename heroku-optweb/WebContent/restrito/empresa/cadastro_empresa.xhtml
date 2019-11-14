@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"> 
+
+<h:head>
+
+<title>Cadastro Empresa</title>
+
+	<f:metadata>	    
+ 		<f:viewParam name = "id" value = "#{empresaBean.empresaSelecionada.cod_empresa}"/>		     		
+	</f:metadata>
+	
+</h:head> 
+	
+	<ui:composition template="/template/interna.xhtml">
+	
+			<ui:define name="titulo">Cadastro Empresa</ui:define>
+	
+				<ui:define name="corpo">	
+									           	   		
+           	   		<h:form id = "cadastroEmpresa"  enctype="multipart/form-data">
+           	   		
+           	   			<p:messages autoUpdate="true" closable="true" /> 
+           	   		
+           	   				<div class = "ui-fluid">
+           	           	 	           	   	  			             	          	            	           	            	
+				           	 <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" >   
+				                 
+				               		           	   	  		
+						          <p:outputLabel value="Empresa:"/>											
+								  <p:inputText disabled="#{empresaBean.desabilitarCampo()}" value="#{empresaBean.iniciar().cod_empresa}" style="width:auto"/>
+						         					         				           		   
+				           		  <p:outputLabel value="Descrição:" for = "descrição"/>					           		  
+				           		  <p:inputText value="#{empresaBean.iniciar().descricao}" id = "descrição" style="width:auto"/>
+				       										  
+				       			  <p:outputLabel value="Logotipo:" for="logo"/>			       			  
+   								  <p:fileUpload id="logo" value="#{empresaBean.arquivo}"  mode="simple" skinSimple="true" allowTypes="png,jpg"  label= "#{empresaBean.descricaoDeAnexo(empresaBean.iniciar())}" style = "width:250px" />
+				       			  				       			  
+				       			  <p:outputLabel value="Cor Empresa:"/>							
+				           		  <p:colorPicker value="#{empresaBean.iniciar().corEmpresa}"/>    
+				       			  							 
+								  <p:commandButton action="#{empresaBean.salvar()}" value="Salvar" ajax="false"/>
+								  																	
+	    						  <p:commandButton icon="ui-icon-arrowrefresh-1-w" immediate="true" action= "#{usuarioBean.redirecionaMenu()}" style="width:30px;height:30px"/>			           				
+												
+																																				  
+							</p:panelGrid>	
+			           									           		
+		           			</div> 
+		           			           		
+		           	</h:form>
+           					
+			</ui:define>
+			
+	</ui:composition>
+	 
+</html>

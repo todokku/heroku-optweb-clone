@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>	
+		<f:metadata>		
+		      <f:viewParam name = "id" value = "#{layoutBean.tipo_doc}"/>
+		      <f:viewParam name = "em" value = "#{layoutBean.cod_em}"/>
+		      <f:viewParam name = "fi" value = "#{layoutBean.cod_fi}"/>
+		      <f:viewParam name = "uni" value = "#{layoutBean.cod_uni}"/>			
+		</f:metadata>		
+</h:head>
+
+	  <ui:composition template="/template/externa.xhtml">
+		
+		<ui:define name="titulo">Layout Empresa</ui:define>
+			
+			<ui:define name= "corpo">
+			
+			<h:form>						
+							<p:dataTable value = "#{layoutBean.listarPorTipoDoc()}" 
+							var = "layout"									
+							rules = "rows"				
+							cellpadding ="25"
+							selection = "#{layoutBean.layoutEmpresaSelecionada}"			
+							selectionMode="single"
+							rowKey="#{layout.id_layout}"
+							reflow="true" 
+							rows="5" 
+							paginatorPosition="bottom"										
+							paginator="true">
+							
+							<f:facet name="header">Layout</f:facet>
+				
+			    <p:column  width = "1">					
+					<f:facet name="header">Tipo.Doc</f:facet>
+					<p:outputLabel value="#{layout.id_tipo_doc.id_tipo_doc}" />				
+				</p:column>
+							
+				<p:column  width = "150">					
+					<f:facet name="header">Descrição</f:facet>
+					<p:outputLabel value="#{layout.descricao}" />				
+				</p:column>
+																									
+				</p:dataTable>
+			
+						
+			</h:form>
+					
+		</ui:define>
+	
+	</ui:composition>
+</html>

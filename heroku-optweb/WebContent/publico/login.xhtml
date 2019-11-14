@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"     
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"> 
+      
+    
+       
+    <ui:composition template="/template/externa.xhtml">
+    
+		<ui:define name="corpo">
+		
+				<h:form id = "formMessages">			
+					<p:messages id="messages" 
+	           		 closable = "true" showDetail="true" autoUpdate="true"/>				
+				</h:form>	
+				
+			 	<div align = "center" style="margin-top:70px">
+			 															
+						<h:form>				
+						<div class = "ui-fluid">
+					 															
+						<p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
+				      				         	
+					        <p:outputLabel value="Nome:"/> 						  
+							<p:inputText value="#{usuarioBean.login}"/> 
+													 													
+							<p:outputLabel value="Senha:"/>								
+							<p:password value="#{usuarioBean.senha}"/> 
+																																										
+							<p:commandButton id = "button"  action="#{usuarioBean.Login()}" value = "Entrar" update="@all"/>
+																																																		
+						</p:panelGrid>		
+						
+						</div>
+																
+					</h:form>
+								
+				</div>	
+									
+		</ui:define>
+		
+	</ui:composition>	
+	
+  </html>
+  

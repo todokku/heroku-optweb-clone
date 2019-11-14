@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Alteração Campos Adicionais</title>
+		<f:metadata>		
+			<f:viewParam name="id" value="#{valCampBean.id_val_camp_trans_doc}"/>		
+		</f:metadata>
+</h:head>	
+
+	<ui:composition template="/template/interna.xhtml">
+	
+		<ui:define name="titulo"></ui:define>
+		
+			<ui:define name="corpo">
+			
+				<h:form id="formCadastroCampAdic" enctype="multipart/form-data">
+																	
+					<p:dialog showEffect="fade" hideEffect="fade" widgetVar="dlg"  modal="true" responsive="true" closable="false" header="Processando...">
+						<p:graphicImage value="/imagens/loadingBar-1.gif" />    
+					</p:dialog>	
+				
+					<p:messages autoUpdate="true" closable="true" id = "messages" showDetail="true"/>
+					
+						<div class = "ui-fluid">
+																													
+								<p:panelGrid columns = "2" styleClass="ui-panelgrid-blank" >
+																				
+									<p:outputLabel value="Campo Adicional:" />										
+									<p:inputText value="#{valCampBean.iniciar(usuarioBean.usuarioLogin).id_camp_adic.id_camp_adic}" size = "11" style="width:auto" disabled="true"/>										
+																										
+									<p:outputLabel for = "transacao" value="Transação:"/>									
+									<p:selectOneMenu style="width:200px"  value="#{valCampBean.iniciar(usuarioBean.usuarioLogin).id_camp_adic.id_transacao.id_transacao}" id="transacao" disabled="true">
+										<f:selectItem noSelectionOption="true" itemLabel="  Selecione  "/>
+										<f:selectItems value="#{transacaoBean.listarPorCodEmCodFiCodUni(usuarioBean.usuarioLogin)}" var="trans" itemLabel="#{trans.descricao}" itemValue="#{trans.id_transacao}"/>
+									</p:selectOneMenu>
+																											
+									<p:outputLabel for = "CodCampo" value="Código Campo:"/>
+									<p:inputText  id = "CodCampo" value="#{valCampBean.iniciar(usuarioBean.usuarioLogin).id_camp_adic.cod_campo}" size ="11" maxlength="11" style="width:auto" disabled="true"/>
+																																					
+									<p:outputLabel for = "Desc" value = "Descrição:"/>
+									<p:inputText  id = "Desc" value = "#{valCampBean.iniciar(usuarioBean.usuarioLogin).id_camp_adic.descricao}" size = "60" maxlength="20" style="width:auto" disabled="true"/>
+										
+									<p:outputLabel for = "res" value = "Resultado:"/>
+									
+								 	<p:inputText value="#{valCampBean.iniciar(usuarioBean.usuarioLogin).resultado}" rendered="#{valCampBean.desabilitarListaDeValores(usuarioBean.usuarioLogin) == false}"/>
+																											
+									<p:selectOneMenu style="width:200px"  value="#{valCampBean.iniciar(usuarioBean.usuarioLogin).resultado}" id="res" rendered="#{valCampBean.desabilitarListaDeValores(usuarioBean.usuarioLogin)}">
+										<f:selectItem noSelectionOption="true" itemLabel="  Selecione  "/>
+										<f:selectItems value="#{valCampBean.listarPorIdGrupoValoresCodEmCodFiCodUni(usuarioBean.usuarioLogin)}" var="grupoval" itemLabel="#{grupoval.valor_possivel}" itemValue="#{grupoval.valor_possivel}"/>
+									</p:selectOneMenu>
+																																																			
+									<p:outputLabel for = "Obs" value = "Observação:"/> 
+									<p:inputTextarea id = "Obs" value = "#{valCampBean.iniciar(usuarioBean.usuarioLogin).observacao}" size = "100" maxlength="100" style="width:auto"/>		
+								
+									<p:outputLabel value="Arquivo:"/>
+                                    <p:fileUpload  value="#{valCampBean.arquivo}" skinSimple="true" label="#{valCampBean.verificaArquivoAnexado(valCampBean.iniciar(usuarioBean.usuarioLogin).nome_arquivo)}" mode="simple" allowTypes="pdf,xlsx,doc,txt,html,jpeg,png,bmp" style = "width:250px" />
+																																							 
+									<p:commandButton action="#{valCampBean.salvar()}" value="Salvar" ajax="false" onclick="PF('dlg').show()"/>			 
+									
+									<p:commandButton icon="ui-icon-arrowrefresh-1-w" action="#{valCampBean.redireciona()}"  style="width:30px;height:30px"/>							
+																           		   							
+								</p:panelGrid>
+																
+							</div>
+							
+						</h:form>
+									
+			</ui:define>
+			
+	</ui:composition>
+	  
+</html>

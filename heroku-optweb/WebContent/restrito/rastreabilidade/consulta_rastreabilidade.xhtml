@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+	<title>Consulta QRCODE</title>	
+	
+</h:head>    
+
+	<ui:composition template="/template/interna.xhtml">
+		<ui:define name="titulo">Consulta QRCODE</ui:define>
+			<ui:define name = "corpo">
+								
+				<h:form id = "formMessages">				
+				
+					<p:messages id="messages" 
+	           		 closable = "true"
+	           		 showDetail="true"
+	           		 autoUpdate="true"/>
+				
+				</h:form>
+				
+						<script type="text/javascript">
+								
+									function start() {
+								    	PF('dlg').show();
+									}
+								 
+									function stop() {
+								    	PF('dlg').hide();
+									}
+								
+							</script>	
+				
+				<p:ajaxStatus onstart="PF('dlg').show()" onsuccess="PF('dlg').hide();PF('dlg').initPosition()"/>		
+				<p:dialog
+					style="font-family: Verdana,Arial,Helvetica,sans-serif;font-size: 12px;"
+					closable="false" draggable="false" header="Processando..."
+					hideEffect="fade" modal="true" resizable="false" responsive="true"
+					widgetVar="dlg">
+					<p:graphicImage value="/imagens/loadingBar-1.gif" />
+				</p:dialog>
+										
+					<h:form id = "formCadastro">
+																			
+					<div class = "ui-fluid">
+				
+					<p:dataTable value = "#{documentoBean.lazymodel2}" 
+					var = "documento"									
+					rules = "rows"				
+					cellpadding ="25"
+					selection = "#{documentoBean.documentoSelecionado}"			
+					selectionMode="single"
+					rowKey="#{documento.id_doc}"
+					reflow="true" 
+					rows="30" 
+					paginatorPosition="bottom"									
+					paginator="true"			
+					widgetVar="doctable"					
+					rendered="#{not empty documentoBean.listarPorCodEmCodFiCodUni(usuarioBean.usuarioLogin)}"
+					lazy = "true"
+					rowStyleClass="#red">
+					
+					<f:facet name="header">Documento</f:facet>
+					
+					<p:ajax event = "rowSelect" listener = "#{documentoBean.selecionarLinhaDoc}"/>
+						
+					<p:column  width="15" headerText="Doc" filterBy="#{documento.id_doc}" >					
+						<p:outputLabel value="#{documento.id_doc}" />			
+					</p:column>	
+														
+					<p:column  width="70" headerText="Tipo.Doc" filterBy="#{documento.id_tipo_doc.descricao}">					
+						<p:outputLabel value="#{documento.id_tipo_doc.descricao}"/>			
+					</p:column>	
+					
+					<p:column  width="80" headerText="Número" filterBy="#{documento.numero}">					
+						<p:outputLabel value="#{documento.numero}"/>				
+					</p:column>		
+					
+																											
+					<p:column filterBy="#{documento.situacao}" headerText="Situação"  filterMatchMode="equals"  width="50">								   
+						<p:outputLabel value="#{documento.situacao}"/>
+					</p:column>
+					
+					<p:column  width="70" headerText="Referência" filterBy="#{documento.cliente}">					
+						#{documento.cliente} #{clienteBean.carregarPorCodCliente(documento.cliente)}			
+					</p:column>	
+										
+					<p:column  width="50" headerText="Data.Ini" filterBy="#{documento.dataIniPrev}">					
+						<p:outputLabel value="#{documento.dataIniPrev}"/>		
+					</p:column>		
+					
+					<p:column  width="50" headerText="Data.Fim" filterBy="#{documento.dataFimPrev}">				
+						<p:outputLabel value="#{documento.dataFimPrev}"/>		
+					</p:column>	
+														
+					<f:facet name="footer">
+					
+						<div align="left">
+												
+							<h:commandButton  immediate="true" style="width:90px;height:31px " value="Download">					
+								<p:fileDownload value="#{documentoBean.arquivoRetorno}"/>									
+							</h:commandButton>		
+							
+							<p:commandButton icon="ui-icon-arrowrefresh-1-w"  action="#{usuarioBean.redirecionaMenu()}"  style="width:30px;height:30px;margin-left:10px"/>			           									
+						
+						</div>	
+										
+					</f:facet>		
+				
+					</p:dataTable>
+																														
+					</div>	
+				</h:form>
+							
+			</ui:define>
+	</ui:composition>
+</html>

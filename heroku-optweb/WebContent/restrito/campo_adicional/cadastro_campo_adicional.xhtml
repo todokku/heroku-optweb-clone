@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+	<title>Cadastro Campo Adicional</title>
+	
+		<f:metadata>
+			<f:viewParam name="id" value="#{campoAdicBean.campoAdicionalSelecionado.id_camp_adic}"/>			
+		</f:metadata>
+		
+</h:head>	
+
+	<ui:composition template="/template/interna.xhtml">
+	
+		<ui:define name="titulo">Cadastro Campo Adicional</ui:define>
+		
+			<ui:define name="corpo">
+			
+				<h:form id="formCdastroCampAdic">
+				
+					<p:messages autoUpdate="true" closable="true" id = "messages" showDetail="true"/>
+					
+						<div class = "ui-fluid">
+																													
+								<p:panelGrid columns = "2" styleClass="ui-panelgrid-blank" >
+																				
+									<p:outputLabel value="Id Camp Adic:" rendered = "#{campoAdicBean.desabilitarCamposCampoAdicional()}"/>										
+									
+									<p:inputText 
+									value="#{campoAdicBean.iniciar(usuarioBean.usuarioLogin).id_camp_adic}" 
+									size = "11" 
+									style="width:auto" 
+									disabled="#{campoAdicBean.desabilitarCamposCampoAdicional()}"
+									rendered="#{campoAdicBean.desabilitarCamposCampoAdicional()}"/>										
+																										
+									<p:outputLabel for = "transacao" value="Transação:"/>									
+									<p:selectOneMenu style="width:200px" value="#{campoAdicBean.iniciar(usuarioBean.usuarioLogin).id_transacao.id_transacao}" id="transacao" disabled="#{campoAdicBean.desabilitarCamposCampoAdicional()}">
+										<f:selectItem noSelectionOption="true" itemLabel="  Selecione  "/>
+										<f:selectItems value="#{transacaoBean.listarPorCodEmCodFiCodUni(usuarioBean.usuarioLogin)}" var="trans" itemLabel="#{trans.descricao}" itemValue="#{trans.id_transacao}"/>
+									</p:selectOneMenu>
+									
+							   		<p:outputLabel value="Empresa:" for = "codEmpresa"/>			           		   				           		   	
+			           		   		<p:column width = "50">		           		   
+			           		   			<p:inputText value ="#{campoAdicBean.iniciar(usuarioBean.usuarioLogin).cod_empresa.cod_empresa}"						           	
+								        id = "codEmpresa" maxlength="5" style="width:20px"
+						           		disabled="true"/>
+			          					<p:outputLabel style="width:325px;margin-left:10px" value = "#{usuarioBean.usuarioLogin.cod_empresa.descricao}"/>
+			           		   		</p:column>	 			           		  		           		   
+			           		 				           		     		           					              	 
+			           		   		<p:outputLabel value="Filial:" for = "codFilial"/>	
+			           		   
+			           		   		<p:column width = "50">
+				           		   		<p:inputText value ="#{campoAdicBean.iniciar(usuarioBean.usuarioLogin).cod_filial.cod_filial}"					
+					           		   	id = "codFilial"
+					           		   	maxlength="5"
+					           		   	style="width:20px"
+					           		   	disabled="true"/>					           		   
+					           		   	<p:outputLabel style="width:325px;margin-left:10px" value = "#{usuarioBean.usuarioLogin.cod_filial.descricao}" />
+			                     	</p:column>  
+			           		 			           		   
+			           		   		<p:outputLabel value = "Unidade Negócio:" for = "codUnidade"/>			           		   			           		   
+					           		   	<p:column width = "50">
+					           		   	<p:inputText value ="#{campoAdicBean.iniciar(usuarioBean.usuarioLogin).cod_unidade.cod_unidade}"
+					           		   	id = "codUnidade"
+					           		   	maxlength="5"
+					           		   	style="width:20px"
+					           		   	disabled = "true"/>			           		   				           		 
+		           		       			<p:outputLabel style="width:325px;margin-left:10px" value = "#{usuarioBean.usuarioLogin.cod_unidade.descricao}" />	           		  
+			           		       	</p:column>
+																																			
+									<p:outputLabel for = "CodCampo" value="Código Campo:"/>
+									<p:inputText  id = "CodCampo" value="#{campoAdicBean.iniciar(usuarioBean.usuarioLogin).cod_campo}" size ="11" maxlength="11" style="width:auto"/>
+																																					
+									<p:outputLabel for = "Desc" value = "Descrição:"/>
+									<p:inputText  id = "Desc" value = "#{campoAdicBean.iniciar(usuarioBean.usuarioLogin).descricao}" size = "60" maxlength="60" style="width:auto"/>
+									
+									<p:outputLabel value="Grupo:" for = "grupvalpos"/>																		
+									<p:selectOneMenu id="grupvalpos" value="#{campoAdicBean.iniciar(usuarioBean.usuarioLogin).id_grupo_Valores.id_grupo_valores}" style="width:200px">
+										<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+										<f:selectItems value="#{grupoValoresBean.listarPorCodEmCodFiCodUni(usuarioBean.usuarioLogin)}" var="grup_val_pos_doc" itemLabel="#{grup_val_pos_doc.codigo} - #{grup_val_pos_doc.descricao}" itemValue="#{grup_val_pos_doc.id_grupo_valores}"/>								
+									</p:selectOneMenu>
+									
+									<p:outputLabel for = "Obs" value = "Observação:"/>
+									<p:inputTextarea   id = "Obs" value = "#{campoAdicBean.iniciar(usuarioBean.usuarioLogin).observacao}"  size = "100" maxlength="100" style="width:auto"/>
+												
+																																																														 
+									<p:commandButton action="#{campoAdicBean.salvar()}" value="Salvar">																																			           		   	
+										<p:confirm header="Confirmation" message="Deseja realmente salvar?" icon="ui-icon-disk"/>
+									</p:commandButton>	
+															
+									<p:commandButton icon="ui-icon-arrowrefresh-1-w" action="#{usuarioBean.redirecionaMenu()}"  style="width:30px;height:30px"/>
+									
+								  	<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+										<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+										<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+								  	</p:confirmDialog>	
+								  	
+								  	<p:ajaxStatus onstart="PF('dlg').show()" onsuccess="PF('dlg').hide()"/>
+										<p:dialog closable="false" draggable="false" header="Processando..." hideEffect="fade" modal="true" resizable="false" responsive="true" widgetVar="dlg">
+											<p:graphicImage value = "/imagens/loadingBar-1.gif"/>										
+										</p:dialog>	
+										  
+								</p:panelGrid>
+																 
+							</div>
+							
+				</h:form>
+													
+			</ui:define>
+			
+	</ui:composition>
+	   
+</html>

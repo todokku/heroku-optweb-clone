@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"> 
+
+<h:head>
+	<title>Cliente</title>
+</h:head> 
+
+	<ui:composition template="/template/interna.xhtml">
+		
+	 	<ui:define name="titulo"></ui:define>
+			
+			<ui:define name="corpo">
+				
+				<h:form id = "formCadastro">		
+				
+					<p:messages id="messages" 
+	           		 closable = "true"
+	           		 showDetail="true"/>				
+					
+						<div class="ui-fluid">
+						
+							<p:dataTable value="#{clienteBean.listarPorEmpresa(usuarioBean.usuarioLogin)}" var="cliente" paginator="true" paginatorPosition="bottom"
+							reflow="true" rowKey="#{cliente.id_cliente}" selection="#{clienteBean.clienteSelecionado}" selectionMode="single"
+							rules = "rows"	cellpadding ="25" rows="20" >
+							
+								<f:facet name="header">Referência</f:facet>	 
+									
+								<p:column headerText="Codigo" width="40">
+									#{cliente.codigo} 
+								</p:column> 			
+								
+								<p:column headerText="Codigo" width="600">
+									#{cliente.descricao}
+								</p:column> 
+										
+								
+								<f:facet name="footer">		
+														
+									<div align="left">
+								
+										<p:commandButton icon="ui-icon-document" style="width:30px;height:30px" action="#{clienteBean.novo()}"/>
+												
+										<p:commandButton icon="ui-icon-pencil" action="#{clienteBean.alterar()}"  style="width:30px;height:30px;margin-left:10px"/>
+																							
+										<p:commandButton icon="ui-icon-trash"  action="#{clienteBean.excluir()}" style="width:30px;height:30px;margin-left:10px" update="@all">
+																																 
+											<p:confirm header="Confirmation" message="Confirmar exclusão?" icon="ui-icon-alert"/>
+	
+										</p:commandButton>
+										
+										<p:commandButton icon="ui-icon-arrowrefresh-1-w" action="#{usuarioBean.redirecionaMenu()}"  style="width:30px;height:30px;margin-left:10px"/>	
+											           					 
+										<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+											<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+											<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+										</p:confirmDialog>
+									
+										<p:ajaxStatus onstart="PF('dlg').show()" onsuccess="PF('dlg').hide()"/>
+										<p:dialog closable="false" draggable="false" header="Processando..." hideEffect="fade" modal="true" resizable="false" responsive="true" widgetVar="dlg">
+											<p:graphicImage value = "/imagens/loadingBar-1.gif"/>										
+										</p:dialog>
+								
+									</div>
+																				 					
+								</f:facet>													
+							
+							</p:dataTable>
+						
+						</div>
+					
+					
+					</h:form>
+					
+			</ui:define>
+	
+	</ui:composition>
+	
+</html>

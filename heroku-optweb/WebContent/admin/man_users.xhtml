@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition template="/template/interna.xhtml">
+		<ui:define name="titulo">Gerenciador</ui:define>
+			<ui:define name = "corpo">
+			
+				<h:form id = "formMessages">
+									
+				<p:messages id="messages"
+				autoUpdate="true"
+				showDetail="true"
+				closable = "true"/>
+				
+				</h:form>
+				
+				<h:form id = "formGerente">
+																	
+						<div class = "ui-fluid">
+				
+				<p:dataTable value = "#{usuarioBean.listar()}" 
+					
+					var = "usuario"									
+					rules = "rows"				
+					cellpadding ="20"
+					selection = "#{usuarioBean.usuarioSelecionado}"			
+					selectionMode="single"
+					rowKey="#{usuario.id_usuario}"
+					reflow="true" 
+					rows="5" 			
+					paginator="true">
+									 
+					 <p:column width="20">
+						<p:commandLink action="#{usuarioBean.ativar()}" ajax="false" update="formGerente">
+						<p:graphicImage value ="/imagens/usuario_ativo_#{usuario.ativo}.png"
+						style = "border:0"/>
+				
+					<f:setPropertyActionListener value="#{usuario}" 
+						target="#{usuarioBean.usuario}"/>
+					</p:commandLink>
+				</p:column>
+					 				 
+						<p:column width="50">
+					
+						<f:facet name="header">Código</f:facet>
+						<p:outputLabel value = "#{usuario.id_usuario}"/>						 
+						</p:column>
+											 						
+						
+						<p:column width="10">
+							<p:graphicImage value ="/imagens/bandeira_#{usuario.idioma}.png"/>			
+						</p:column>
+						
+						<p:column style = "width:90px">
+							<f:facet name = "header">Nome</f:facet>
+							<p:outputLabel value="#{usuario.nome}"/>	
+						</p:column>
+							
+						<p:column width="150">
+						
+						<f:facet name="header">Email</f:facet>
+						<p:outputLabel value = "#{usuario.email}"/>						
+						
+						</p:column>
+						
+							<p:column style= "width:75px">
+		
+							<f:facet name = "header">Permissões</f:facet>
+			
+							<p:commandLink action="#{usuarioBean.atribuiPermissao(usuario,'ROLE_ADMINISTRADOR')}" 
+								title="Permissão Administrador"
+								update="formGerente">
+						
+									<p:graphicImage value = "/imagens/ROLE_ADMINISTRADOR_#{usuario.permissao.contains('ROLE_ADMINISTRADOR')}.png"
+									style = "border:0"/>
+																	
+							</p:commandLink>	
+									
+		</p:column>		
+				
+					
+					<p:commandLink action="#{usuarioBean.atribuiPermissao(usuario,'ROLE_USUARIO')}"> 
+						
+					<p:graphicImage value = "/imagens/ROLE_ADMINISTRADOR_#{usuario.permissao.contains('ROLE_USUARIO')}.png"
+					style = "border:0"/>
+													
+					</p:commandLink>			
+	
+					
+					
+					
+					
+						<p:column></p:column>
+																	
+					</p:dataTable>
+					<br/>
+					
+						<h:form>
+								<p:toolbar style = "height:30px">
+								
+									<f:facet name="left">
+																		 							 							
+											<p:commandButton icon="ui-icon-pencil" action="#{usuarioBean.alterar()}"  style="width:30px;height:30px;margin-left:10px"/>
+											
+											<p:commandButton icon="ui-icon-trash" action="#{usuarioBean.excluir()}" 
+											 style="width:30px;
+											 height:30px;
+											 margin-left:10px"
+											 update="formGerente">											 												 
+											 	<p:confirm header="Confirmation" message="Confirmar exclusão?" icon="ui-icon-alert"/>													 
+											</p:commandButton>
+													 
+											 <p:commandButton icon="ui-icon-arrowrefresh-1-w" action="#{usuarioBean.redirecionaMenu()}"  style="width:30px;height:30px;margin-left:10px"/>
+											  		 
+											<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+												<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+												<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+											</p:confirmDialog>
+																		
+									</f:facet>	
+									
+																							
+								</p:toolbar>
+								
+							</h:form>
+																									
+					</div>	
+								
+				</h:form>
+							
+			</ui:define>
+			
+	</ui:composition>
+</html>

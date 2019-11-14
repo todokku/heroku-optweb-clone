@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+	<title>Cadastro Transação</title>
+
+	<f:metadata>
+		
+		<f:viewParam name="id" value="#{transacaoBean.transacaoSelecionada.id_transacao}"/>
+	
+	</f:metadata>
+
+</h:head>   
+
+	<ui:composition template="/template/interna.xhtml">
+		<ui:define name="titulo">Cadastro Transação</ui:define>
+			<ui:define name="corpo">
+		
+				<h:form id = "formMessages">
+		
+					<p:messages autoUpdate="true" 
+					showDetail="true"
+					closable="true"
+					id = "messages"/>
+		
+				</h:form>
+		
+					<h:form id = "cadastroTransacao">
+						<div class = "ui-fluid">
+											
+								<p:panelGrid columns = "2" styleClass="ui-panelgrid-blank">
+								
+								<p:outputLabel for="idtr" value = "Id Transação:" rendered="false"/>
+								<p:inputText value="#{transacaoBean.iniciar(usuarioBean.usuarioLogin).id_transacao}"
+								id = "idtr"								
+								disabled="true"
+								size = "11"
+								maxlength="11"
+								style="width:auto"
+								rendered="false"/>
+										           						 					         			           		           	
+			           		   <p:outputLabel value="Empresa:" for = "codEmpresa"/>	
+			           		   				           		   	
+			           		   <p:column width = "50">		           		   
+			           		   <p:inputText value ="#{transacaoBean.iniciar(usuarioBean.usuarioLogin).cod_empresa.cod_empresa}"			           		
+			           		   id = "codEmpresa"
+			           		   maxlength="5"
+			           		   style="width:20px"
+			           		   disabled="true"/>
+			          			
+			          		   <p:outputLabel style="width:325px;margin-left:10px" value = "#{usuarioBean.usuarioLogin.cod_empresa.descricao}"/>
+			           		  </p:column>	 			           		  		           		   
+			           		 
+			           		     		           					              	 
+			           		   <p:outputLabel value="Filial:" for = "codFilial"/>	
+			           		   
+			           		   <p:column width = "50">
+			           		   
+			           		   <p:inputText value ="#{transacaoBean.iniciar(usuarioBean.usuarioLogin).cod_filial.cod_filial}"
+			           		  
+			           		   id = "codFilial"
+			           		   maxlength="5"
+			           		   style="width:20px"
+			           		   disabled="true"/>
+			           		   
+			           		   <p:outputLabel style="width:325px;margin-left:10px" value = "#{usuarioBean.usuarioLogin.cod_filial.descricao}" />
+			                     		                     			           					           		       	
+			           		   </p:column>  
+			           		 
+			           		   
+			           		   <p:outputLabel value = "Unidade Negócio:" for = "codUnidade"/>
+			           		   			           		   
+			           		   <p:column width = "50">
+			           		   <p:inputText value ="#{transacaoBean.iniciar(usuarioBean.usuarioLogin).cod_unidade.cod_unidade}"
+			           		   id = "codUnidade"
+			           		   maxlength="5"
+			           		   style="width:20px"
+			           		   disabled = "true"/>
+			           		   				           		 
+		           		       <p:outputLabel style="width:325px;margin-left:10px" value = "#{usuarioBean.usuarioLogin.cod_unidade.descricao}"/>	           		  
+			           		       		
+			           		   </p:column>
+							 								
+																													
+								<p:outputLabel for = "iddesc" value = "Descrição:"/>
+									<p:inputText id = "iddesc" value = "#{transacaoBean.iniciar(usuarioBean.usuarioLogin).descricao}"
+									size = "60"
+									maxlength="60"
+									style="width:120px"/>
+								 
+								 	<p:outputLabel value="Unidade Tempo:"/>
+								 	<p:selectOneMenu style="width:200px" value="#{transacaoBean.iniciar(usuarioBean.usuarioLogin).unidade_tempo}">
+								 		<f:selectItem noSelectionOption="true" itemLabel="  Selecione  "/>
+								 		<f:selectItem  itemValue="Segundos" itemLabel="Segundos"/>
+										<f:selectItem  itemValue="Minutos" itemLabel="Minutos"/>
+										<f:selectItem  itemValue="Horas" itemLabel="Horas"/>
+										<f:selectItem  itemValue="Dias" itemLabel="Dias"/>
+								 	</p:selectOneMenu>								 
+								 							 
+								 	<p:outputLabel value="Tempo Operação:"/>								 	
+								  	<p:inputText value="#{transacaoBean.iniciar(usuarioBean.usuarioLogin).tempo_operacao}"/>
+									
+									<p:outputLabel value="Tempo:"/>
+									<p:selectOneRadio  value="#{transacaoBean.iniciar(usuarioBean.usuarioLogin).tratamento_tempo}">
+										<f:selectItem itemLabel="Proporcional" itemValue="true" />
+										<f:selectItem itemLabel="Fixo" itemValue="false" />
+									</p:selectOneRadio>
+									
+									<p:outputLabel value = "Quantidade"/>
+									<p:inputText value="#{transacaoBean.iniciar(usuarioBean.usuarioLogin).quantidade}"/>
+																																
+									<p:commandButton action="#{transacaoBean.salvar()}" value = "Salvar">
+									
+									<p:confirm header="Confirmation" message="Deseja realmente salvar?" icon="ui-icon-disk"/>
+																			
+									  </p:commandButton>	
+																				
+										<p:commandButton icon="ui-icon-arrowrefresh-1-w" action="#{usuarioBean.redirecionaMenu()}"  style="width:30px;height:30px"/>			           		   				
+																	
+										  <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+											<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+											<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+										  </p:confirmDialog>
+										  
+										  <p:ajaxStatus onstart="PF('dlg').show()" onsuccess="PF('dlg').hide()"/>
+											<p:dialog closable="false" draggable="false" header="Processando..." hideEffect="fade" modal="true" resizable="false" responsive="true" widgetVar="dlg">
+												<p:graphicImage value = "/imagens/loadingBar-1.gif"/>										
+											</p:dialog>		
+								
+								</p:panelGrid>
+				
+						</div>
+					</h:form>
+		
+		</ui:define>
+	</ui:composition>
+   
+</html>

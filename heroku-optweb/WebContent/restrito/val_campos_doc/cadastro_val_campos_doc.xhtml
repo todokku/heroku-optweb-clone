@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+      
+      <h:head>
+      
+      	<title>Cadastro Val.Campos.Doc</title>    		
+      		  
+      <f:metadata>
+      			<f:viewParam name="id" value="#{valCampDocBean.id_val_campos_doc}"/>
+      </f:metadata>
+      </h:head>
+    
+
+   	  	<ui:composition template="/template/interna.xhtml">
+   	  		<ui:define name="titulo">Cadastro Val.Campos.Doc</ui:define>
+   	  			<ui:define name = "corpo">
+   	  			
+   	  				<h:form id = "formMessages">
+   	  					<p:messages id = "messages" autoUpdate="true" closable="true" showDetail="true"/>
+   	  				</h:form>
+   	  				
+   	  				<h:form id = "formCad">   	
+   	  				   	   	  				   	 	 					
+   	  					<div class = "ui-fluid">
+   	  					
+   	  						<p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
+   	  							
+   	  								   	
+   	  						   <p:outputLabel value="Empresa:" for = "codEmpresa"/>	
+			           		   				           		   	
+			           		   <p:column width = "50">		           		   
+			           		   <p:inputText value ="#{valCampDocBean.iniciar(usuarioBean.usuarioLogin).cod_empresa.cod_empresa}"
+			           		   
+			           		   id = "codEmpresa"
+			           		   maxlength="5"
+			           		   style="width:20px"
+			           		   disabled="true"/>
+			          			
+			          		   <p:outputLabel style="width:325px;margin-left:10px" value = "#{usuarioBean.usuarioLogin.cod_empresa.descricao}"/>
+			           		   </p:column>	 			           		  		           		   
+			           		 				           		     		           					              	 
+			           		   <p:outputLabel value="Filial:" for = "codFilial"/>	
+			           		   
+			           		   <p:column width = "50">
+			           		   
+			           		   <p:inputText value ="#{valCampDocBean.iniciar(usuarioBean.usuarioLogin).cod_filial.cod_filial}"
+			           		   
+			           		   id = "codFilial"
+			           		   maxlength="5"
+			           		   style="width:20px"
+			           		   disabled="true"/>
+			           		   
+			           		   <p:outputLabel style="width:325px;margin-left:10px" value = "#{usuarioBean.usuarioLogin.cod_filial.descricao}" />
+			                     		                     			           					           		       	
+			           		   </p:column>  
+			           		 			           		   
+			           		   <p:outputLabel value = "Unidade Negócio:" for = "codUnidade"/>
+			           		   			           		   
+			           		   <p:column width = "50">
+			           		   <p:inputText value ="#{valCampDocBean.iniciar(usuarioBean.usuarioLogin).cod_unidade.cod_unidade}"
+			           		   id = "codUnidade"
+			           		   maxlength="5"
+			           		   style="width:20px"
+			           		   disabled = "true"/>
+   	  							  	  							   				           		 
+		           		       <p:outputLabel style="width:325px;margin-left:10px" value = "#{usuarioBean.usuarioLogin.cod_unidade.descricao}" />	           		  
+			           		       		
+			           		   </p:column>
+   	  		   	  																	
+								<p:outputLabel value="Tipo Doc:"/>
+								<p:selectOneMenu value="#{valCampDocBean.iniciar(usuarioBean.usuarioLogin).id_tipo_doc.id_tipo_doc}" style="width:200px">
+									<f:selectItem noSelectionOption="true" itemLabel="Selecione"/>
+									<f:selectItems value="#{tipoDocumentoBean.listarPorCodEmCodFiCodUni(usuarioBean.usuarioLogin)}" var ="tipodoc" itemLabel="#{tipodoc.descricao}" itemValue="#{tipodoc.id_tipo_doc}"/>
+									<p:ajax event="change" update="formCad:listaCodCampo"/>
+								</p:selectOneMenu>
+							
+								<p:outputLabel value="Cod.Campo:"/>									
+								<p:selectOneMenu value="#{valCampDocBean.iniciar(usuarioBean.usuarioLogin).id_layout_tipo_doc.id_layout}" style="width:200px" id="listaCodCampo" >
+									<f:selectItem noSelectionOption="true" itemLabel="Selecione"/>
+									<f:selectItems value="#{valCampDocBean.listarPorIdTipoDoc(usuarioBean.usuarioLogin)}" var="tipodoc" itemLabel="#{tipodoc.descricao}" itemValue="#{tipodoc.id_layout}"/>
+								</p:selectOneMenu>
+																					  	  							   	   	  							   	  						  	  	  							  	  							   	  							
+   	  							<p:outputLabel for = "grupvalpos" value="Grupo:"/> 						
+								
+								<p:selectOneMenu id="grupvalpos" value="#{valCampDocBean.iniciar(usuarioBean.usuarioLogin).id_grupo_Valores.id_grupo_valores}" style="width:200px">
+									<f:selectItem itemLabel="Selecione"/>
+									<f:selectItems value="#{grupoValoresBean.listarPorCodEmCodFiCodUni(usuarioBean.usuarioLogin)}" var="grup_val_pos_doc" itemLabel="#{grup_val_pos_doc.codigo} #{grup_val_pos_doc.descricao}" itemValue="#{grup_val_pos_doc.id_grupo_valores}"/>								
+								</p:selectOneMenu>
+															
+   	  							<p:commandButton action="#{valCampDocBean.salvar()}" value = "Salvar">
+   	  								<p:confirm header="Confirmation" message="Deseja realmente salvar?" icon="ui-icon-disk"/>			
+   	  							</p:commandButton>
+   	  							
+   	  							<p:commandButton icon="ui-icon-arrowrefresh-1-w" action="#{usuarioBean.redirecionaMenu()}"  style="width:30px;height:30px" />			 	  							   	  						
+   	  						   	 
+   	  						   	<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+									<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+									<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+								</p:confirmDialog>	 
+   	  						   	    	  						   	  																				
+								<p:ajaxStatus onstart="PF('dlg').show()" onsuccess="PF('dlg').hide()"/>	
+				
+								<p:dialog showEffect="fade" hideEffect="fade" widgetVar="dlg"  modal="true" responsive="true" closable="false" header="Processando...">
+								  	<p:graphicImage value="/imagens/loadingBar-1.gif" />    
+								</p:dialog>
+   	  						
+   	  						</p:panelGrid>
+   	  					   	  					
+   	  					</div>
+   	  				</h:form>
+   	  			</ui:define>
+   	  	</ui:composition>	
+   
+</html>

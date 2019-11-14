@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+      
+      <h:head>
+      
+      	<title>Cadastro Valor Possível</title>    		
+      		  
+      <f:metadata>
+      			<f:viewParam name="id" value="#{campoValPosBean.campoValPosSelecionado.id_camp_val_pos}"/>
+      </f:metadata>
+      </h:head>
+    
+
+   	  	<ui:composition template="/template/interna.xhtml">
+   	  		<ui:define name="titulo">Cadastro Valor Possível</ui:define>
+   	  			<ui:define name = "corpo">
+   	  			
+   	  				<h:form id = "formMessages">
+   	  					<p:messages id = "messages" autoUpdate="true" closable="true" showDetail="true"/>
+   	  				</h:form>
+   	  				
+   	  				<h:form id = "formCad">   	
+   	  				   	   	  				   	 	 					
+   	  					<div class = "ui-fluid">
+   	  					
+   	  						<p:panelGrid columns="2" styleClass="ui-panelgrid-blank" id = "panel">
+   	  		
+   	  							<p:outputLabel for = "idValPos" value="Valor Possível:" rendered="false"/>
+   	  							<p:inputText id = "idValPos" value="#{campoValPosBean.iniciar().id_camp_val_pos}" 
+   	  							disabled="true" 
+   	  							size = "11" 
+   	  							maxlength="11" 
+   	  							style="width:auto"
+   	  							rendered="false"/>
+   	  							   	
+   	  						   <p:outputLabel value="Empresa:" for = "codEmpresa"/>	
+			           		   				           		   	
+			           		   <p:column width = "50">		           		   
+			           		   <p:inputText value ="#{campoValPosBean.iniciar().cod_empresa.cod_empresa}"
+			           		   
+			           		   id = "codEmpresa"
+			           		   maxlength="5"
+			           		   style="width:20px"
+			           		   disabled="true"/>
+			          			
+			          		   <p:outputLabel style="width:325px;margin-left:10px" value = "#{usuarioBean.usuarioLogin.cod_empresa.descricao}"/>
+			           		   </p:column>	 			           		  		           		   
+			           		 				           		     		           					              	 
+			           		   <p:outputLabel value="Filial:" for = "codFilial"/>	
+			           		   
+			           		   <p:column width = "50">
+			           		   
+			           		   <p:inputText value ="#{campoValPosBean.iniciar().cod_filial.cod_filial}"
+			           		   
+			           		   id = "codFilial"
+			           		   maxlength="5"
+			           		   style="width:20px"
+			           		   disabled="true"/>
+			           		   
+			           		   <p:outputLabel style="width:325px;margin-left:10px" value = "#{usuarioBean.usuarioLogin.cod_filial.descricao}" />
+			                     		                     			           					           		       	
+			           		   </p:column>  
+			           		 			           		   
+			           		   <p:outputLabel value = "Unidade Negócio:" for = "codUnidade"/>
+			           		   			           		   
+			           		   <p:column width = "50">
+			           		   <p:inputText value ="#{campoValPosBean.iniciar().cod_unidade.cod_unidade}"
+			           		   id = "codUnidade"
+			           		   maxlength="5"
+			           		   style="width:20px"
+			           		   disabled = "true"/>
+			           		   				           		 
+		           		       <p:outputLabel style="width:325px;margin-left:10px" value = "#{usuarioBean.usuarioLogin.cod_unidade.descricao}" />	           		  
+			           		       		
+			           		   </p:column>
+																		  	  							   	   	  							   	  						  	  	  							  	  							   	  							
+   	  							<p:outputLabel for = "idvalpos" value="Valor Possível:"/> 						
+								<p:inputText value ="#{campoValPosBean.iniciar().val_pos}" id = "idvalpos"/>
+								
+   	  							   	  							
+   	  							<p:commandButton action="#{campoValPosBean.salvar()}" value = "Salvar">
+   	  								<p:confirm header="Confirmation" message="Deseja realmente salvar?" icon="ui-icon-disk"/>			
+   	  							</p:commandButton>
+   	  							
+   	  							<p:commandButton icon="ui-icon-arrowrefresh-1-w" action="#{usuarioBean.redirecionaMenu()}"  style="width:30px;height:30px" />			 	  							   	  						
+   	  						   	 
+   	  						   	<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+									<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+									<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+								</p:confirmDialog>	 
+   	  						   	    	  						   	  																				
+								<p:ajaxStatus onstart="PF('dlg').show()" onsuccess="PF('dlg').hide()"/>	
+				
+								<p:dialog showEffect="fade" hideEffect="fade" widgetVar="dlg"  modal="true" responsive="true" closable="false" header="Processando...">
+								  	<p:graphicImage value="/imagens/loadingBar-1.gif" />    
+								</p:dialog>
+   	  						
+   	  						</p:panelGrid>
+   	  					   	  					
+   	  					</div>
+   	  				</h:form>
+   	  			</ui:define>
+   	  	</ui:composition>	
+   
+</html>

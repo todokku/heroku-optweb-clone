@@ -1,0 +1,257 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+	<title>Layout Empresa</title>
+
+	<f:metadata>	
+		<f:viewParam name = "id" value = "#{layoutBean.layoutEmpresaSelecionada.id_layout}"/>
+	</f:metadata>
+
+</h:head> 
+	
+	<ui:composition template="/template/interna.xhtml">
+	
+			<ui:define name="titulo">Layout Empresa</ui:define>
+	
+				<ui:define name="corpo">
+				        			           	 			          	   
+           	   		<h:form id = "formcadastro">
+           	   		     	   		
+           	   		 <p:messages id="messages" 
+           	   			 closable="true"
+           	   			 autoUpdate="true"
+           	   			 showDetail="true"/>   
+           	             	   			           		
+           	   			<div class = "ui-fluid">
+           	                                 	                      	                    		           	   	
+			           	   	<p:panelGrid columns="2" styleClass="ui-panelgrid-blank" >   
+			           	   	  	
+			           	   	  	<p:outputLabel  value="Id Layout:" rendered="false"/>				         			        
+			           	   	  	<p:inputText disabled="#{layoutBean.desabilitarCampos()}"  maxlength="10" size = "10" id = "Id" value="#{layoutBean.iniciar().id_layout}" 
+			           	   	  	style="width:auto"
+			           	   	  	rendered="false"/>
+			           	   	      	   	 	         			           		           	
+			           		   	<p:outputLabel value="Empresa:" for = "codEmpresa"/>	
+			           		   				           		   	
+			           		   	<p:column width = "50">		           		   
+				           		   <p:inputText value ="#{layoutBean.iniciar(usuarioBean.usuarioLogin).cod_empresa.cod_empresa}"
+				           		 
+				           		   id = "codEmpresa"
+				           		   maxlength="5"
+				           		   size="5"
+				           		   style="width:25px"
+				           		   disabled="true"/>			          			
+			          		   	   <p:outputLabel style="width:325px;margin-left:10px"  value = "#{usuarioBean.usuarioLogin.cod_empresa.descricao}"/>					           		   			           		  		           		   
+			           		   </p:column>	
+			           		     		           					              	 
+			           		   <p:outputLabel value="Filial:" for = "codFilial"/>	
+			           		   
+			           		   <p:column width = "50">			           		   
+				           		   <p:inputText value ="#{layoutBean.iniciar(usuarioBean.usuarioLogin).cod_filial.cod_filial}"				           		 
+				           		   id = "codFilial"
+				           		   maxlength="5"
+				           		   size="5"
+				           		   style="width:25px"
+				           		   disabled="true"/>			           		   
+			           		   	   <p:outputLabel style="width:325px;margin-left:10px" value = "#{usuarioBean.usuarioLogin.cod_filial.descricao}"/>
+			                   </p:column>  
+			           		   
+			           		   <p:outputLabel value = "Unidade Negócio:" for = "codUnidade"/>
+			           		   			           		   
+			           		   <p:column width = "50">
+				           		   <p:inputText value ="#{layoutBean.iniciar(usuarioBean.usuarioLogin).cod_unidade.cod_unidade}"
+				           		   id = "codUnidade"
+				           		   maxlength="5"
+				           		   size="5"			           		 
+				           		   style="width:25px"
+				           		   disabled = "true"/>			           		   				           		 
+		           		       	   <p:outputLabel style="width:325px;margin-left:10px"  value = "#{usuarioBean.usuarioLogin.cod_unidade.descricao}"/>	           		  
+			           		   </p:column>
+			           		   
+			           		   <p:column>
+          		    		   		<p:outputLabel value="Referência: " for="idref"/>         		    		 
+          		    		   </p:column>
+          		    		     <p:selectBooleanCheckbox value="#{layoutBean.iniciar(usuarioBean.usuarioLogin).referencia}" id="idref" style="margin-right:20px"/>
+          		    		 	
+          		    		 	<p:column>
+          		    		   		<p:outputLabel value="Visível Grade: " for="idflg"/>         		    		 
+          		    		   </p:column>
+          		    		  
+          		    		  <p:row>
+          		    		    <p:selectBooleanCheckbox value="#{layoutBean.iniciar(usuarioBean.usuarioLogin).flag_campo}" id="idflg" style="margin-right:20px"/>
+          		    		    
+								   <p:selectOneMenu   value="#{layoutBean.iniciar(usuarioBean.usuarioLogin).sequencia}" style="width:100px">
+									
+									<f:selectItem noSelectionOption="true" itemLabel=" Selecione "/>
+									<f:selectItem  itemValue="1" itemLabel="1"/>
+									<f:selectItem  itemValue="2" itemLabel="2"/>
+									<f:selectItem  itemValue="3" itemLabel="3"/>
+									<f:selectItem  itemValue="4" itemLabel="4"/>
+									<f:selectItem  itemValue="5" itemLabel="5"/>
+									<f:selectItem  itemValue="6" itemLabel="6"/>
+									<f:selectItem  itemValue="7" itemLabel="7"/>
+									<f:selectItem  itemValue="8" itemLabel="8"/>
+									<f:selectItem  itemValue="9" itemLabel="9"/>	
+									<f:selectItem  itemValue="10" itemLabel="10"/>					
+									<f:selectItem  itemValue="11" itemLabel="11"/>
+									<f:selectItem  itemValue="12" itemLabel="12"/>
+									<f:selectItem  itemValue="13" itemLabel="13"/>					
+									<f:selectItem  itemValue="14" itemLabel="14"/>
+									<f:selectItem  itemValue="15" itemLabel="15"/>
+									<f:selectItem  itemValue="16" itemLabel="16"/>
+									<f:selectItem  itemValue="17" itemLabel="17"/>
+									<f:selectItem  itemValue="18" itemLabel="18"/>
+									<f:selectItem  itemValue="19" itemLabel="19"/>
+									<f:selectItem  itemValue="20" itemLabel="20"/>
+									
+									<f:selectItem  itemValue="21" itemLabel="21"/>
+									<f:selectItem  itemValue="22" itemLabel="22"/>
+									<f:selectItem  itemValue="23" itemLabel="23"/>					
+									<f:selectItem  itemValue="24" itemLabel="24"/>
+									<f:selectItem  itemValue="25" itemLabel="25"/>
+									<f:selectItem  itemValue="26" itemLabel="26"/>
+									<f:selectItem  itemValue="27" itemLabel="27"/>
+									<f:selectItem  itemValue="28" itemLabel="28"/>
+									<f:selectItem  itemValue="29" itemLabel="29"/>
+									<f:selectItem  itemValue="30" itemLabel="30"/>	
+									
+									<f:selectItem  itemValue="31" itemLabel="31"/>
+									<f:selectItem  itemValue="32" itemLabel="32"/>
+									<f:selectItem  itemValue="33" itemLabel="33"/>					
+									<f:selectItem  itemValue="34" itemLabel="34"/>
+									<f:selectItem  itemValue="35" itemLabel="35"/>
+									<f:selectItem  itemValue="36" itemLabel="36"/>
+									<f:selectItem  itemValue="37" itemLabel="37"/>
+									<f:selectItem  itemValue="38" itemLabel="38"/>
+									<f:selectItem  itemValue="39" itemLabel="39"/>
+									<f:selectItem  itemValue="40" itemLabel="40"/>
+									
+									<f:selectItem  itemValue="41" itemLabel="41"/>
+									<f:selectItem  itemValue="42" itemLabel="42"/>
+									<f:selectItem  itemValue="43" itemLabel="43"/>					
+									<f:selectItem  itemValue="44" itemLabel="44"/>
+									<f:selectItem  itemValue="45" itemLabel="45"/>
+									<f:selectItem  itemValue="46" itemLabel="46"/>
+									<f:selectItem  itemValue="47" itemLabel="47"/>
+									<f:selectItem  itemValue="48" itemLabel="48"/>
+									<f:selectItem  itemValue="49" itemLabel="49"/>
+									<f:selectItem  itemValue="50" itemLabel="50"/>	
+									</p:selectOneMenu>
+          		    		  	</p:row>
+          		    		  		           		   		
+			           		   <p:outputLabel value="Código Campo:" for = "codCampo"/>				
+							   <p:selectOneMenu  id="codCampo" value="#{layoutBean.iniciar(usuarioBean.usuarioLogin).cod_campo}" style="width:200px">
+								
+									
+									<f:selectItem noSelectionOption="true" itemLabel=" Selecione "/>
+									<f:selectItem  itemValue="char_001" itemLabel="char_001"/>
+									<f:selectItem  itemValue="char_002" itemLabel="char_002"/>
+									<f:selectItem  itemValue="char_003" itemLabel="char_003"/>
+									<f:selectItem  itemValue="char_004" itemLabel="char_004"/>
+									<f:selectItem  itemValue="char_005" itemLabel="char_005"/>
+									<f:selectItem  itemValue="char_006" itemLabel="char_006"/>
+									<f:selectItem  itemValue="char_007" itemLabel="char_007"/>
+									<f:selectItem  itemValue="char_008" itemLabel="char_008"/>
+									<f:selectItem  itemValue="char_009" itemLabel="char_009"/>	
+									<f:selectItem  itemValue="char_010" itemLabel="char_010"/>					
+									<f:selectItem  itemValue="char_011" itemLabel="char_011"/>
+									<f:selectItem  itemValue="char_012" itemLabel="char_012"/>
+									<f:selectItem  itemValue="char_013" itemLabel="char_013"/>					
+									<f:selectItem  itemValue="char_014" itemLabel="char_014"/>
+									<f:selectItem  itemValue="char_015" itemLabel="char_015"/>
+									<f:selectItem  itemValue="char_016" itemLabel="char_016"/>
+									<f:selectItem  itemValue="char_017" itemLabel="char_017"/>
+									<f:selectItem  itemValue="char_018" itemLabel="char_018"/>
+									<f:selectItem  itemValue="char_019" itemLabel="char_019"/>
+									<f:selectItem  itemValue="char_020" itemLabel="char_020"/>
+									
+									<f:selectItem  itemValue="int_001" itemLabel="int_001"/>
+									<f:selectItem  itemValue="int_002" itemLabel="int_002"/>
+									<f:selectItem  itemValue="int_003" itemLabel="int_003"/>					
+									<f:selectItem  itemValue="int_004" itemLabel="int_004"/>
+									<f:selectItem  itemValue="int_005" itemLabel="int_005"/>
+									<f:selectItem  itemValue="int_006" itemLabel="int_006"/>
+									<f:selectItem  itemValue="int_007" itemLabel="int_007"/>
+									<f:selectItem  itemValue="int_008" itemLabel="int_008"/>
+									<f:selectItem  itemValue="int_009" itemLabel="int_009"/>
+									<f:selectItem  itemValue="int_010" itemLabel="int_010"/>	
+									
+									<f:selectItem  itemValue="dec_001" itemLabel="dec_001"/>
+									<f:selectItem  itemValue="dec_002" itemLabel="dec_002"/>
+									<f:selectItem  itemValue="dec_003" itemLabel="dec_003"/>					
+									<f:selectItem  itemValue="dec_004" itemLabel="dec_004"/>
+									<f:selectItem  itemValue="dec_005" itemLabel="dec_005"/>
+									<f:selectItem  itemValue="dec_006" itemLabel="dec_006"/>
+									<f:selectItem  itemValue="dec_007" itemLabel="dec_007"/>
+									<f:selectItem  itemValue="dec_008" itemLabel="dec_008"/>
+									<f:selectItem  itemValue="dec_009" itemLabel="dec_009"/>
+									<f:selectItem  itemValue="dec_010" itemLabel="dec_010"/>
+									
+									<f:selectItem  itemValue="data_001" itemLabel="data_001"/>
+									<f:selectItem  itemValue="data_002" itemLabel="data_002"/>
+									<f:selectItem  itemValue="data_003" itemLabel="data_003"/>					
+									<f:selectItem  itemValue="data_004" itemLabel="data_004"/>
+									<f:selectItem  itemValue="data_005" itemLabel="data_005"/>
+									<f:selectItem  itemValue="data_006" itemLabel="data_006"/>
+									<f:selectItem  itemValue="data_007" itemLabel="data_007"/>
+									<f:selectItem  itemValue="data_008" itemLabel="data_008"/>
+									<f:selectItem  itemValue="data_009" itemLabel="data_009"/>
+									<f:selectItem  itemValue="data_010" itemLabel="data_010"/>	
+																			
+													
+							
+								</p:selectOneMenu>	
+				           					           		 			           		   		           		              		   			           		   
+			           		   <p:outputLabel value="Descrição:" for = "descricao"/>	
+			           		   <p:inputText value="#{layoutBean.iniciar(usuarioBean.usuarioLogin).descricao}"
+			           	       style="width:auto"
+			           		   id = "descricao"
+			           		   maxlength="60"
+			           		   size = "60"/>
+			           		   
+			           		   <p:outputLabel value="Contador" for="idct"/>	  		
+          		    		   <p:selectBooleanCheckbox value="#{layoutBean.iniciar(usuarioBean.usuarioLogin).flagCampos}" id="idct" disabled=""/>
+			           		   
+			           		
+			           		   			           		   				           		 			           		   		           		              		   			           		   
+			           	            <p:outputLabel value="Tipo Documento:" for="idDoc"/>
+			           		  	
+   									<p:selectOneMenu style="width:200px" value="#{layoutBean.layoutEmpresa.id_tipo_doc.id_tipo_doc}" id = "idDoc">
+   										<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+   										<f:selectItems value ="#{tipoDocumentoBean.listarPorCodEmCodFiCodUni(usuarioBean.usuarioLogin)}" var="Doc" itemLabel="#{Doc.cod_campo} - #{Doc.descricao}" itemValue="#{Doc.id_tipo_doc}"/>
+   								 								
+   									</p:selectOneMenu>
+   											           		                		   			           		   			           		   
+			           		    <p:commandButton action = "#{layoutBean.salvar()}" value ="Salvar">		           		   			           		   	
+									<p:confirm header="Confirmation" message="Deseja realmente salvar?" icon="ui-icon-disk"/>																	
+								</p:commandButton>	
+								
+								<p:commandButton icon="ui-icon-arrowrefresh-1-w" action="/restrito/menu.xhtml"  style="width:30px;height:30px"/>			           		   				
+								
+								  <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+									<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+									<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+								  </p:confirmDialog>		
+			           		   	               
+			           		   	  <p:ajaxStatus onstart="PF('dlg').show()" onsuccess="PF('dlg').hide()"/>
+								  	<p:dialog closable="false" draggable="false" header="Processando..." hideEffect="fade" modal="true" resizable="false" responsive="true" widgetVar="dlg">
+								 		<p:graphicImage value = "/imagens/loadingBar-1.gif"/>										
+								  	</p:dialog>
+			           		   				                              	   		
+			           		   </p:panelGrid>
+			           					           									           		
+		           		</div> 
+		           			           		
+		           	</h:form>
+           							
+			</ui:define>
+			
+	</ui:composition>
+	 
+</html>

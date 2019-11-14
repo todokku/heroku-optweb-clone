@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Editar Senha</title>	
+</h:head>     
+
+	<ui:composition template="/template/interna.xhtml">
+	
+		<ui:define name="titulo">Editar Senha</ui:define>
+		
+			<ui:define name = "corpo">
+			
+				<h:form id = "formMessages">
+									
+				<p:messages id="messages" autoUpdate="true" showDetail="true" closable = "true"/>
+				
+				</h:form>
+				
+				<h:form id = "formCadastro">
+																			
+						<div class = "ui-fluid">
+							
+							<p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
+							
+											<p:outputLabel value="Senha atual:" for = "senha"/>			
+											<p:password  value="#{usuarioBean.senhaAtual}"						
+											id = "senha" redisplay="true" label = "Senha" size = "10" maxlength="10"	
+											style="width:90px"/>
+																													
+											<p:outputLabel value="Senha nova:" for = "senhaNova"/>			
+											<p:password  value="#{usuarioBean.senhaNova}"						
+											id = "senhaNova" redisplay="true" label = "Senha" size = "10" maxlength="10"	
+											style="width:90px"/>
+																			
+											<p:outputLabel value="Confirmar Senha:" for = "confirmarsenha" />
+											<p:password value="#{usuarioBean.confirmarSenha}" id = "confirmarsenha"
+											label = "Confirmar Senha" size = "10" maxlength = "10" redisplay = "true"							
+											style="width:90px" />
+																				
+											<p:commandButton action = "#{usuarioBean.editarSenhaUsuario()}" value = "Salvar"  >								
+												<p:confirm header="Confirmation" message="Deseja realmente salvar?" icon="ui-icon-disk" />						
+											</p:commandButton>	
+												
+												<p:commandButton icon="ui-icon-arrowrefresh-1-w" immediate="true" action="#{usuarioBean.redirecionaMenu()}" style="width:25px;height:25px" onclick="PF('dlg').show()" oncomplete="PF('dlg').hide()" resetValues="true"/>			           		   				
+												
+												<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+													<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+													<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+												</p:confirmDialog>		    
+													
+									</p:panelGrid>																																			
+						</div>	
+								
+				</h:form>
+							
+			</ui:define>
+			
+	</ui:composition>
+	
+</html>

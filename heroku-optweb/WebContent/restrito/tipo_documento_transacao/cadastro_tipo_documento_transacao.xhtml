@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+	<title>Cadastro Tipo Documento Transação</title>
+
+		<f:metadata>
+			<f:viewParam name = "id" value = "#{tipoDocTransBean.tipo_Documento_TransacaoSelecionado.id_tipo_doc_trans}"/>
+		</f:metadata>
+
+</h:head> 
+	
+	<ui:composition template="/template/interna.xhtml">
+	
+			<ui:define name="titulo">Tipo Documento Transação</ui:define>
+	
+				<ui:define name="corpo">
+				        			           	 			          	   
+           	   		<h:form id = "cadastroTipoTransDoc">
+           	   		     	   		
+           	   		 	 <p:messages id="messages" 
+           	   			 closable="true"           	   			
+           	   			 showDetail="true"
+           	   			 autoUpdate="true"/>      
+           	   			           		
+           	   			 <div class = "ui-fluid">
+           	                                 	                      	                    		           	   	
+			           	   	<p:panelGrid columns="2" styleClass="ui-panelgrid-blank" >   
+			           	   	  		
+			           	   	   <p:outputLabel value="Tipo Doc Trans:" for = "tipoDocTrans" rendered = "false"/>	
+			           		   <p:inputText value="#{tipoDocTransBean.iniciar(usuarioBean.usuarioLogin).id_tipo_doc_trans}"
+			           		   disabled="true"
+			           		   id = "tipoDocTrans"
+			           		   maxlength="60"
+			           		   size = "60"
+			           		   style="width:auto"
+			           		   rendered="false"/>
+			           		   		           			           	 
+			           		      		           					              	 
+			           		   <p:outputLabel value="Empresa:" for = "codEmp"/>	
+			           		   
+			           		   <p:column width = "50">				           		   
+				           		   <p:inputText value ="#{tipoDocTransBean.iniciar(usuarioBean.usuarioLogin).cod_empresa.cod_empresa}"			           		  
+				           		   id = "codEmp"
+				           		   maxlength="5"
+				           		   style="width:20px"
+				           		   disabled="true"/>				           		   
+			           		   <p:outputLabel style="width:325px;margin-left:10px" value = "#{usuarioBean.usuarioLogin.cod_empresa.descricao}" />
+			           		   </p:column>  
+			           		   
+			           			     		           					              	 
+			           		   <p:outputLabel value="Filial:" for = "codFilial"/>	
+			           		   
+			           		   <p:column width = "50">			           		   
+				           		   <p:inputText value ="#{tipoDocTransBean.iniciar(usuarioBean.usuarioLogin).cod_filial.cod_filial}"			           		  
+				           		   id = "codFilial"
+				           		   maxlength="5"
+				           		   style="width:20px"
+				           		   disabled="true"/>			           		   
+			           		   	   <p:outputLabel style="width:325px;margin-left:10px" value = "#{usuarioBean.usuarioLogin.cod_filial.descricao}" />			                     		                     			           					           		       	
+			           		   </p:column>  
+			           		   
+			           		        		           					              	 
+			           		   <p:outputLabel value="Unidade Negócio:" for = "codUni"/>	
+			           		   
+			           		   <p:column width = "50">			           		   
+				           		   <p:inputText value ="#{tipoDocTransBean.iniciar(usuarioBean.usuarioLogin).cod_unidade.cod_unidade}"			           		  
+				           		   id = "codUni"
+				           		   maxlength="5"
+				           		   style="width:20px"
+				           		   disabled="true"/>			           		   
+			           		   	   <p:outputLabel style="width:325px;margin-left:10px" value = "#{usuarioBean.usuarioLogin.cod_unidade.descricao}" />			                     		                     			           					           		       	
+			           		   </p:column>  
+			           		   
+			           		   					           		 			           		   		           		              		   			           		   
+			           		   <p:outputLabel value="Tipo Documento:" for = "idDoc"/>
+			           		   			           		   
+				           	   <p:selectOneMenu value="#{tipoDocTransBean.tipo_Documento_Transacao.id_tipo_doc.id_tipo_doc}"			           		   
+				           	   id = "idDoc"
+				           	   maxlength="60"
+				           	   size = "60"
+				           	   style = "width:200px">
+				           	   
+				           		   <f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+				           		   <f:selectItems value="#{tipoDocumentoBean.listarPorCodEmCodFiCodUni(usuarioBean.usuarioLogin)}" var="tipoDoc" itemLabel="#{tipoDoc.descricao}" itemValue="#{tipoDoc.id_tipo_doc}"/>
+			           		   
+			           		   </p:selectOneMenu>
+			           		 			           		 
+			           		   			           		   
+			           		   <p:outputLabel value="Transação:" for = "idTrans"/>
+			           		   	
+				           		   <p:selectOneMenu value="#{tipoDocTransBean.tipo_Documento_Transacao.id_transacao.id_transacao}"			           		   
+				           		   id = "idTrans"
+				           		   maxlength="60"
+				           		   size = "60"
+				           		   style = "width:200px">
+				           		   
+					           		   <f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+					           		   <f:selectItems value="#{transacaoBean.listarPorCodEmCodFiCodUni(usuarioBean.usuarioLogin)}" var="trans" itemLabel="#{trans.descricao}" itemValue="#{trans.id_transacao}"/>
+					           	   
+					           	   </p:selectOneMenu>
+			           		   
+			           		   			           		   			           		   
+			           		    <p:commandButton action = "#{tipoDocTransBean.salvar()}" value ="Salvar">		           		   			           		   	
+									<p:confirm header="Confirmation" message="Deseja realmente salvar?" icon="ui-icon-disk"/>																	
+								</p:commandButton>	
+								
+								<p:commandButton icon="ui-icon-arrowrefresh-1-w" action="/restrito/menu.xhtml"  style="width:30px;height:30px"/>			           		   				
+								
+								  <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+									<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+									<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+								  </p:confirmDialog>
+								  
+								  <p:ajaxStatus onstart="PF('dlg').show()" onsuccess="PF('dlg').hide()"/>
+										<p:dialog closable="false" draggable="false" header="Processando..." hideEffect="fade" modal="true" resizable="false" responsive="true" widgetVar="dlg">
+											<p:graphicImage value = "/imagens/loadingBar-1.gif"/>										
+										</p:dialog>		
+			           		   				           		   	                                                          	   		
+			           		   </p:panelGrid>
+			           					           									           		
+		           		</div> 
+		           			           		
+		           	</h:form>
+           							
+			</ui:define>
+			
+	</ui:composition>
+	 
+</html>

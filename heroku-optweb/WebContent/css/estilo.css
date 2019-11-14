@@ -1,0 +1,89 @@
+body{
+	
+	width:100%;
+	height:100%;
+}
+
+body,td,th{
+	
+	margin:auto 0 ;
+	font-family: Verdana,Arial,Helvetica,sans-serif;
+	font-size: 12px;	
+}
+
+th{
+	min-height: 25px;
+	padding: 3px;		
+}
+
+img{	
+	
+	border:0px;	
+}
+
+#usuarioLog{
+		
+	font-style:normal;
+	font-weight:bold;
+	height: 100px;
+}
+
+#container{
+		
+	width:100%;	
+	height:100%;
+	background:white;
+	padding: auto 0;	
+}
+
+#titulo{
+	
+	margin-left:40px;
+	margin-top:15px;
+	float:left;
+	font-size:25pt;
+	font-variant: small-caps;
+	font-weight: bold;
+	background: white;
+	width: 200px;
+	height: 100px;
+}
+
+#cabecalho{
+	overflow:auto;	
+}
+
+#logo{
+	
+	float:right;	
+	height:100px;
+	width:100px"
+}
+
+
+#barra_menu{
+	
+	min-height: 25px;
+	padding: 3px;
+	clear:both;	
+	padding: auto 0;
+	
+}
+
+
+#rodape{
+	background:#565656;
+	background-repeat:repeat-x;
+	height: 150px;	
+	padding: 10px;
+	margin-top:20px;
+	text-align: center;}
+
+
+#corpo{
+					
+	height:400px;}
+	
+
+
+

@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"> 
+
+<h:head>
+	<f:metadata>
+		<f:viewParam name="id" value="#{grupoValoresBean.id_grupo_valores}"/>
+	</f:metadata>
+</h:head> 
+<body> 
+	<ui:composition template="/template/interna.xhtml">
+		
+		<ui:define name="titulo">Grupo Valores</ui:define>
+		
+		<ui:define name="corpo">
+		
+		<h:form>
+			<p:messages autoUpdate="true" showDetail="true" closable="true"/>
+		</h:form>
+			
+			<h:form id="formCadastro">
+			
+				<div class="ui-fluid">
+				
+					<p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
+					
+					<p:outputLabel value="Empresa:"/>
+					
+					<p:column>			
+						<p:inputText value="#{grupoValoresBean.iniciar(usuarioBean.usuarioLogin).cod_empresa.cod_empresa}" style="width:20px" disabled="true"/>
+						<p:outputLabel value="#{usuarioBean.usuarioLogin.cod_empresa.descricao}"/>
+					</p:column>	
+										
+					<p:outputLabel value="Filial:"/>					
+					<p:column>			
+						<p:inputText value="#{grupoValoresBean.iniciar(usuarioBean.usuarioLogin).cod_filial.cod_filial}" style="width:20px" disabled="true"/>
+						<p:outputLabel value="#{usuarioBean.usuarioLogin.cod_filial.descricao}"/>
+					</p:column>	
+										
+					<p:outputLabel value="Unidade Negócio:"/>					
+					<p:column>			
+						<p:inputText value="#{grupoValoresBean.iniciar(usuarioBean.usuarioLogin).cod_unidade.cod_unidade}" style="width:20px" disabled="true"/>
+						<p:outputLabel value="#{usuarioBean.usuarioLogin.cod_unidade.descricao}"/>
+					</p:column>	
+					
+					<p:outputLabel value="Código:"/>
+					<p:inputText value="#{grupoValoresBean.iniciar(usuarioBean.usuarioLogin).codigo}"/>
+										
+					<p:outputLabel value="Descrição:"/>
+					<p:inputText value="#{grupoValoresBean.iniciar(usuarioBean.usuarioLogin).descricao}"/>
+									
+					<p:commandButton action="#{grupoValoresBean.salvar()}" value="Salvar">
+						 <p:confirm header="Confirmation" message="Deseja realmente salvar?" icon="ui-icon-disk"/>
+					</p:commandButton>																	
+									
+						<p:commandButton icon="ui-icon-arrowrefresh-1-w" action="#{usuarioBean.redirecionaMenu()}"  style="width:30px;height:30px"/>			           		   				
+																	
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+							<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						</p:confirmDialog>
+									  
+						<p:ajaxStatus onstart="PF('dlg').show()" onsuccess="PF('dlg').hide()"/>
+						<p:dialog closable="false" draggable="false" header="Processando..." hideEffect="fade" modal="true" resizable="false" responsive="true" widgetVar="dlg">
+							<p:graphicImage value = "/imagens/loadingBar-1.gif"/>										
+						</p:dialog>						
+									
+					</p:panelGrid>				
+				
+				</div>
+									
+			
+			</h:form>	
+		
+		</ui:define>
+		
+	</ui:composition>
+
+
+</body> 
+</html>

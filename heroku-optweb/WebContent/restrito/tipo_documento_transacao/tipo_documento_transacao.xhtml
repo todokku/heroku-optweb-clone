@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Tipo Documento Transação</title>
+</h:head> 
+
+	<ui:composition template="/template/interna.xhtml">
+		<ui:define name="titulo">Tipo Documento Transação</ui:define>
+			<ui:define name = "corpo">
+								
+				<h:form id = "formMessages">			
+					<p:messages id="messages" 
+	           		autoUpdate="true" closable = "true"
+	           		showDetail="true"/>				
+				</h:form>
+										
+					<h:form id = "formCadastro">	
+																			
+						<div class = "ui-fluid">
+				
+					<p:dataTable value = "#{tipoDocTransBean.listarPorCOdEmCodFiCodUni(usuarioBean.usuarioLogin)}" 
+					var = "tipoDocTrans"									
+					rules = "rows"				
+					cellpadding ="20"
+					selection = "#{tipoDocTransBean.tipo_Documento_TransacaoSelecionado}"			
+					selectionMode="single"
+					rowKey="#{tipoDocTrans.id_tipo_doc_trans}"
+					reflow="true" 
+					rows="20" 				
+					paginator="true"
+					filteredValue="#{tipoDocTransBean.lista}"
+					lazy="true"
+					paginatorPosition="bottom">	
+						
+							
+						<f:facet name="header">Tipo.Doc.Transação</f:facet>
+												
+						<p:column width="50" headerText="Codigo">					
+						   #{tipoDocTrans.id_tipo_doc.cod_campo}			
+						</p:column>
+																		
+						<p:column width="50" headerText="Tipo.Doc">					
+						   #{tipoDocTrans.id_tipo_doc.id_tipo_doc}			
+						</p:column>
+																		
+						<p:column width="600" headerText="Descrição">						
+							#{tipoDocTrans.id_transacao.descricao}				
+						</p:column>
+											
+							<f:facet name="footer">									
+								<div align="left">
+								
+									<p:commandButton icon="ui-icon-document" style="width:30px;height:30px" action="#{tipoDocTransBean.novo()}"/>
+												
+									<p:commandButton icon="ui-icon-pencil" action="#{tipoDocTransBean.alterar()}"  style="width:30px;height:30px;margin-left:10px"/>
+																							
+									<p:commandButton icon="ui-icon-trash"  action="#{tipoDocTransBean.excluir()}" 
+								    style="width:30px;
+								    height:30px;
+									margin-left:10px"
+									update="formCadastro">
+												 
+									<p:confirm header="Confirmation" message="Confirmar exclusão?" icon="ui-icon-alert"/>
+												 
+									</p:commandButton>
+									
+									 <p:commandButton icon="ui-icon-arrowrefresh-1-w" action="#{usuarioBean.redirecionaMenu()}"  style="width:30px;height:30px;margin-left:10px" />
+												 
+									<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+									<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+									<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+									</p:confirmDialog>
+									
+									<p:ajaxStatus onstart="PF('dlg').show()" onsuccess="PF('dlg').hide()"/>
+										<p:dialog closable="false" draggable="false" header="Processando..." hideEffect="fade" modal="true" resizable="false" responsive="true" widgetVar="dlg">
+											<p:graphicImage value = "/imagens/loadingBar-1.gif"/>										
+										</p:dialog>
+								
+								</div>												 					
+							</f:facet>	
+																	
+					</p:dataTable><br/>
+														
+					</div>	
+								
+				</h:form>
+							
+			</ui:define>
+	</ui:composition>
+</html>

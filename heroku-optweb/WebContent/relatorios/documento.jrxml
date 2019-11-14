@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="documentos" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="26617cc5-1a75-4f9e-8957-dc55e30dd1bb">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="p_id_doc" class="java.lang.String"/>
+	<parameter name="p_emp" class="java.lang.String"/>
+	<parameter name="p_fili" class="java.lang.String"/>
+	<parameter name="p_uni" class="java.lang.String"/>
+	<parameter name="ParametroQRCODE" class="java.lang.String"/>
+	<parameter name="p_usu" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+     documento.`id_doc` AS documento_id_doc,
+      documento.`id` AS documento_id,
+     documento.`char_005` AS documento_char_005,
+     documento.`char_006` AS documento_char_006,
+     documento.`char_007` AS documento_char_007,
+     documento.`char_008` AS documento_char_008,
+     documento.`char_009` AS documento_char_009,
+     documento.`char_010` AS documento_char_010,
+     documento.`char_011` AS documento_char_011,
+     documento.`char_012` AS documento_char_012,
+     documento.`char_013` AS documento_char_013,
+     documento.`char_014` AS documento_char_014,
+     documento.`char_015` AS documento_char_015,
+     documento.`char_016` AS documento_char_016,
+     documento.`char_017` AS documento_char_017,
+     documento.`char_018` AS documento_char_018,
+     documento.`char_019` AS documento_char_019,
+     documento.`char_020` AS documento_char_020,
+     documento.`data_001` AS documento_data_001,
+     documento.`data_002` AS documento_data_002,
+     documento.`data_003` AS documento_data_003,
+     documento.`data_004` AS documento_data_004,
+     documento.`data_005` AS documento_data_005,
+     documento.`data_006` AS documento_data_006,
+     documento.`data_007` AS documento_data_007,
+     documento.`data_008` AS documento_data_008,
+     documento.`data_009` AS documento_data_009,
+     documento.`data_010` AS documento_data_010,
+     documento.`dec_001` AS documento_dec_001,
+     documento.`dec_002` AS documento_dec_002,
+     documento.`dec_003` AS documento_dec_003,
+     documento.`dec_004` AS documento_dec_004,
+     documento.`dec_005` AS documento_dec_005,
+     documento.`dec_006` AS documento_dec_006,
+     documento.`dec_007` AS documento_dec_007,
+     documento.`dec_008` AS documento_dec_008,
+     documento.`dec_009` AS documento_dec_009,
+     documento.`dec_010` AS documento_dec_010,
+     documento.`int_001` AS documento_int_001,
+     documento.`int_002` AS documento_int_002,
+     documento.`int_003` AS documento_int_003,
+     documento.`int_004` AS documento_int_004,
+     documento.`int_005` AS documento_int_005,
+     documento.`int_006` AS documento_int_006,
+     documento.`int_007` AS documento_int_007,
+     documento.`int_008` AS documento_int_008,
+     documento.`int_009` AS documento_int_009,
+     documento.`int_010` AS documento_int_010,
+     documento.`cod_empresa` AS documento_cod_empresa,
+     documento.`cod_filial` AS documento_cod_filial,
+     documento.`cod_unidade` AS documento_cod_unidade,
+     documento.`char_001` AS documento_char_001,
+     documento.`char_002` AS documento_char_002,
+     documento.`char_003` AS documento_char_003,
+     documento.`char_004` AS documento_char_004
+FROM
+     `documento` documento
+where id_doc = $P{p_id_doc}
+and cod_empresa = $P{p_emp}
+and cod_filial  = $P{p_fili}
+and cod_unidade = $P{p_uni}]]>
+	</queryString>
+	<field name="documento_id_doc" class="java.math.BigInteger"/>
+	<field name="documento_id" class="java.math.BigInteger"/>
+	<field name="documento_char_005" class="java.lang.String"/>
+	<field name="documento_char_006" class="java.lang.String"/>
+	<field name="documento_char_007" class="java.lang.String"/>
+	<field name="documento_char_008" class="java.lang.String"/>
+	<field name="documento_char_009" class="java.lang.String"/>
+	<field name="documento_char_010" class="java.lang.String"/>
+	<field name="documento_char_011" class="java.lang.String"/>
+	<field name="documento_char_012" class="java.lang.String"/>
+	<field name="documento_char_013" class="java.lang.String"/>
+	<field name="documento_char_014" class="java.lang.String"/>
+	<field name="documento_char_015" class="java.lang.String"/>
+	<field name="documento_char_016" class="java.lang.String"/>
+	<field name="documento_char_017" class="java.lang.String"/>
+	<field name="documento_char_018" class="java.lang.String"/>
+	<field name="documento_char_019" class="java.lang.String"/>
+	<field name="documento_char_020" class="java.lang.String"/>
+	<field name="documento_data_001" class="java.sql.Timestamp"/>
+	<field name="documento_data_002" class="java.sql.Timestamp"/>
+	<field name="documento_data_003" class="java.sql.Timestamp"/>
+	<field name="documento_data_004" class="java.sql.Timestamp"/>
+	<field name="documento_data_005" class="java.sql.Timestamp"/>
+	<field name="documento_data_006" class="java.sql.Timestamp"/>
+	<field name="documento_data_007" class="java.sql.Timestamp"/>
+	<field name="documento_data_008" class="java.sql.Timestamp"/>
+	<field name="documento_data_009" class="java.sql.Timestamp"/>
+	<field name="documento_data_010" class="java.sql.Timestamp"/>
+	<field name="documento_dec_001" class="java.lang.Float"/>
+	<field name="documento_dec_002" class="java.lang.Float"/>
+	<field name="documento_dec_003" class="java.lang.Float"/>
+	<field name="documento_dec_004" class="java.lang.Float"/>
+	<field name="documento_dec_005" class="java.lang.Float"/>
+	<field name="documento_dec_006" class="java.lang.Float"/>
+	<field name="documento_dec_007" class="java.lang.Float"/>
+	<field name="documento_dec_008" class="java.lang.Float"/>
+	<field name="documento_dec_009" class="java.lang.Float"/>
+	<field name="documento_dec_010" class="java.lang.Float"/>
+	<field name="documento_int_001" class="java.lang.Integer"/>
+	<field name="documento_int_002" class="java.lang.Integer"/>
+	<field name="documento_int_003" class="java.lang.Integer"/>
+	<field name="documento_int_004" class="java.lang.Integer"/>
+	<field name="documento_int_005" class="java.lang.Integer"/>
+	<field name="documento_int_006" class="java.lang.Integer"/>
+	<field name="documento_int_007" class="java.lang.Integer"/>
+	<field name="documento_int_008" class="java.lang.Integer"/>
+	<field name="documento_int_009" class="java.lang.Integer"/>
+	<field name="documento_int_010" class="java.lang.Integer"/>
+	<field name="documento_cod_empresa" class="java.lang.Long"/>
+	<field name="documento_cod_filial" class="java.lang.Long"/>
+	<field name="documento_cod_unidade" class="java.lang.Long"/>
+	<field name="documento_char_001" class="java.lang.String"/>
+	<field name="documento_char_002" class="java.lang.String"/>
+	<field name="documento_char_003" class="java.lang.String"/>
+	<field name="documento_char_004" class="java.lang.String"/>
+	<variable name="id_usuario" class="java.lang.String">
+		<variableExpression><![CDATA[$V{id_usuario}]]></variableExpression>
+	</variable>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="72">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="-20" width="594" height="92" backcolor="#006699" uuid="862f7ccd-17c4-4ccb-a65a-6e756d80f3db"/>
+				<staticText>
+					<reportElement x="20" y="20" width="414" height="43" forecolor="#FFFFFF" uuid="97af1a48-0383-4baa-bde2-a49ec74c4ee5"/>
+					<textElement>
+						<font size="34" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Listagem de Documentos]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<detail>
+		<band height="20">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="2" y="0" width="138" height="20" forecolor="#FFFFFF" uuid="489e6cfe-32ac-4500-a989-8da785de5c69"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{id_usuario}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="25">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="102" y="2" width="138" height="20" uuid="45f753d2-4c65-4eef-8e3d-f7ae698b6e5d"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{documento_id_doc}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="2" width="100" height="20" uuid="e31ba5e8-53b6-41e1-92de-90e929ed933d"/>
+				<text><![CDATA[Documento:]]></text>
+			</staticText>
+		</band>
+		<band height="25">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="102" y="2" width="138" height="20" uuid="b4ccbd9d-ce62-4152-a660-e92dc0db29cc"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{documento_cod_empresa}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="2" width="100" height="20" uuid="c38f2029-5a6b-4d4b-b1d5-6b55b8708822"/>
+				<text><![CDATA[Empresa:]]></text>
+			</staticText>
+		</band>
+		<band height="25">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="102" y="2" width="138" height="20" uuid="4b759a3c-3791-46f4-9a32-bad58a934b28"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{documento_cod_filial}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="2" width="100" height="20" uuid="f11e8e7a-e0fd-490d-be77-ff6cfc25276a"/>
+				<text><![CDATA[Filial:]]></text>
+			</staticText>
+		</band>
+		<band height="25">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="102" y="2" width="138" height="20" uuid="a1c56c4a-8b70-4338-9817-0be329e79446"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{documento_cod_unidade}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="2" width="100" height="20" uuid="aead01be-440f-4e1e-a3da-5599328df0d8"/>
+				<text><![CDATA[Unidade Negócio:]]></text>
+			</staticText>
+		</band>
+		<band height="100">
+			<image>
+				<reportElement x="-13" y="0" width="103" height="100" isPrintInFirstWholeBand="true" uuid="b30aeb34-c05f-4135-9986-56ea0272aa5c"/>
+				<imageExpression><![CDATA[com.google.zxing.client.j2se.MatrixToImageWriter.toBufferedImage(
+     new com.google.zxing.qrcode.QRCodeWriter().encode(
+         $P{ParametroQRCODE}.toString(),
+         com.google.zxing.BarcodeFormat.QR_CODE, 300, 300))]]></imageExpression>
+			</image>
+		</band>
+	</detail>
+	<summary>
+		<band height="40">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="2" y="20" width="100" height="20" uuid="979706e5-bed2-48f7-b226-d9b3f7cb49a7"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

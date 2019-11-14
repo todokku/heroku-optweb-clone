@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:f="http://java.sun.com/jsf/core"
+xmlns:ui="http://java.sun.com/jsf/facelets"
+ xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+<!-- Atributo controlar layout -->
+<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<!-- Atributo para abrir aplicativo em tela cheia-->
+<meta name="mobile-web-app-capable" content="yes"/>
+
+<meta http-equiv="Content-Type" content="text/html; charset = UTF-8" />
+
+<title> <ui:insert name="titulo"></ui:insert></title>
+
+<h:outputStylesheet library="css" name="estilo.css"/>
+
+<style type="text/css">
+
+	#logotipo{	
+	 
+	 margin-bottom: 40px;
+	
+	}
+
+</style>
+
+</h:head>
+
+<h:body>
+
+<style type="text/css">
+	@import url(#{facesContext.externalContext.request.contextPath}/css/estilo.css)
+</style>
+
+	<div id ="container">
+							
+		<div class="cabecalho"/>
+										
+		<div style="min-height:25px;padding:auto 0;clear:both;background-color:#{empresaBean.mudarCorLayout(usuarioBean.usuarioLogin)};">	
+					
+				<p:panelGrid columns="1" styleClass="ui-panelgrid-blank">		
+				<p:row>
+					<p:panelGrid columns="4">
+					<p:column>
+						<p:outputLabel value="Usuário:" style="color:white"/>				
+						<p:outputLabel value="#{usuarioBean.usuarioLogin.nome}" style="color:white"/>
+					</p:column>
+					
+					<p:column>	
+						<p:outputLabel value="Empresa:" style="color:white"/>	
+						<p:outputLabel value="#{usuarioBean.usuarioLogin.cod_empresa.cod_empresa}" style="margin-right:10px;color:white"/>
+						<p:outputLabel value="#{usuarioBean.usuarioLogin.cod_empresa.descricao}" style="color:white"/>
+					</p:column>
+															
+					<p:column>	
+						<p:outputLabel value="Filial:" style="color:white"/>	
+						<p:outputLabel value="#{usuarioBean.usuarioLogin.cod_filial.cod_filial}" style="margin-right:10px;color:white"/>
+						<p:outputLabel value="#{usuarioBean.usuarioLogin.cod_filial.descricao}" style="color:white"/>
+					</p:column>	
+									
+					<p:column>
+					<p:outputLabel value="Unidade Negócio:" style="color:white"/>
+						<p:outputLabel value="#{usuarioBean.usuarioLogin.cod_unidade.cod_unidade}" style="margin-right:10px;color:white" />
+						<p:outputLabel value="#{usuarioBean.usuarioLogin.cod_unidade.descricao}" style="color:white"/> 
+					</p:column>
+					</p:panelGrid>
+					</p:row>			
+			</p:panelGrid>
+	</div>
+		
+		<div id ="corpo">	
+			<ui:insert name="corpo"/>				
+		</div>
+		
+	</div>
+
+</h:body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+<title>Cadastro Transação</title>
+
+</h:head>   
+
+	<ui:composition template="/template/interna.xhtml">
+		<ui:define name="titulo">Cadastro Transação</ui:define>
+			<ui:define name = "corpo">
+				
+				<form id = "formMessages">
+				
+				<p:messages 
+				autoUpdate="true" 
+				closable="true" 				
+				id = "messages"
+				showDetail="true"/>
+				</form>
+			
+					<h:form id = "formCadastro">
+					
+						<div class = "ui-fluid">
+							
+						<p:dataTable value = "#{transacaoBean.listarPorCodEmCodFiCodUni(usuarioBean.usuarioLogin)}" 
+						var = "transacao"									
+						rules = "rows"				
+						cellpadding ="20"
+						selection = "#{transacaoBean.transacaoSelecionada}"			
+						selectionMode="single"
+						rowKey="#{transacao.id_transacao}"
+						reflow="true" 
+						rows="20" 
+						lazy="true"					
+						paginator="true"
+						filteredValue="#{transacaoBean.lista}"
+						paginatorPosition="bottom">	
+									
+								
+						<f:facet name="header">Transação</f:facet>		
+																											
+														
+							<p:column width="100" headerText="Descrição">								
+								#{transacao.descricao}
+							</p:column>
+														
+							<p:column width="30" headerText="Uni.Temp">								
+								#{transacao.unidade_tempo}
+							</p:column>
+														
+							<p:column width="50" headerText="Temp.Op">								
+								#{transacao.tempo_operacao}
+							</p:column>
+														
+							<p:column width="60" headerText="Tratamento.Temp">								
+								<p:outputLabel value = "#{transacaoBean.descricaoTempoTransacao(transacao.tratamento_tempo)}"/>
+							</p:column>
+														
+							<p:column width="60" headerText="Quantidade">								
+								#{transacao.quantidade}
+							</p:column>
+							
+										
+							<f:facet name="footer">
+									
+									<div align="left">
+											<p:commandButton icon="ui-icon-document" style="width:30px;height:30px" action="#{transacaoBean.novo()}"/>
+											
+											<p:commandButton icon="ui-icon-pencil" action="#{transacaoBean.alterar()}"  style="width:30px;height:30px;margin-left:10px"/>
+																						
+											<p:commandButton icon="ui-icon-trash"  action="#{transacaoBean.excluir()}" 
+											 style="width:30px;
+											 height:30px;
+											 margin-left:10px"
+											 update = "formCadastro">											 
+																						 
+											 <p:confirm header="Confirmation" message="Confirmar exclusão?" icon="ui-icon-alert"/>
+											 
+											 </p:commandButton>
+											 
+											 <p:commandButton icon="ui-icon-arrowrefresh-1-w" action="#{usuarioBean.redirecionaMenu()}"  style="width:30px;height:30px;margin-left:10px" />
+											 
+											 
+											 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+										        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+										        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+										    </p:confirmDialog>
+										    
+										    <p:ajaxStatus onstart="PF('dlg').show()" onsuccess="PF('dlg').hide()"/>
+												<p:dialog closable="false" draggable="false" header="Processando..." hideEffect="fade" modal="true" resizable="false" responsive="true" widgetVar="dlg">
+													<p:graphicImage value = "/imagens/loadingBar-1.gif"/>										
+												</p:dialog>
+										
+										</div>												 					
+									</f:facet>							
+						
+							</p:dataTable><br/>
+					
+						</div>
+				
+					</h:form>
+								
+			</ui:define>
+	
+	</ui:composition>
+   
+</html>

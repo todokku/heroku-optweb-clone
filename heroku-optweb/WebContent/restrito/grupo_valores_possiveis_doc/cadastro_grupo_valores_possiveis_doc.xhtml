@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"> 
+
+<h:head>
+	<f:metadata>
+		<f:viewParam name="id" value="#{grupoValPosDocBean.id_grup_val_pos_doc}"/>
+	</f:metadata>
+</h:head> 
+
+	<ui:composition template="/template/interna.xhtml">
+		<ui:define name="titulo">Cadastro Grupo Valores Possiveis Doc</ui:define>
+			<ui:define name="corpo">
+				<h:form>
+					<p:messages autoUpdate="true" showDetail="true" closable="true"/>
+				</h:form>
+				
+				<h:form id="formCadastro">
+					<div class="ui-fluid">
+						<p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
+							
+								<p:outputLabel value="Empresa:" for = "idEmp"/>
+								<p:column>
+									<p:inputText value="#{grupoValPosDocBean.iniciar(usuarioBean.usuarioLogin).cod_empresa.cod_empresa}" id = "idEmp" style="width:30px" disabled="true"/>
+									<p:outputLabel value="#{usuarioBean.usuarioLogin.cod_empresa.descricao}"/>
+								</p:column>
+								
+								<p:outputLabel value="Filial:" for="idFi"/>
+								<p:column>
+									<p:inputText value="#{grupoValPosDocBean.iniciar(usuarioBean.usuarioLogin).cod_filial.cod_filial}" id="idFi" style="width:30px" disabled="true"/>
+									<p:outputLabel value="#{usuarioBean.usuarioLogin.cod_filial.descricao}"/>
+								</p:column>
+								
+								<p:outputLabel value="Unidade Negócio:"/>
+								<p:column>
+									<p:inputText value="#{grupoValPosDocBean.iniciar(usuarioBean.usuarioLogin).cod_unidade.cod_unidade}" style = "width:30px" disabled="true"/>
+									<p:outputLabel value="#{usuarioBean.usuarioLogin.cod_unidade.descricao}"/>
+								</p:column>
+																						
+								<p:outputLabel value="Grupo de Valores:" for="idgrupo"/>
+								<p:selectOneMenu value="#{grupoValPosDocBean.iniciar(usuarioBean.usuarioLogin).id_grupo_valores.id_grupo_valores}" id="idgrupo" style="width:200px">
+									<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+									<f:selectItems value="#{grupoValoresBean.listarPorCodEmCodFiCodUni(usuarioBean.usuarioLogin)}" var="grupo_val" itemLabel="#{grupo_val.codigo}" itemValue="#{grupo_val.id_grupo_valores}"/>
+								</p:selectOneMenu>
+																												
+								<p:outputLabel value="Valor Possível:" for="idvalpos"/>
+							  	<p:inputText value="#{grupoValPosDocBean.iniciar(usuarioBean.usuarioLogin).valor_possivel}" id = "idvalpos"/>
+														
+								<p:commandButton action="#{grupoValPosDocBean.salvar()}" value="Salvar">
+									<p:confirm header="Confirmation" message="Deseja realmente salvar?" icon="ui-icon-disk"/>																	
+								</p:commandButton>
+									
+								<p:commandButton icon="ui-icon-arrowrefresh-1-w" action="#{usuarioBean.redirecionaMenu()}"  style="width:30px;height:30px"/>			           		   				
+																	
+								<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+									<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+									<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+								</p:confirmDialog>
+									  
+								<p:ajaxStatus onstart="PF('dlg').show()" onsuccess="PF('dlg').hide()"/>
+									<p:dialog closable="false" draggable="false" header="Processando..." hideEffect="fade" modal="true" resizable="false" responsive="true" widgetVar="dlg">
+									<p:graphicImage value = "/imagens/loadingBar-1.gif"/>										
+								</p:dialog>						
+									
+						</p:panelGrid>
+					</div>
+				</h:form>
+			</ui:define>
+	</ui:composition>
+
+
+
+<body> 
+
+</body> 
+</html>

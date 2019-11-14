@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Usuário</title>	
+</h:head>     
+
+	<ui:composition template="/template/interna.xhtml">
+	
+		<ui:define name="titulo">Usuário</ui:define>
+		
+			<ui:define name = "corpo">
+			
+				<h:form id = "formMessages">
+									
+				<p:messages id="messages" autoUpdate="true" showDetail="true" closable = "true"/>
+				
+				</h:form>
+				
+				<h:form id = "formCadastro">
+																			
+						<div class = "ui-fluid">
+							
+							<p:dataTable 
+							value = "#{usuarioBean.listar()}" 
+							var = "usuario" rules = "rows" cellpadding ="20" 
+							selection = "#{usuarioBean.usuarioSelecionado}"	selectionMode="single" 
+							rowKey="#{usuario.id_usuario}" reflow="true" rows="20" paginator="true"  
+							paginatorPosition="bottom" >
+								
+								<f:facet name="header">Usuário</f:facet>
+															
+									<p:column width="70" headerText="Nome">									
+										#{usuario.nome}
+									</p:column>
+									
+									<p:column width="70" headerText="Email">									
+										#{usuario.email}
+									</p:column>
+									
+									<p:column width="50" headerText="Login">
+										#{usuario.login}									
+									</p:column>
+									
+									<p:column width="50" headerText="Tipo Usuário">
+										#{usuarioBean.descricaoTipoUsuario(usuario.tipo_usuario)}
+									</p:column>
+																	
+									<p:column width="50" headerText="Idioma">
+										#{usuario.idioma}				
+									</p:column>
+																	
+									<f:facet name="footer">
+										
+										<div align="left">
+											
+											<p:commandButton icon="ui-icon-document" style="width:30px;height:30px" action="#{usuarioBean.novo()}"/>
+																		 							 							
+											<p:commandButton icon="ui-icon-pencil" action="#{usuarioBean.alterar()}"  style="width:30px;height:30px;margin-left:10px"/>
+											
+											<p:commandButton icon="ui-icon-trash" action="#{usuarioBean.excluir()}" style="width:30px;
+											 height:30px; margin-left:10px" update="@all">	
+											 
+											 	<p:confirm header="Confirmation" message="Confirmar exclusão?" icon="ui-icon-alert" />
+													 
+											</p:commandButton>
+											
+											<p:commandButton icon="ui-icon-arrowrefresh-1-w" action="#{usuarioBean.redirecionaMenu()}"  style="width:30px;height:30px;margin-left:10px" onclick="PF('dlg').show()"/>			           		   						 
+													
+												<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" >
+													<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+													<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+												</p:confirmDialog>	
+												    
+												<p:ajaxStatus onstart="PF('dlg').show()" onsuccess="PF('dlg').hide()"/>
+												<p:dialog closable="false" draggable="false" header="Processando..." hideEffect="fade" modal="true" resizable="false" responsive="true" widgetVar="dlg">
+													<p:graphicImage value = "/imagens/loadingBar-1.gif"/>										
+												</p:dialog>										    
+												    											    											
+										</div>	
+																
+									</f:facet>
+																				
+							</p:dataTable>	
+																																																	
+						</div>	
+								
+				</h:form>
+							
+			</ui:define>
+			
+	</ui:composition>
+	
+</html>

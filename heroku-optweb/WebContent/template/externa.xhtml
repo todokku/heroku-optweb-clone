@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:f="http://java.sun.com/jsf/core"
+xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+<!-- Atributo controlar layout -->
+<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<!-- Atributo para abrir aplicativo em tela cheia-->
+<meta name="mobile-web-app-capable" content="yes"/>
+
+<meta http-equiv="Content-Type" content="text/html; charset = UTF-8" />
+
+<title> <ui:insert name="titulo">OPT_WEB_002</ui:insert></title>
+
+<h:outputStylesheet library="css" name="estilo.css"/>
+
+</h:head>
+
+<h:body>
+
+<style type="text/css">
+	@import url(#{facesContext.externalContext.request.contextPath}/css/estilo.css)
+</style>
+	
+	<div id ="container">	
+			
+			<div style="width:15%;height:15%;display:block;margin-left:auto;margin-right: auto;margin-bottom:6px;margin-top:5px;">
+				<h:graphicImage value="/imagens/optmus_logo-1.jpg" style="width:100%;height:100%"/>
+    		</div>	
+    			
+		<div id="barra_menu" style="background:#565656;min-height:25px;padding:3px;clear:both;"/>		
+		
+		<div id ="corpo" style="height:200px">	
+			<ui:insert name="corpo"/>
+		</div>
+		
+		<div id="rodape">
+			<ui:insert name="rodape" style="background:#565656;background:#565656;
+			background-repeat:repeat-x;
+			color:white;
+			height: 150px;
+			margin-top: 20px;
+			padding: 10px;
+			text-align: center;">
+			
+				<ui:include src="/restrito/rodape.xhtml" />
+				
+			</ui:insert>	
+		</div>
+		
+	</div>
+
+</h:body>
+</html>

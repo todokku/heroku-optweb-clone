@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"> 
+
+<h:head>
+
+
+</h:head> 
+
+
+	<ui:composition template="/template/interna.xhtml">
+		<ui:define name="titulo">Grupo Valores Possiveis Doc</ui:define>
+			<ui:define name="corpo">
+			
+				<h:form id="messages">
+					<p:messages autoUpdate="true" closable="true" showDetail="true"/>
+				</h:form>
+			
+						<h:form id="formCadastro">
+						
+							<div class="ui-fluid">
+							
+							<p:dataTable  value="#{grupoValoresBean.listarPorCodEmCodFiCodUni(usuarioBean.usuarioLogin)}" var="grupo_valores" paginatorPosition="bottom"
+							rowKey="#{grupo_valores.id_grupo_valores}" reflow="true" rows="20" selection="#{grupoValoresBean.grupo_ValoresSelecionado}"
+							selectionMode="single" paginator="true" >
+							
+							<f:facet name="header">Grupo De Valores</f:facet>
+									
+							<p:ajax  event="rowSelect" listener="#{grupoValoresBean.selecionarLinhaGrupo}" update="formCadastro" />		
+							
+							<p:column width="1" headerText="Grupo" >
+								#{grupo_valores.id_grupo_valores}
+							</p:column>
+							
+							<p:column width="150" headerText="Codigo">
+								#{grupo_valores.codigo}
+							</p:column>
+													
+							<f:facet name="footer">
+									
+									<div align="left">
+									
+											<p:commandButton icon="ui-icon-document" style="width:30px;height:30px" action="#{grupoValoresBean.novo()}" onstart="PF('dlg').show();PF('dlg').initPosition()"/>
+											
+											<p:commandButton icon="ui-icon-pencil" action="#{grupoValoresBean.alterar()}"  style="width:30px;height:30px;margin-left:10px" onstart="PF('dlg').show();PF('dlg').initPosition()" oncomplete="PF('dlg').hide()"/>
+																																										
+											<p:commandButton icon="ui-icon-trash" 	action="#{grupoValoresBean.excluir()}" 
+											 style="width:30px;
+											 height:30px;
+											 margin-left:10px">
+											 
+											 	<p:confirm header="Confirmation" message="Confirmar exclusão?" icon="ui-icon-alert"/>
+											 
+											 </p:commandButton>
+											 
+											 <p:commandButton icon="ui-icon-arrowrefresh-1-w" action="#{usuarioBean.redirecionaMenu()}"  style="width:30px;height:30px;margin-left:10px" onstart="PF('dlg').show();PF('dlg').initPosition()" />
+											 
+											 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+										        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+										        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+										    </p:confirmDialog>
+								
+								</div>
+								</f:facet>				    
+										    
+							</p:dataTable>
+							<br/>
+							
+							
+											<p:dataTable value="#{grupoValoresBean.listarPorIdGrupoValoresCodEmCodFiCodUni(usuarioBean.usuarioLogin)}" var="grupoValPosDoc"
+											 paginatorPosition="bottom" rowKey="#{grupoValPosDoc.id_grup_val_pos_doc}" reflow="true" rows="20" 
+											 selection="#{grupoValPosDocBean.grupo_Valores_Possiveis_DocSelecionado}" selectionMode="single" paginator="true">
+											
+											<f:facet name="header">Valores</f:facet>
+																					
+											<p:column headerText="Valor Possível" width="150">
+											
+												#{grupoValPosDoc.valor_possivel}
+												
+											</p:column>
+											
+																		
+							<f:facet name="footer">
+									
+									<div align="left">
+									
+											<p:commandButton icon="ui-icon-document" style="width:30px;height:30px" action="#{grupoValPosDocBean.novo()}" onstart="PF('dlg').show();PF('dlg').initPosition()"/>
+											
+											<p:commandButton icon="ui-icon-pencil" action="#{grupoValPosDocBean.alterar()}"  style="width:30px;height:30px;margin-left:10px" onstart="PF('dlg').show();PF('dlg').initPosition()" oncomplete="PF('dlg').hide()"/>
+																																										
+											<p:commandButton icon="ui-icon-trash" 	action="#{grupoValPosDocBean.excluir()}" 
+											 style="width:30px;
+											 height:30px;
+											 margin-left:10px">
+											 
+											 	<p:confirm header="Confirmation" message="Confirmar exclusão?" icon="ui-icon-alert"/>
+											 
+											 </p:commandButton>
+											 
+											 <p:commandButton icon="ui-icon-arrowrefresh-1-w" action="#{usuarioBean.redirecionaMenu()}"  style="width:30px;height:30px;margin-left:10px" onstart="PF('dlg').show();PF('dlg').initPosition()" />
+											 
+											 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+										        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+										        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+										    </p:confirmDialog>
+											
+																														   										    
+									</div>
+																						 					
+								</f:facet>
+										
+							</p:dataTable>	
+					</div>
+						</h:form>	
+									
+			</ui:define>
+	</ui:composition>
+<body> 
+
+</body> 
+</html>
