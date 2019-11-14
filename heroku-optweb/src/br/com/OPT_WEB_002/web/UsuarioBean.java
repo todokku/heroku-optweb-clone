@@ -108,10 +108,41 @@ public class UsuarioBean {
 	}**/
 
 	public String Login() throws DAOException {
+UsuarioRN usuarioRN = new UsuarioRN();
+		
+		EmpresaRN empresaRN = new EmpresaRN();
+		Empresa empresa = new Empresa();
+		FilialRN filialRN = new FilialRN();
+		Filial filial = new Filial();
+		Unidade_NegocioRN unidade_NegocioRN = new Unidade_NegocioRN();
+		Unidade_Negocio unidade_Negocio = new Unidade_Negocio();
+		
+		empresa.setCod_empresa(1);
+		empresaRN.salvar(empresa);
+		filial.setCod_filial(1);
+		filial.getCod_empresa().setCod_empresa(empresa.getCod_empresa());
+		filialRN.salvar(filial);
+		unidade_Negocio.setCod_unidade(1);
+		unidade_Negocio.getCod_empresa().setCod_empresa(empresa.getCod_empresa());
+		unidade_NegocioRN.salvar(unidade_Negocio);
+		
+		Usuario usuario = new Usuario();
+		
+		usuario.setAtivo(true);
+		usuario.setId_usuario(BigInteger.valueOf(Long.parseLong("1")));
+		usuario.setNome("usuadm");
+		usuario.getCod_empresa().setCod_empresa(empresa.getCod_empresa());
+		usuario.getCod_filial().setCod_filial(filial.getCod_filial());
+		usuario.getCod_unidade().setCod_unidade(unidade_Negocio.getCod_unidade());
+		usuario.setEmail("usuadm@hotmail.com");
+		usuario.setLogin("001");
+		usuario.setSenha("001");
+		usuario.setTipo_usuario(true);
+		
+		usuarioRN.salvar(usuario);
 
-		UsuarioRN usuarioRN = new UsuarioRN();
-
-		usuarioLogin = usuarioRN.login(login, senha);
+		return null;
+		/**usuarioLogin = usuarioRN.login(login, senha);
 		
 		if(usuarioLogin == null){
 			
@@ -121,6 +152,8 @@ public class UsuarioBean {
 		}else{
 			return "/restrito/menu.xhtml?faces-redirect=true";
 		}
+		
+			**/
 		
 			
 		
