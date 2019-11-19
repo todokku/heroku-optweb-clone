@@ -162,6 +162,7 @@ public class Layout_EmpresaDAOHibernate implements Layout_EmpresaDAO {
 		return consulta.list();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Layout_Empresa> listarCampoReferencia(BigInteger id_tipo_doc,Integer cod_empresa, Integer cod_filial,Integer cod_unidade) {
 		
@@ -178,6 +179,20 @@ public class Layout_EmpresaDAOHibernate implements Layout_EmpresaDAO {
 		return  consulta.list();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Layout_Empresa> listarPorFlagFiltro(Integer cod_empresa, Integer cod_filial, Integer cod_unidade) {
+		
+		String hql = "select tb from layout_empresa tb where tb.flag_campo = true and tb.filtro = true and tb.cod_empresa = :cod_empresa and tb.cod_filial = :cod_filial and tb.cod_unidade = :cod_unidade";
+		Query consulta = this.session.createQuery(hql);
+		
+		consulta.setInteger("cod_empresa",cod_empresa);
+		consulta.setInteger("cod_filial",cod_filial);
+		consulta.setInteger("cod_unidade",cod_unidade);
+		
+		return consulta.list();
+	}
+
 
 	
 	public Session getSession() {
@@ -188,6 +203,7 @@ public class Layout_EmpresaDAOHibernate implements Layout_EmpresaDAO {
 		this.session = session;
 	}
 
+	
 	
 	
 

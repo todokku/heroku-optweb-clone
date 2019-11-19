@@ -1,6 +1,7 @@
 package br.com.OPT_WEB_002.documento;
 
 
+import java.lang.reflect.Field;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -18,12 +19,10 @@ import br.com.OPT_WEB_002.usuario.Usuario;
 public class LazyDocumento extends LazyDataModel<Documento> {
 
 	private static final long serialVersionUID = 1L;
-	private List<Documento> lista2;
-	private List<Documento> lista3;
+	private List<Documento> lista2;	
 	private Integer dataSize;
 	private Layout_EmpresaRN layout_EmpresaRN = new Layout_EmpresaRN();
 	private BigInteger id_tipo_doc;
-	private Usuario usuario = new Usuario();
 	
  
 	public LazyDocumento(List<Documento> lista) {
@@ -75,13 +74,21 @@ public class LazyDocumento extends LazyDataModel<Documento> {
                     	String filterProperty = it.next();    
                     	Object filterValue = filters.get(filterProperty); 
                     	String fieldValue = null;
-                    	                    
-                    	if(filterProperty.equals("id_doc")){
-                    	                    
-                    		fieldValue = String.valueOf(documento.getId_doc());
+                    	
+                    	for(Layout_Empresa layout_Empresa : layout_EmpresaRN.listarPorFlagFiltro(documento.getCod_empresa().getCod_empresa(),documento.getCod_filial().getCod_filial(),documento.getCod_unidade().getCod_unidade())){
+	                    	
+	                    	if(filterProperty.equals(layout_Empresa.getCod_campo())){
+	                    								
+								Field campo =	documento.getClass().getDeclaredField(layout_Empresa.getCod_campo());
+								campo.setAccessible(true);
+								              		
+	                    		fieldValue = String.valueOf(campo.get(documento));
+	                    		
+	                    	}
+                    	
                     	}
-                       	
-                        if(filterValue == null || fieldValue.startsWith(filterValue.toString())) {
+                    	                    	                    	
+                        if(filterValue == null || fieldValue.toString().toLowerCase().startsWith(filterValue.toString()) || fieldValue.toString().startsWith(filterValue.toString())) {
                 
                         	match = true;
                         	
@@ -99,10 +106,8 @@ public class LazyDocumento extends LazyDataModel<Documento> {
             }
             
            if(match){
-        	  
-        	   
-            	data2.add(documento);
-            	
+        	         	   
+            	data2.add(documento);            	
         	   
            }
        
@@ -166,23 +171,5 @@ public class LazyDocumento extends LazyDataModel<Documento> {
 	public void setId_tipo_doc(BigInteger id_tipo_doc) {
 		this.id_tipo_doc = id_tipo_doc;
 	}
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-
-	public List<Documento> getLista3() {
-		return lista3;
-	}
-
-	public void setLista3(List<Documento> lista3) {
-		this.lista3 = lista3;
-	}
-
-
 
 }

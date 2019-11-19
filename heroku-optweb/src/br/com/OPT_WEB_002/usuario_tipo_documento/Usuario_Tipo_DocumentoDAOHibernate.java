@@ -37,7 +37,7 @@ public class Usuario_Tipo_DocumentoDAOHibernate implements Usuario_Tipo_Document
 		
 	}
 
-	@SuppressWarnings("unchecked")
+	/**@SuppressWarnings("unchecked")
 	@Override
 	public List<Usuario_Tipo_Documento> listar() {
 		
@@ -58,7 +58,7 @@ public class Usuario_Tipo_DocumentoDAOHibernate implements Usuario_Tipo_Document
 		consulta.setInteger("cod_unidade",cod_unidade);
 				
 		return consulta.list();
-	}
+	}*/
 	
 	
 	@SuppressWarnings("unchecked")

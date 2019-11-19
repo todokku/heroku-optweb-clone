@@ -3,7 +3,6 @@ package br.com.OPT_WEB_002.usuario_tipo_documento;
 import java.math.BigInteger;
 import java.util.List;
 
-import br.com.OPT_WEB_002.tipo_documento.Tipo_Documento;
 
 public interface Usuario_Tipo_DocumentoDAO {
 	
@@ -17,9 +16,9 @@ public interface Usuario_Tipo_DocumentoDAO {
 	
 	public Usuario_Tipo_Documento carregarPorIdUsuIdTipo(BigInteger id_usuario,BigInteger id_tipo_documento);
 	
-	public List<Usuario_Tipo_Documento> listar();
+	/**public List<Usuario_Tipo_Documento> listar();**/
 	
-	public List<Usuario_Tipo_Documento> listarPorIdTipoDocCodEmCodFiCodUni(BigInteger id_tipo_documento,Integer cod_empresa,Integer cod_filial,Integer cod_unidade);
+	/**public List<Usuario_Tipo_Documento> listarPorIdTipoDocCodEmCodFiCodUni(BigInteger id_tipo_documento,Integer cod_empresa,Integer cod_filial,Integer cod_unidade);**/
 
 	public List<Usuario_Tipo_Documento> listarPorCodEmCodFiCodUni(Integer cod_empresa,Integer cod_filial,Integer cod_unidade);
 	

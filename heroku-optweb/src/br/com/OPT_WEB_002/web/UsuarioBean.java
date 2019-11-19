@@ -119,6 +119,7 @@ public class UsuarioBean {
 			return null;
 			
 		}else{
+			
 			return "/restrito/menu.xhtml?faces-redirect=true";
 		}
 		

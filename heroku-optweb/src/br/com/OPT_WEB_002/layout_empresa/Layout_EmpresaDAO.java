@@ -30,4 +30,6 @@ public interface Layout_EmpresaDAO {
 	public List<Layout_Empresa> listarCamposFlag(BigInteger id_tipo_doc,Integer cod_empresa,Integer cod_filial,Integer cod_unidade);
 	
 	public List<Layout_Empresa> listarCampoReferencia(BigInteger id_tipo_doc,Integer cod_empresa,Integer cod_filial,Integer cod_unidade);
+	
+	public List<Layout_Empresa> listarPorFlagFiltro(Integer cod_empresa,Integer cod_filial,Integer cod_unidade);
 }

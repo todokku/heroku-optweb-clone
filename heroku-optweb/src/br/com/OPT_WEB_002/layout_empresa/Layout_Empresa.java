@@ -45,6 +45,10 @@ public class Layout_Empresa implements Serializable {
 	@Column(columnDefinition = "BOOLEAN DEFAULT false")
 	private boolean flagCampos;	
 	
+	@Column(columnDefinition = "BOOLEAN DEFAULT false")
+	private boolean filtro;	
+	
+	
 	private Integer sequencia;
 	
 	@Column(columnDefinition = "BOOLEAN DEFAULT false")
@@ -230,6 +234,14 @@ public class Layout_Empresa implements Serializable {
 		} else if (!sequencia.equals(other.sequencia))
 			return false;
 		return true;
+	}
+
+	public boolean isFiltro() {
+		return filtro;
+	}
+
+	public void setFiltro(boolean filtro) {
+		this.filtro = filtro;
 	}
 	
 	

@@ -85,18 +85,7 @@ public class NodeDocumento {
 		
 			nodeDadosDocumento.setExpanded(true);
 			nodeDadosDocumento.setSelectable(false);
-		    		
-			if (documento.getSituacao() != null) {
-				
-				nodeCamposDoc = new DefaultTreeNode("situacao", new Documento("SITUAÇÃO", documento.getSituacao()),nodeDadosDocumento);
-				
-			} else {
-				
-				nodeCamposDoc = new DefaultTreeNode("situacao", new Documento("SITUAÇÃO", documento.getSituacao()),nodeDadosDocumento);
-			}
-			
-			nodeCamposDoc.setSelectable(false);
-             			
+		            			
 			if (documento.getArquivo() != null) {
 
 				nodeArcDoc = new DefaultTreeNode("doc_arq",new Documento("ANEXO",documento.getNome_arquivo(),documento.getId_doc().toString()),nodeDadosDocumento);

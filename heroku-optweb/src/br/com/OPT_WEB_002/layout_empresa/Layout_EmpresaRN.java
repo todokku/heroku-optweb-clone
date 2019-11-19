@@ -113,6 +113,11 @@ public class Layout_EmpresaRN {
 		return layoutEmpresaDAO.listarCampoReferencia(id_tipo_doc,cod_empresa, cod_filial, cod_unidade);
 	}
 	
+	public List<Layout_Empresa> listarPorFlagFiltro (Integer cod_empresa,Integer cod_filial,Integer cod_unidade){
+		
+		return layoutEmpresaDAO.listarPorFlagFiltro(cod_empresa, cod_filial, cod_unidade);
+	}
+	
 	public Layout_EmpresaDAO getLayoutEmpresaDAO() {
 		return layoutEmpresaDAO;
 	}

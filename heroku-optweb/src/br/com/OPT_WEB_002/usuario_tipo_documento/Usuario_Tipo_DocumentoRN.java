@@ -23,7 +23,7 @@ public class Usuario_Tipo_DocumentoRN {
 			
 		}
 		
-		public List<Usuario_Tipo_Documento> listarPorIdTipoDocCodEmCodFiCodUni(BigInteger id_tipo_doc,Integer cod_empresa,Integer cod_filial,Integer cod_unidade) {
+		/**public List<Usuario_Tipo_Documento> listarPorIdTipoDocCodEmCodFiCodUni(BigInteger id_tipo_doc,Integer cod_empresa,Integer cod_filial,Integer cod_unidade) {
 			
 			return usuario_Tipo_DocumentoDAO.listarPorIdTipoDocCodEmCodFiCodUni(id_tipo_doc, cod_empresa, cod_filial, cod_unidade);
 		}
@@ -31,7 +31,7 @@ public class Usuario_Tipo_DocumentoRN {
 		public List<Usuario_Tipo_Documento> listar() {
 			
 			return usuario_Tipo_DocumentoDAO.listar();
-		}
+		}**/
 		
 		public void excluir(Usuario_Tipo_Documento usuario_Tipo_Documento) {
 			

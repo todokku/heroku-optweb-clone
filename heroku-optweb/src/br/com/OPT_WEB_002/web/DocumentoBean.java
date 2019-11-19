@@ -54,13 +54,12 @@ public class DocumentoBean implements Serializable {
 	private UploadedFile arquivoDoc;
 	private StreamedContent streamedContent;
 	private StreamedContent streamedContentDoc;
-	private Tipo_Documento tipo_Documento = new Tipo_Documento();
-	private String referencia;
+	private Tipo_Documento tipo_Documento = new Tipo_Documento();	
 	private boolean linhaSelecionada = false;
 	private BigInteger idDocDetalhe = null;
 	private List<modeloColuna> columns;
 	private boolean desabilitaCampoIncremento = false;
-		
+			
 	public DocumentoBean() {}
 
 	@PostConstruct
@@ -154,8 +153,8 @@ public class DocumentoBean implements Serializable {
 		/**variavel para receber titulo para a coluna**/
 		private String header;
 					
-		public modeloColuna(String property,String header) {			
-			
+		public modeloColuna(String property,String header) {
+						
 			this.header = header;
 			this.property = property;	
 		
@@ -178,213 +177,14 @@ public class DocumentoBean implements Serializable {
 		public void setHeader(String header) {
 			this.header = header;
 		}
-						
-		/**método que recebe um objeto da lista lazy e retorna um valor em string**/
-		public String retornaValor(Documento documento){
-			
-			if(property.equals("char_001")){
-				return documento.getChar_001();
-			}
-			
-			if(property.equals("char_002")){
-				return documento.getChar_002();
-			}
-			
-			if(property.equals("char_003")){
-				return documento.getChar_003();
-			}
-			
-			if(property.equals("char_004")){
-				return documento.getChar_004();
-			}
-			
-			if(property.equals("char_005")){
-				return documento.getChar_005();
-			}
-			
-			if(property.equals("char_006")){
-				return documento.getChar_006();
-			}
-			if(property.equals("char_007")){
-				return documento.getChar_007();
-			}
-			
-			if(property.equals("char_008")){
-				return documento.getChar_008();
-			}
-			if(property.equals("char_009")){
-				return documento.getChar_009();
-			}
-			
-			if(property.equals("char_010")){
-				return documento.getChar_010();
-			}
-			
-			if(property.equals("char_011")){
-				return documento.getChar_011();
-			}
-			
-			if(property.equals("char_012")){
-				return documento.getChar_012();
-			}
-			
-			if(property.equals("char_013")){
-				return documento.getChar_013();
-			}
-			
-			if(property.equals("char_014")){
-				return documento.getChar_014();
-			}
-			
-			if(property.equals("char_015")){
-				return documento.getChar_015();
-			}
-			
-			if(property.equals("char_016")){
-				return documento.getChar_016();
-			}
-			if(property.equals("char_017")){
-				return documento.getChar_017();
-			}
-			
-			if(property.equals("char_018")){
-				return documento.getChar_018();
-			}
-			if(property.equals("char_019")){
-				return documento.getChar_019();
-			}
-			
-			if(property.equals("char_020")){
-				return documento.getChar_020();
-			}
-			
-			if(property.equals("int_001")){
-				return String.valueOf(documento.getInt_001());
-			}
-			
-			if(property.equals("int_002")){
-				return String.valueOf(documento.getInt_002());
-			}
-			
-			if(property.equals("int_003")){
-				return String.valueOf(documento.getInt_003());
-			}
-			
-			if(property.equals("int_004")){
-				return String.valueOf(documento.getInt_004());
-			}
-			
-			if(property.equals("int_005")){
-				return String.valueOf(documento.getInt_005());
-			}
-			
-			if(property.equals("int_006")){
-				return String.valueOf(documento.getInt_006());
-			}
-			if(property.equals("int_007")){
-				return String.valueOf(documento.getInt_007());
-			}
-			
-			if(property.equals("int_008")){
-				return String.valueOf(documento.getInt_008());
-			}
-			if(property.equals("int_009")){
-				return String.valueOf(documento.getInt_009());
-			}
-			
-			if(property.equals("int_010")){
-				return String.valueOf(documento.getInt_010());
-			}
-			
-			
-			if(property.equals("dec_001")){
-				return String.valueOf(documento.getDec_001());
-			}
-			
-			if(property.equals("dec_002")){
-				return String.valueOf(documento.getDec_002());
-			}
-			
-			if(property.equals("dec_003")){
-				return String.valueOf(documento.getDec_003());
-			}
-			
-			if(property.equals("dec_004")){
-				return String.valueOf(documento.getDec_004());
-			}
-			
-			if(property.equals("dec_005")){
-				return String.valueOf(documento.getDec_005());
-			}
-			
-			if(property.equals("dec_006")){
-				return String.valueOf(documento.getDec_006());
-			}
-			
-			if(property.equals("dec_007")){
-				return String.valueOf( documento.getDec_007());
-			}
-			
-			if(property.equals("dec_008")){
-				return String.valueOf( documento.getDec_008());
-			}
-			if(property.equals("dec_009")){
-				return String.valueOf(documento.getDec_009());
-			}
-			
-			if(property.equals("dec_010")){
-				return String.valueOf(documento.getDec_010());
-			}
-			
-			if(property.equals("data_001")){
-				return String.valueOf(documento.getData_001());
-			}
-			
-			if(property.equals("data_002")){
-				return String.valueOf(documento.getData_002());
-			}
-			
-			if(property.equals("data_003")){
-				return String.valueOf(documento.getData_003());
-			}
-			
-			if(property.equals("data_004")){
-				return String.valueOf(documento.getData_004());
-			}
-			
-			if(property.equals("data_005")){
-				return String.valueOf(documento.getData_005());
-			}
-			
-			if(property.equals("data_006")){
-				return String.valueOf(documento.getData_006());
-			}
-			if(property.equals("data_007")){
-				return String.valueOf(documento.getData_007());
-			}
-			
-			if(property.equals("data_008")){
-				return String.valueOf(documento.getData_008());
-			}
-			if(property.equals("data_009")){
-				return String.valueOf(documento.getData_009());
-			}
-			
-			if(property.equals("data_010")){
-				return String.valueOf(documento.getData_010());
-			}
-			
-			return null;
-		}
-
+		
 	}
 
 	/**método que cria colunas dinamicas a partir dos campos relacionados entre layout x tipo_documento**/
 	public List<modeloColuna> criarColunasDinamicas() {
 					
 		List<Integer> listaId = new ArrayList<Integer>();
-	    Integer idInc = 0;
-	   
+			   
 	   if(linhaSelecionada == false){ 	
 			
 			columns = new ArrayList<modeloColuna>();
@@ -558,11 +358,11 @@ public class DocumentoBean implements Serializable {
 	    		 for(Integer id : listaId){
     			
 	    			 try{
-	    				 
+	    				 	    					    				 
 		 		    	if(comparaFlagCampo(id_tipo_doc,"char_001",usuario,id)){	  
 		 		    		
-		 		    		 coluna.setProperty("char_001");    
-		 		    		 columns.add(coluna);	    	        	   
+		 		    		coluna.setProperty("char_001");    
+		 		    		columns.add(coluna);	    	        	   
 		 		    	} 
 			 		    	 
 		 		    	if(comparaFlagCampo(id_tipo_doc,"char_002",usuario,id)){	  
@@ -579,8 +379,8 @@ public class DocumentoBean implements Serializable {
 	 		    	
 		 		     	if(comparaFlagCampo(id_tipo_doc,"char_004",usuario,id)){	  
 		 		    		 
-		 		    		 coluna4.setProperty("char_004"); 		
-		 		    		 columns.add(coluna4);
+		 		    		coluna4.setProperty("char_004"); 		
+		 		    		columns.add(coluna4);
 		 		    	} 
 	 	   	
 		 		    	if(comparaFlagCampo(id_tipo_doc,"char_005",usuario,id)){	  
@@ -597,8 +397,8 @@ public class DocumentoBean implements Serializable {
 	 		    		    	
 		 		     	if(comparaFlagCampo(id_tipo_doc,"char_007",usuario,id)){	  
 		 		    		 
-		 		    		 coluna7.setProperty("char_007"); 		
-		 		    		 columns.add(coluna7);
+		 		    		coluna7.setProperty("char_007"); 		
+		 		    		columns.add(coluna7);
 		 		    	} 
 	 	   	
 		 		    	if(comparaFlagCampo(id_tipo_doc,"char_008", usuario, id)){	  
@@ -621,8 +421,8 @@ public class DocumentoBean implements Serializable {
 	 		   
 		 		    	if(comparaFlagCampo(id_tipo_doc,"char_011", usuario, id)){	  
 		 		    		 
-		 		    		 coluna11.setProperty("char_011"); 		
-		 		    		 columns.add(coluna11);
+		 		    		coluna11.setProperty("char_011"); 		
+		 		    		columns.add(coluna11);
 		 		    	} 
 	 	   	
 		 		    	if(comparaFlagCampo(id_tipo_doc,"char_012", usuario, id)){
@@ -639,8 +439,8 @@ public class DocumentoBean implements Serializable {
 		 		    	
 		 		     	if(comparaFlagCampo(id_tipo_doc,"char_014", usuario, id)){	  
 		 		    		 
-		 		    		 coluna14.setProperty("char_014"); 		
-		 		    		 columns.add(coluna14);
+		 		    		coluna14.setProperty("char_014"); 		
+		 		    		columns.add(coluna14);
 		 		    	} 
 	 	  	
 		 		    	if(comparaFlagCampo(id_tipo_doc,"char_015", usuario, id)){	  
@@ -658,8 +458,8 @@ public class DocumentoBean implements Serializable {
 		 		    	
 		 		     	if(comparaFlagCampo(id_tipo_doc,"char_017", usuario, id)){	  
 		 		    		 
-		 		    		 coluna17.setProperty("char_017"); 		
-		 		    		 columns.add(coluna17);
+		 		    		coluna17.setProperty("char_017"); 		
+		 		    	    columns.add(coluna17);
 		 		    	} 
 		 	  	
 		 		    	if(comparaFlagCampo(id_tipo_doc,"char_018", usuario, id)){	  
@@ -683,8 +483,8 @@ public class DocumentoBean implements Serializable {
 		 		    
 		 		    	if(comparaFlagCampo(id_tipo_doc,"int_001", usuario, id)){	  
 		 		    		
-		 		    		 coluna21.setProperty("int_001"); 		
-		 		    		 columns.add(coluna21);
+		 		    		coluna21.setProperty("int_001"); 		
+		 		    		columns.add(coluna21);
 		 		    	} 
 		 	   	
 		 		    	if(comparaFlagCampo(id_tipo_doc,"int_002", usuario, id)){
@@ -701,8 +501,8 @@ public class DocumentoBean implements Serializable {
 		 		    	
 		 		     	if(comparaFlagCampo(id_tipo_doc,"int_004", usuario, id)){
 		 		    		 
-		 		    		 coluna24.setProperty("int_004"); 		
-		 		    		 columns.add(coluna24);
+		 		    		coluna24.setProperty("int_004"); 		
+		 		    		columns.add(coluna24);
 		 		    	} 
 		 	  	
 		 		    	if(comparaFlagCampo(id_tipo_doc,"int_005", usuario, id)){
@@ -720,8 +520,8 @@ public class DocumentoBean implements Serializable {
 		 		    	
 		 		     	if(comparaFlagCampo(id_tipo_doc,"int_007", usuario, id)){
 		 		    		 
-		 		    		 coluna27.setProperty("int_007"); 		
-		 		    		 columns.add(coluna27);
+		 		    		coluna27.setProperty("int_007"); 		
+		 		    		columns.add(coluna27);
 		 		    	} 
 		 	  	
 		 		    	if(comparaFlagCampo(id_tipo_doc,"int_008", usuario, id)){
@@ -744,8 +544,8 @@ public class DocumentoBean implements Serializable {
 		 		   
 		 		    	if(comparaFlagCampo(id_tipo_doc,"dec_001", usuario, id)){
 		 		    		 
-		 		    		 coluna31.setProperty("dec_001"); 		
-		 		    		 columns.add(coluna31);
+		 		    		coluna31.setProperty("dec_001"); 		
+		 		    		columns.add(coluna31);
 		 		    	} 
 		 	   	
 		 		    	if(comparaFlagCampo(id_tipo_doc,"dec_002", usuario, id)){	  
@@ -762,8 +562,8 @@ public class DocumentoBean implements Serializable {
 		 		    	
 		 		     	if(comparaFlagCampo(id_tipo_doc,"dec_004", usuario, id)){	  
 		 		    		 
-		 		    		 coluna34.setProperty("dec_004"); 		
-		 		    		 columns.add(coluna34);
+		 		    		coluna34.setProperty("dec_004"); 		
+		 		    		columns.add(coluna34);
 		 		    	} 
 		 	  	
 		 		    	if(comparaFlagCampo(id_tipo_doc,"dec_005", usuario, id)){
@@ -781,8 +581,8 @@ public class DocumentoBean implements Serializable {
 		 		    	
 		 		     	if(comparaFlagCampo(id_tipo_doc,"dec_007", usuario, id)){	  
 		 		    		 
-		 		    		 coluna37.setProperty("dec_007"); 		
-		 		    		 columns.add(coluna37);
+		 		    		coluna37.setProperty("dec_007"); 		
+		 		    		columns.add(coluna37);
 		 		    	} 
 		 	  	
 		 		    	if(comparaFlagCampo(id_tipo_doc,"dec_008", usuario, id)){	  
@@ -804,8 +604,8 @@ public class DocumentoBean implements Serializable {
 		 		   
 		 		    	if(comparaFlagCampo(id_tipo_doc,"data_001", usuario, id)){	  
 		 		    		 
-		 		    		 coluna41.setProperty("data_001"); 		
-		 		    		 columns.add(coluna41);
+		 		    		coluna41.setProperty("data_001"); 		
+		 		    		columns.add(coluna41);
 		 		    	} 
 		 	   	
 		 		    	if(comparaFlagCampo(id_tipo_doc,"data_002", usuario, id)){	  
@@ -822,8 +622,8 @@ public class DocumentoBean implements Serializable {
 		 		    	
 		 		     	if(comparaFlagCampo(id_tipo_doc,"data_004", usuario, id)){
 		 		    		 
-		 		    		 coluna44.setProperty("data_004"); 		
-		 		    		 columns.add(coluna44);
+		 		    		coluna44.setProperty("data_004"); 		
+		 		    		columns.add(coluna44);
 		 		    	} 
 		 	  	
 		 		    	if(comparaFlagCampo(id_tipo_doc,"data_005", usuario, id)){	  
@@ -841,8 +641,8 @@ public class DocumentoBean implements Serializable {
 		 		    	
 		 		     	if(comparaFlagCampo(id_tipo_doc,"data_007", usuario, id)){	  
 		 		    		 
-		 		    		 coluna47.setProperty("data_007"); 		
-		 		    		 columns.add(coluna47);
+		 		    		coluna47.setProperty("data_007"); 		
+		 		    		columns.add(coluna47);
 		 		    	} 
 		 	  	
 		 		    	if(comparaFlagCampo(id_tipo_doc,"data_008", usuario, id)){	  
@@ -872,7 +672,7 @@ public class DocumentoBean implements Serializable {
 	    		
 	    		/**objeto com valor adicionado para true para carregar dados da datatable de documento e de transacao documento**/
 	    		linhaSelecionada = true;
-    		
+	    		
         		return columns;
          }
 	  }
@@ -923,7 +723,7 @@ public class DocumentoBean implements Serializable {
 
 		} else {
 
-			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!", "Documento nao existe!"));
+			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!", "Documento não existe!"));
 			return null;
 		}
 	}
@@ -1190,9 +990,7 @@ public class DocumentoBean implements Serializable {
 			this.documento.getCod_filial().setCod_filial(usuario.getCod_filial().getCod_filial());
 			this.documento.getCod_unidade().setCod_unidade(usuario.getCod_unidade().getCod_unidade());
 			this.documento.getId_tipo_doc().setId_tipo_doc(id_tipo_doc);
-			
-			referencia = this.documento.getId_tipo_doc().getReferencia();
-			
+						
 			try{
 				
 			  incremento = documentoRN.listarUltimoRegistro(id_tipo_doc,usuario.getCod_empresa().getCod_empresa(),usuario.getCod_filial().getCod_filial(),usuario.getCod_unidade().getCod_unidade()).getInt_001();
@@ -1434,21 +1232,6 @@ public class DocumentoBean implements Serializable {
 
 	}
 
-	public Boolean habilitarCamposPorIdTipoDoc(Usuario usuario)
-			throws IllegalArgumentException, IllegalAccessException {
-
-		referencia = iniciar(usuario).getId_tipo_doc().getReferencia();
-
-		if (documento.getId_tipo_doc().getId_tipo_doc() != null) {
-
-			return true;
-
-		} else {
-			return false;
-		}
-
-	}
-
 	public boolean filtro(String label, Usuario usuario) {
 
 		Layout_EmpresaRN layout_Empresa2RN = new Layout_EmpresaRN();
@@ -1508,7 +1291,11 @@ public class DocumentoBean implements Serializable {
 
 			if (label.contentEquals(layout.getCod_campo())) {
 
-				return layout.getDescricao();
+				if(layout.isFiltro()){
+					return layout.getDescricao() + "*";
+				}else{
+					return layout.getDescricao(); 
+				}
 			}
 
 		}
@@ -1896,14 +1683,6 @@ public class DocumentoBean implements Serializable {
 		return serialVersionUID;
 	}
 
-	public String getReferencia() {
-		return referencia;
-	}
-
-	public void setReferencia(String referencia) {
-		this.referencia = referencia;
-	}
-
 	public NodeDocumento getNodeDocumento() {
 		return nodeDocumento;
 	}
@@ -2006,8 +1785,7 @@ public class DocumentoBean implements Serializable {
 		result = prime * result + (linhaSelecionada ? 1231 : 1237);
 		result = prime * result + ((nodeDocumento == null) ? 0 : nodeDocumento.hashCode());
 		result = prime * result + ((nodePrincipal == null) ? 0 : nodePrincipal.hashCode());
-		result = prime * result + ((nodeselecionado == null) ? 0 : nodeselecionado.hashCode());
-		result = prime * result + ((referencia == null) ? 0 : referencia.hashCode());
+		result = prime * result + ((nodeselecionado == null) ? 0 : nodeselecionado.hashCode());	
 		result = prime * result + ((streamedContent == null) ? 0 : streamedContent.hashCode());
 		result = prime * result + ((streamedContentDoc == null) ? 0 : streamedContentDoc.hashCode());
 		result = prime * result + ((tipo_Documento == null) ? 0 : tipo_Documento.hashCode());
@@ -2102,12 +1880,7 @@ public class DocumentoBean implements Serializable {
 			if (other.nodeselecionado != null)
 				return false;
 		} else if (!nodeselecionado.equals(other.nodeselecionado))
-			return false;
-		if (referencia == null) {
-			if (other.referencia != null)
-				return false;
-		} else if (!referencia.equals(other.referencia))
-			return false;
+			return false;		
 		if (streamedContent == null) {
 			if (other.streamedContent != null)
 				return false;
@@ -2130,5 +1903,8 @@ public class DocumentoBean implements Serializable {
 			return false;
 		return true;
 	}
+
+
+
 
 }

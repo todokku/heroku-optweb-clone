@@ -110,15 +110,15 @@
 							</f:facet>
 							<p:ajax event = "rowSelect" listener = "#{documentoBean.selecionarLinhaDocDetalhe}" update = "iddtl,idqrcode"/>
 										
-							<p:columns value="#{documentoBean.columns}" var="column"  filterBy="column.retornaValor(documento)}">
-								
-								<f:facet name="header">
-									<p:outputLabel value="#{column.header}" />
-								</f:facet>
+							<p:columns value="#{documentoBean.columns}" var="column" id="colunas" filterBy="#{documento[column.property]}">
+									
+									<f:facet name="header" >
+										<p:outputLabel value="#{column.header}"  />
+									</f:facet>
 							
-							<p:outputLabel value="#{column.retornaValor(documento)}"/>
+									<p:outputLabel value="#{documento[column.property]}" />
 														
-					   	    </p:columns>
+					   	    	</p:columns>
 					   	    						
 							
 																			

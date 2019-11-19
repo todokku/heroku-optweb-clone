@@ -46,12 +46,12 @@ public class Usuario_Tipo_DocumentoBean implements Serializable {
 		
 	}
 	
-	public List<Usuario_Tipo_Documento> listarPorIdTipoDocumento(BigInteger id_tipo_doc,Integer cod_empresa,Integer cod_filial,Integer cod_unidade){
+	/**public List<Usuario_Tipo_Documento> listarPorIdTipoDocumento(BigInteger id_tipo_doc,Integer cod_empresa,Integer cod_filial,Integer cod_unidade){
 		
 		usuario_Tipo_DocumentoRN = new Usuario_Tipo_DocumentoRN();
 		return usuario_Tipo_DocumentoRN.listarPorIdTipoDocCodEmCodFiCodUni(id_tipo_doc, cod_empresa, cod_filial, cod_unidade);	
 		
-	}
+	}**/
 	
 	public List<Usuario_Tipo_Documento> listarPorCodEmCodFiCodUni(Usuario usuario){
 		

@@ -77,7 +77,13 @@
 			           		   <p:column>
           		    		   		<p:outputLabel value="Referência: " for="idref"/>         		    		 
           		    		   </p:column>
-          		    		     <p:selectBooleanCheckbox value="#{layoutBean.iniciar(usuarioBean.usuarioLogin).referencia}" id="idref" style="margin-right:20px"/>
+          		    		   <p:selectBooleanCheckbox value="#{layoutBean.iniciar(usuarioBean.usuarioLogin).referencia}" id="idref" style="margin-right:20px"/>
+          		    		 	
+          		    		 	
+			           		   <p:column>
+          		    		   		<p:outputLabel value="Filtro: " for="idfil"/>         		    		 
+          		    		   </p:column>
+          		    		     <p:selectBooleanCheckbox value="#{layoutBean.iniciar(usuarioBean.usuarioLogin).filtro}" id="idfil" style="margin-right:20px"/>
           		    		 	
           		    		 	<p:column>
           		    		   		<p:outputLabel value="Visível Grade: " for="idflg"/>         		    		 

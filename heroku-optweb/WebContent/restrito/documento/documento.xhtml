@@ -13,9 +13,10 @@
 			<f:viewParam name = "id" value = "#{documentoBean.id_tipo_doc}"/> 	
 			<f:viewParam name = "doc" value = "#{documentoBean.idDocSelecionado}"/> 
 			<f:viewParam name = "idtr" value = "#{transacaoDocumentoBean.id_transacao_documento}"/> 	
- 		</f:metadata> 		
-</h:head>    
-
+ 		</f:metadata> 	
+ 		<h:outputStylesheet library="css" name="estilo.css"/>
+ 		
+ 		</h:head>
 	<ui:composition template="/template/interna.xhtml">
 	
 		<ui:define name="titulo">Documento</ui:define>
@@ -26,15 +27,17 @@
 					<p:messages id="messages" 
 	           		 closable = "true"/>				
 				</h:form>
+				
 								
 						<p:dialog  draggable="false" positionType="fixed" resizable="false" showEffect="fade" hideEffect="fade" widgetVar="dlg"  modal="true" responsive="true" closable="false" header="Processando..." position="fixed center">
 									<p:graphicImage value="/imagens/loadingBar-1.gif" />    
 						</p:dialog>					      
 					    			  											
 					<h:form id = "formCadastro" >
-																	  				
+																					  				
 						<div class = "ui-fluid">
-								
+						
+																		
 							<p:dataTable 
 							value = "#{documentoBean.lazyDocumento(usuarioBean.usuarioLogin)}" 
 							var = "documento"										
@@ -45,14 +48,13 @@
 							rowKey="#{documento.id_doc}"
 							reflow="true" 
 							rows="999" 
-							paginatorPosition="bottom"									
-							paginator="true"			
+							paginatorPosition="bottom"							
 							widgetVar="doctable"									
 							id="tableDoc"
-							scrollable="true"
-							scrollWidth="100%" 
+							scrollable="true"	
+						    scrollWidth="100%"					
 						    scrollHeight="150"
-						    lazy="true" >
+						    lazy="true">
 						  						    						    		
 								<f:facet name="header">
 											
@@ -80,15 +82,15 @@
 											   																			
 							</f:facet>
 							
-								<p:columns value="#{documentoBean.columns}" var="column" id="colunas"  >
-								
-								<f:facet name="header">
-									<p:outputLabel value="#{column.header}" />
-								</f:facet>
+								<p:columns value="#{documentoBean.columns}" var="column" id="colunas"  filterBy="#{documento[column.property]}">
+									
+									<f:facet name="header" >
+										<p:outputLabel value="#{column.header}"  />
+									</f:facet>
 							
-							<p:outputLabel value="#{column.retornaValor(documento)}" />
+									<p:outputLabel value="#{documento[column.property]}" />
 														
-					   	    </p:columns>
+					   	    	</p:columns>
 					   	    		   	  
 														
 							<p:ajax event="rowSelect"  listener="#{documentoBean.selecionarLinhaDoc}"  update= "formCadastro:tableTransDoc formCadastro:tableCampAdic" onstart="PF('dlg').show();PF('dlg').initPosition()" oncomplete="PF('dlg').hide();"/>
