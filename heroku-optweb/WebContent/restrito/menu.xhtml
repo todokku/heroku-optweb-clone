@@ -36,22 +36,20 @@
 		        				<p:submenu label="Usuário" >
 		        					
 						            <p:menuitem value="Usuário" url="/restrito/usuario/usuario.xhtml" onclick="PF('dlg').show()" rendered="#{usuarioBean.autorizarUsuario()}" />	
-						            <p:separator/>
+						            <p:separator rendered="#{usuarioBean.autorizarUsuario()}" />
 						            
 						            <p:menuitem value="Usuário x Tipo.Doc" url="/restrito/usuario_tipo_documento/usuario_tipo_documento.xhtml" onclick="PF('dlg').show()" rendered="#{usuarioBean.autorizarUsuario()}" />						           
-						           	<p:separator/>
+						           	<p:separator rendered="#{usuarioBean.autorizarUsuario()}" />
 						           	
 						           	<p:menuitem value="Referência" url="/restrito/cliente/cliente.xhtml" onclick="PF('dlg').show()" rendered="#{usuarioBean.autorizarUsuario()}" />						           
-						           	<p:separator/>
+						           	<p:separator rendered="#{usuarioBean.autorizarUsuario()}" />
 						           	
 						           	<p:menuitem value="Editar Senha" url="/restrito/usuario/editar_senha.xhtml" onclick="PF('dlg').show()"/>
 						           						                    						
 						        </p:submenu>  
 						        
-						        <p:separator />
-						        
-						       
-						        
+						        <p:separator rendered="#{usuarioBean.autorizarUsuario()}" />
+						        					        
 						        <p:submenu label="Organização" rendered="#{usuarioBean.autorizarUsuario()}">						           		  	 						           						
 						           		
 						           		<p:submenu label="Empresa">						           			 								            
@@ -73,7 +71,7 @@
 						            	
 						        </p:submenu>
 						        
-						        <p:separator /> 
+						        <p:separator rendered="#{usuarioBean.autorizarUsuario()}"  /> 
 						         
 						        <p:submenu label="Estrutura" rendered="#{usuarioBean.autorizarUsuario()}">
 						        	
@@ -114,10 +112,7 @@
 						        		<p:menuitem value="Grp.Val x Camp x Tp.Doc" url="/restrito/val_campos_doc/val_campos_doc.xhtml" onclick="PF('dlg').show()" />		
 						        								        								        					        	
 						        	</p:submenu>
-						        	
-						        	<p:separator />
-						             
-						        	
+						        							        						        	
 						        </p:submenu > 
 								                     			   
 			        			</p:submenu>	
@@ -130,6 +125,9 @@
 			        			<p:submenu label="Rastreabilidade" expanded="true">		
 	
 			        			<p:menuitem value="Documentos" url="/restrito/rastreabilidade/documento_tipo_usuario.xhtml" onclick="PF('dlg').show()"/>
+			        			<p:separator/>
+			        			
+			        			<p:menuitem value="QRCode" url="/restrito/QRCode.xhtml" onclick="PF('dlg').show()"/>
 			        						        		
 			        			</p:submenu>
 			        							        	    			       

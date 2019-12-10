@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.ConstraintViolationException;
 import org.hibernate.*;
 import br.com.OPT_WEB_002.util.DAOException;
+import br.com.OPT_WEB_002.util.HibernateUtil;
 
 
 
@@ -95,6 +96,8 @@ public class Val_Campos_Trans_DocDAOHibernate implements Val_Campos_Trans_DocDAO
 	@Override
 	public List<Val_Campos_Trans_Doc> carregarPorIdCampAdic(BigInteger id_camp_adic,BigInteger id_trans_doc,Integer cod_empresa, Integer cod_filial,Integer cod_unidade) {
 		
+
+		session = HibernateUtil.getSessionFactory().getCurrentSession();
 		String hql = "select tb from val_campos_trans_doc tb where tb.id_camp_adic = :id_camp_adic and tb.id_trans_doc = :id_trans_doc and cod_empresa = :cod_empresa and cod_filial = :cod_filial and cod_unidade = :cod_unidade order by id_camp_adic";
 		Query consulta = this.session.createQuery(hql);
 				
@@ -125,8 +128,7 @@ public class Val_Campos_Trans_DocDAOHibernate implements Val_Campos_Trans_DocDAO
 		Query consulta = this.session.createQuery(hql);
 		
 		consulta.setBigInteger("id_val_camp_trans_doc",id_val_camp_trans_doc);
-		
-		
+				
 		return consulta.list();
 	}
 	
@@ -142,14 +144,14 @@ public class Val_Campos_Trans_DocDAOHibernate implements Val_Campos_Trans_DocDAO
 	@Override
 	public void cadastrarCampoAdicionalWebService(Val_Campos_Trans_Doc val_Campos_Trans_Doc) {
 		
-		session.save(val_Campos_Trans_Doc);		
-	
-		session.getTransaction().commit();
+		session = HibernateUtil.getSessionFactory().getCurrentSession();
+		
+		session.beginTransaction();
+		
+		session.save(val_Campos_Trans_Doc);			
+		
+		this.session.getTransaction().commit();
 	
 	}
-	
-	
-
-
 	
 }

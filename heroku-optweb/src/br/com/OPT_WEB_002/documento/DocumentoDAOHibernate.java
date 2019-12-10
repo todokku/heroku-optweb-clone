@@ -4,6 +4,8 @@ import java.math.BigInteger;
 import java.util.*;
 import org.hibernate.*;
 import org.hibernate.exception.ConstraintViolationException;
+
+import br.com.OPT_WEB_002.layout_empresa.Layout_Empresa;
 import br.com.OPT_WEB_002.util.DAOException;
 import br.com.OPT_WEB_002.util.HibernateUtil;
 
@@ -80,7 +82,12 @@ public class DocumentoDAOHibernate implements DocumentoDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Documento> listarPorCodEmCodFiCodUni(Integer cod_empresa, Integer cod_filial, Integer cod_unidade) {
-
+				
+		List<Documento> lista = new ArrayList<>();
+		session = HibernateUtil.getSessionFactory().getCurrentSession();
+		@SuppressWarnings("unused")
+		Transaction trans = session.beginTransaction();
+			
 		String hql = "select tb from documento tb where tb.cod_empresa = :cod_empresa and tb.cod_filial = :cod_filial and tb.cod_unidade = :cod_unidade";
 
 		Query consulta = this.session.createQuery(hql);
@@ -89,7 +96,11 @@ public class DocumentoDAOHibernate implements DocumentoDAO {
 		consulta.setInteger("cod_filial", cod_filial);
 		consulta.setInteger("cod_unidade", cod_unidade);
 
-		return consulta.list();
+		lista = consulta.list();
+		
+		this.session.getTransaction().commit();
+		
+		return lista;
 	}
 
 	/**Método para listar dados para a tabela documento por cod_empresa,cod_filial**/
@@ -111,11 +122,15 @@ public class DocumentoDAOHibernate implements DocumentoDAO {
 	@Override
 	public void cadastrarDocumentoWebService(Documento documento) {
 		
+		
 		session = HibernateUtil.getSessionFactory().getCurrentSession();
 		@SuppressWarnings("unused")
 		Transaction trans = session.beginTransaction();
 		session.save(documento);
-	
+		
+		
+		this.session.getTransaction().commit();
+		
 	}
 
 	/**Método para listar dados para a tabela documento por id_tipo_doc,cod_empresa,cod_filial e cod_unidade**/
@@ -182,8 +197,7 @@ public class DocumentoDAOHibernate implements DocumentoDAO {
 	}
 
 	@Override
-	public List<Documento> listarPorIdTipoDescCodEmpCodFiCodUni(BigInteger id_tipo_doc, String situacao,
-			Integer cod_empresa, Integer cod_filial, Integer cod_unidade) {
+	public List<Documento> listarPorIdTipoDescCodEmpCodFiCodUni(BigInteger id_tipo_doc, String situacao,Integer cod_empresa, Integer cod_filial, Integer cod_unidade) {
 
 		String hql = "select tb from documento tb where tb.id_tipo_doc = :id_tipo_doc and tb.situacao = :situacao and tb.cod_empresa = :cod_empresa and tb.cod_filial = :cod_filial and tb.cod_unidade = :cod_unidade";
 		Query consulta = this.session.createQuery(hql);
@@ -218,6 +232,19 @@ public class DocumentoDAOHibernate implements DocumentoDAO {
 
 	public void setSession(Session session) {
 		this.session = session;
+	}
+
+	
+	@Override
+	public List<Documento> listarPorIdTipoDoc(BigInteger id_tipo_doc) {
+		
+		String hql = "select tb from documento tb where tb.id_tipo_doc = :id_tipo_doc";
+		
+		Query consulta = this.session.createQuery(hql);
+		
+		consulta.setBigInteger("id_tipo_doc", id_tipo_doc);
+			
+		return consulta.list();
 	}
 
 }

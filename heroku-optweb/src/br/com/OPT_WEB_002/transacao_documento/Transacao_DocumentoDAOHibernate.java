@@ -4,6 +4,8 @@ import java.math.BigInteger;
 import java.util.*;
 import org.hibernate.*;
 import org.hibernate.exception.ConstraintViolationException;
+
+import br.com.OPT_WEB_002.tipo_documento_transacao.Tipo_Documento_Transacao;
 import br.com.OPT_WEB_002.util.DAOException;
 import br.com.OPT_WEB_002.util.HibernateUtil;
 
@@ -52,8 +54,7 @@ public class Transacao_DocumentoDAOHibernate implements Transacao_DocumentoDAO {
 		return (Transacao_Documento) session.get(Transacao_Documento.class,id_transacao_doc);
 	}
 
-	
-	
+		
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Transacao_Documento> listar() {
@@ -90,6 +91,8 @@ public class Transacao_DocumentoDAOHibernate implements Transacao_DocumentoDAO {
 	@Override
 	public List<Transacao_Documento> listarPorIdDoc(BigInteger id_doc,Integer cod_empresa,Integer cod_filial,Integer cod_unidade) {
 	
+
+		session = HibernateUtil.getSessionFactory().getCurrentSession();
 		String hql = "select tb from transacao_documento tb where tb.id_doc = :id_doc and tb.cod_empresa = :cod_empresa and tb.cod_filial = :cod_filial and tb.cod_unidade = :cod_unidade order by id_transacao";
 		
 		Query consulta = this.session.createQuery(hql);
@@ -104,9 +107,15 @@ public class Transacao_DocumentoDAOHibernate implements Transacao_DocumentoDAO {
 
 	@Override
 	public void cadastrarTransacaoDocumentoWebService(Transacao_Documento transacao_documento) {
-			
+
+		session = HibernateUtil.getSessionFactory().getCurrentSession();
+		@SuppressWarnings("unused")
+		Transaction trans = session.beginTransaction();
+		
 		session.save(transacao_documento);
 	
+		this.session.getTransaction().commit();
+		
 	}
 		
 	@Override

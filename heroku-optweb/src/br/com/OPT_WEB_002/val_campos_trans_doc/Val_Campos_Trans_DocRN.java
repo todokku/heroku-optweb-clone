@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.util.List;
 import br.com.OPT_WEB_002.util.DAOException;
 import br.com.OPT_WEB_002.util.DAOFactory;
+import br.com.OPT_WEB_002.util.HibernateUtil;
 
 public class Val_Campos_Trans_DocRN {
 
@@ -78,6 +79,7 @@ public class Val_Campos_Trans_DocRN {
 	}
 	
 	public void cadastrarCampoAdicionalWebService(Val_Campos_Trans_Doc val_Campos_Trans_Doc) {
+		
 		
 		this.valCampDAO.cadastrarCampoAdicionalWebService(val_Campos_Trans_Doc);
 	}

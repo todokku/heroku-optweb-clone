@@ -79,12 +79,26 @@
           		    		   </p:column>
           		    		   <p:selectBooleanCheckbox value="#{layoutBean.iniciar(usuarioBean.usuarioLogin).referencia}" id="idref" style="margin-right:20px"/>
           		    		 	
-          		    		 	
-			           		   <p:column>
-          		    		   		<p:outputLabel value="Filtro: " for="idfil"/>         		    		 
-          		    		   </p:column>
-          		    		     <p:selectBooleanCheckbox value="#{layoutBean.iniciar(usuarioBean.usuarioLogin).filtro}" id="idfil" style="margin-right:20px"/>
-          		    		 	
+          		    		 
+          		    		    
+			           		   		<p:column>
+          		    		   			<p:outputLabel value="Filtro: " for="idfil"/>         		    		 
+          		    		   		</p:column>
+          		    		 
+          		    		    
+          		    		   	<p:row>
+          		    		     	    <p:selectBooleanCheckbox value="#{layoutBean.iniciar(usuarioBean.usuarioLogin).filtro}" id="idfil" style="margin-right:20px"/>
+          		    		   			<p:outputLabel value="Valor Filtro: " for="idvalfil"/>
+          		    		   			<p:inputText value="#{layoutBean.iniciar(usuarioBean.usuarioLogin).valor_filtro}" id="idvalfil" size="15" style="width:75px"/>          		    		
+          		    		 	</p:row>
+          		    		
+          		    		          		    		 	
+          		    		  <p:column>
+          		    		   		<p:outputLabel value="QrCode: " for="idqr"/>         		    		 
+          		    		  </p:column>
+          		    		
+          		    		  <p:selectBooleanCheckbox value="#{layoutBean.iniciar(usuarioBean.usuarioLogin).qrcode}" id="idqr" style="margin-right:20px"/>
+          		    				          		    		 	
           		    		 	<p:column>
           		    		   		<p:outputLabel value="Visível Grade: " for="idflg"/>         		    		 
           		    		   </p:column>
@@ -223,9 +237,7 @@
 			           		   
 			           		   <p:outputLabel value="Contador" for="idct"/>	  		
           		    		   <p:selectBooleanCheckbox value="#{layoutBean.iniciar(usuarioBean.usuarioLogin).flagCampos}" id="idct" disabled=""/>
-			           		   
-			           		
-			           		   			           		   				           		 			           		   		           		              		   			           		   
+			           		   			           		 			           		   		           		              		   			           		   
 			           	            <p:outputLabel value="Tipo Documento:" for="idDoc"/>
 			           		  	
    									<p:selectOneMenu style="width:200px" value="#{layoutBean.layoutEmpresa.id_tipo_doc.id_tipo_doc}" id = "idDoc">
@@ -238,7 +250,7 @@
 									<p:confirm header="Confirmation" message="Deseja realmente salvar?" icon="ui-icon-disk"/>																	
 								</p:commandButton>	
 								
-								<p:commandButton icon="ui-icon-arrowrefresh-1-w" action="/restrito/menu.xhtml"  style="width:30px;height:30px"/>			           		   				
+								<p:commandButton icon="ui-icon-arrowrefresh-1-w" action="/restrito/layout_empresa/layout_empresa.xhtml?faces-redirect=true"  style="width:30px;height:30px"/>			           		   				
 								
 								  <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
 									<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />

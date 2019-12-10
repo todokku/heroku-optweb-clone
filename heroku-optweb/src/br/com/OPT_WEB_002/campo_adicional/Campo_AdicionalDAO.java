@@ -19,9 +19,10 @@ public interface Campo_AdicionalDAO {
 
 	public List<Campo_Adicional> listarPorIdTransCodEmCodFiCodUni(BigInteger id_transacao);
 
-	public List<Campo_Adicional> listarPorCodEmCodFiCodUni(Integer cod_empresa, Integer cod_filial,
-			Integer cod_unidade);
+	public List<Campo_Adicional> listarPorCodEmCodFiCodUni(Integer cod_empresa, Integer cod_filial,Integer cod_unidade);
 
 	public Campo_Adicional listarUltimoId();
+	
+	public List<Campo_Adicional> listarPorIdTransCodEmCodFiCodUniWebService(BigInteger id_transacao);
 
 }

@@ -147,6 +147,13 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 		<artifactId>jersey-container-servlet-core</artifactId>
 		<version>2.26-b02</version>
 	</dependency>				   
+	
+	<dependency>
+    <groupId>com.sun.jersey.contribs</groupId>
+    <artifactId>jersey-multipart</artifactId>
+    <version>1.18</version>
+</dependency>
+	
 
 	<!-- Jasper -->
 

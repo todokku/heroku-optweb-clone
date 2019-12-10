@@ -1,0 +1,863 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+	<title>QRCode</title>	
+	 		 		
+ 		</h:head>
+	<ui:composition template="/template/interna.xhtml">
+	
+		<ui:define name="titulo">QRCode</ui:define>
+		
+			<ui:define name = "corpo">
+										
+				<h:form id = "formMessages">			
+					<p:messages id="messages" 
+	           		 closable = "true"/>				
+				</h:form>
+												
+						<p:dialog  draggable="false" positionType="fixed" resizable="false" showEffect="fade" hideEffect="fade" widgetVar="dlg"  modal="true" responsive="true" closable="false" header="Processando..." position="fixed center">
+							<p:graphicImage value="/imagens/loadingBar-1.gif" />    
+						</p:dialog>					      
+					    			  											
+					<h:form id = "formCadastro" >
+																					  				
+						<div class = "ui-fluid">
+						
+							<p:dataTable 
+							value = "#{documentoBean.lazyDocumentoQrCode(usuarioBean.usuarioLogin)}" 
+							var = "documento"										
+							rules = "rows"				
+							cellpadding ="25"
+							selection = "#{documentoBean.documentoSelecionado}"			
+							selectionMode="single"
+							rowKey="#{documento.id_doc}"
+							reflow="true" 
+							rows="999" 
+							paginatorPosition="bottom"							
+							widgetVar="doctable"									
+							id="tableDoc"
+							scrollable="true"	
+						    scrollWidth="100%"					
+						    scrollHeight="150"
+						    lazy="true">
+						  						    						    		
+								<f:facet name="header">
+											
+								<p:panelGrid columns = "1"  styleClass="ui-panelgrid-blank">
+													
+									<p:row>	
+																			
+									<p:column style="margin:auto">
+										
+										<p:outputLabel value="Tipo:"/>
+										
+										<p:selectOneMenu  value="#{documentoBean.id_tipo_doc}" style="width:349px;margin:auto 0" update = "formCadastro">
+											<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+											<f:selectItems value="#{usuario_tipo_docBean.listarPorIdUsuarioCodEmCodFiCodUni(usuarioBean.usuarioLogin)}" var="tipoDoc" itemLabel="#{tipoDoc.id_tipo_documento.descricao}" itemValue="#{tipoDoc.id_tipo_documento.id_tipo_doc}"/>
+											<p:ajax event="change"   listener="#{documentoBean.carregarDocTransDocCampAdic(usuarioBean.usuarioLogin)}" update="formCadastro" onstart="PF('dlg').show()" onsuccess="PF('dlg').hide()"/>
+										</p:selectOneMenu>
+										
+										<p:commandButton icon="ui-icon-arrowrefresh-1-w" action="#{documentoBean.redirecionaMenu()}"  style="width:24px;height:24px;margin-right:12px" onstart="PF('dlg').show();PF('dlg').initPosition()" />									
+									
+									</p:column>
+						
+									</p:row>		
+												
+								</p:panelGrid>	
+											   																			
+							</f:facet>
+							
+								<p:columns value="#{documentoBean.columns}" var="column" id="colunas" >
+									
+									<f:facet name="header" >
+										<p:outputLabel value="#{column.header}"  />
+									</f:facet>
+							
+									<p:outputLabel value="#{documento[column.property]}" />
+														
+					   	    	</p:columns>
+					   	    		   	  							
+											
+					</p:dataTable><br/>				
+					
+					 							
+    								<p:panel style="border:none" id="panelCampos">									
+										<p:panelGrid  styleClass="ui-panelgrid-blank"> 						
+ 									<p:row>	
+						
+							<p:column>
+									<p:outputLabel for = "idCh1" value ="#{documentoBean.descricaoColunas('char_001',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.carregarCampoPorQrCode('char_001')}"/>
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idCh1"	
+									rows="1"						
+									maxlength="255" 							
+									value = "#{documentoBean.doc.char_001}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('char_001')}"/>
+							</p:column>
+							
+							
+							<p:column>
+									<p:outputLabel for = "idInt" value = "#{documentoBean.descricaoColunas('int_001',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.carregarCampoPorQrCode('int_001')}" />
+							</p:column>
+							<p:column>
+									<p:inputTextarea 
+									id="idInt"	
+									rows="1"						
+									maxlength="255" 								
+									value = "#{documentoBean.doc.int_001}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('int_001')}"/>
+							
+							</p:column>
+							
+						
+							
+							
+							
+							
+							<p:column>
+									<p:outputLabel for = "idDec" value =  "#{documentoBean.descricaoColunas('dec_001',usuarioBean.usuarioLogin)}"  rendered="#{documentoBean.carregarCampoPorQrCode('dec_001')}" />
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idDec"	
+									rows="1"						
+									maxlength="255" 								
+									value = "#{documentoBean.doc.dec_001}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('dec_001')}"/>
+							</p:column>
+							
+							
+							<p:column>
+									<p:outputLabel for ="idData" value =  "#{documentoBean.descricaoColunas('data_001',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.carregarCampoPorQrCode('data_001')}"/>
+							</p:column>
+							
+							<p:column>									
+									<p:calendar id="idData" pattern = "yyyy-MM-dd"  value="#{documentoBean.doc.data_001}" rendered="#{documentoBean.carregarCampoPorQrCode('data_001')}"/>
+							</p:column>
+							
+							</p:row>
+							<p:row>
+							
+							<p:column>
+									<p:outputLabel for = "idCh2" value =  "#{documentoBean.descricaoColunas('char_002',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.carregarCampoPorQrCode('char_002')}"/>
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idCh2"	
+									rows="1"						
+									maxlength="255" 							
+									value = "#{documentoBean.doc.char_002}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('char_002')}"/>
+							</p:column>
+							
+							
+								<p:column>
+									<p:outputLabel for = "idInt2" value = " #{documentoBean.descricaoColunas('int_002',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.carregarCampoPorQrCode('int_002')}" />
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idInt2"	
+									rows="1"						
+									maxlength="255" 								
+									value = "#{documentoBean.doc.int_002}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('int_002')}"/>
+							</p:column>
+							
+								<p:column>
+									<p:outputLabel for = "idDec2" value =  "#{documentoBean.descricaoColunas('dec_002',usuarioBean.usuarioLogin)}"  rendered="#{documentoBean.carregarCampoPorQrCode('dec_002')}" />
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idDec2"	
+									rows="1"						
+									maxlength="255" 								
+									value = "#{documentoBean.doc.dec_002}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('dec_002')}"/>
+							</p:column>
+							
+							<p:column>
+									<p:outputLabel for ="idData2" value =  "#{documentoBean.descricaoColunas('data_002',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.carregarCampoPorQrCode('data_002')}"/>
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idData2"	
+									rows="1"						
+									maxlength="255" 							
+									value = "#{documentoBean.doc.data_002}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('data_002')}"/>
+							</p:column>
+													
+							</p:row>
+							<p:row>
+							
+							<p:column>
+									<p:outputLabel for = "idCh3" value = "#{documentoBean.descricaoColunas('char_003',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.carregarCampoPorQrCode('char_003')}"/>
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idCh3"	
+									rows="1"						
+									maxlength="255" 							
+									value = "#{documentoBean.doc.char_003}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('char_003')}"/>
+							</p:column>
+							
+							
+								<p:column>
+									<p:outputLabel for = "idInt3" value = "#{documentoBean.descricaoColunas('int_003',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.carregarCampoPorQrCode('int_003')}" />
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idInt3"	
+									rows="1"						
+									maxlength="255" 								
+									value = "#{documentoBean.doc.int_003}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('int_003')}"/>
+							</p:column>
+							
+								<p:column>
+									<p:outputLabel for = "idDec3" value = "#{documentoBean.descricaoColunas('dec_003',usuarioBean.usuarioLogin)}"  rendered="#{documentoBean.carregarCampoPorQrCode('dec_003')}" />
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idDec3"	
+									rows="1"						
+									maxlength="255" 								
+									value = "#{documentoBean.doc.dec_003}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('dec_003')}"/>
+							</p:column>
+							
+								
+							<p:column>
+									<p:outputLabel for ="idData3" value =  "#{documentoBean.descricaoColunas('data_003',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.carregarCampoPorQrCode('data_003')}"/>
+							</p:column>
+							<p:column>
+																	
+									<p:calendar  pattern = "yyyy-MM-dd"  
+									id="idData3"	
+									rows="1"						
+									maxlength="255" 							
+									value = "#{documentoBean.doc.data_003}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('data_003')}"/>
+							</p:column>
+							
+							</p:row>
+							
+							<p:row>
+								<p:column>
+									<p:outputLabel for = "idCh4" value = "#{documentoBean.descricaoColunas('char_004',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.carregarCampoPorQrCode('char_004')}"/>
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idCh4"	
+									rows="1"						
+									maxlength="255" 							
+									value = "#{documentoBean.doc.char_004}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('char_004')}"/>
+							</p:column>
+							
+							<p:column>
+									<p:outputLabel for = "idInt4" value = "#{documentoBean.descricaoColunas('int_004',usuarioBean.usuarioLogin)}"  rendered="#{documentoBean.carregarCampoPorQrCode('int_004')}" />
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idInt4"	
+									rows="1"						
+									maxlength="255" 								
+									value = "#{documentoBean.doc.int_004}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('int_004')}"/>
+							</p:column>
+							
+							
+								<p:column>
+									<p:outputLabel for = "idDec4" value = "#{documentoBean.descricaoColunas('dec_004',usuarioBean.usuarioLogin)}"  rendered="#{documentoBean.carregarCampoPorQrCode('dec_004')}" />
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idDec4"	
+									rows="1"						
+									maxlength="255" 								
+									value = "#{documentoBean.doc.dec_004}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('dec_004')}"/>
+							</p:column>
+							
+							<p:column>
+									<p:outputLabel for ="idData4" value =  "#{documentoBean.descricaoColunas('data_004',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.carregarCampoPorQrCode('data_004')}"/>
+							</p:column>
+							<p:column>
+																	
+									<p:calendar  pattern = "yyyy-MM-dd"   
+									id="idData4"	
+									rows="1"						
+									maxlength="255" 							
+									value = "#{documentoBean.doc.data_004}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('data_004')}"/>
+							</p:column>
+							
+							</p:row>
+							
+							<p:row>
+								<p:column>
+									<p:outputLabel for = "idCh5" value = "#{documentoBean.descricaoColunas('char_005',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.carregarCampoPorQrCode('char_005')}"/>
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idCh5"	
+									rows="1"						
+									maxlength="255" 							
+									value = "#{documentoBean.doc.char_005}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('char_005')}"/>
+							</p:column>
+							
+								<p:column>
+									<p:outputLabel for = "idInt5" value = "#{documentoBean.descricaoColunas('int_005',usuarioBean.usuarioLogin)}"  rendered="#{documentoBean.carregarCampoPorQrCode('int_005')}" />
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idInt5"	
+									rows="1"						
+									maxlength="255" 								
+									value = "#{documentoBean.doc.int_005}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('int_005')}"/>
+							</p:column>
+							
+							
+								<p:column>
+									<p:outputLabel for = "idDec5" value = "#{documentoBean.descricaoColunas('dec_005',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.carregarCampoPorQrCode('dec_005')}" />
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idDec5"	
+									rows="1"						
+									maxlength="255" 								
+									value = "#{documentoBean.doc.dec_005}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('dec_005')}"/>
+							</p:column>
+							
+							<p:column>
+									<p:outputLabel for ="idData5" value =  "#{documentoBean.descricaoColunas('data_005',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.carregarCampoPorQrCode('data_005')}"/>
+							</p:column>
+							<p:column>
+																	
+									<p:calendar  pattern = "yyyy-MM-dd"  
+									id="idData5"	
+									rows="1"						
+									maxlength="255" 							
+									value = "#{documentoBean.doc.data_005}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('data_005')}"/>
+							</p:column>
+							</p:row>
+							
+							<p:row>
+								
+							<p:column>
+									<p:outputLabel for = "idCh6" value = "#{documentoBean.descricaoColunas('char_006',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.carregarCampoPorQrCode('char_006')}"/>
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idCh6"	
+									rows="1"						
+									maxlength="255" 							
+									value = "#{documentoBean.doc.char_006}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('char_006')}"/>
+							</p:column>
+							
+							<p:column>
+									<p:outputLabel for = "idInt6" value = "#{documentoBean.descricaoColunas('int_006',usuarioBean.usuarioLogin)}"  rendered="#{documentoBean.carregarCampoPorQrCode('int_006')}" />
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idInt6"	
+									rows="1"						
+									maxlength="255" 								
+									value = "#{documentoBean.doc.int_006}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('int_006')}"/>
+							</p:column>
+							
+								<p:column>
+									<p:outputLabel for = "idDec6" value = "#{documentoBean.descricaoColunas('dec_006',usuarioBean.usuarioLogin)}"  rendered="#{documentoBean.carregarCampoPorQrCode('dec_005')}" />
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idDec6"	
+									rows="1"						
+									maxlength="255" 								
+									value = "#{documentoBean.doc.dec_006}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('dec_006')}"/>
+							</p:column>
+							
+							<p:column>
+									<p:outputLabel for ="idData6" value =  "#{documentoBean.descricaoColunas('data_006',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.carregarCampoPorQrCode('data_006')}"/>
+							</p:column>
+							<p:column>
+																	
+									<p:calendar  pattern = "yyyy-MM-dd"  
+									id="idData6"	
+									rows="1"						
+									maxlength="255" 							
+									value = "#{documentoBean.doc.data_006}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('data_006')}"/>
+							</p:column>
+							</p:row>
+							
+							<p:row>
+							<p:column>
+									<p:outputLabel for = "idCh7" value = "#{documentoBean.descricaoColunas('char_007',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.carregarCampoPorQrCode('char_007')}"/>
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idCh7"	
+									rows="1"						
+									maxlength="255" 							
+									value = "#{documentoBean.doc.char_007}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('char_007')}"/>
+							</p:column>
+							
+							<p:column>
+									<p:outputLabel for = "idInt7" value = "#{documentoBean.descricaoColunas('int_007',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.carregarCampoPorQrCode('int_007')}" />
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idInt7"	
+									rows="1"						
+									maxlength="255" 								
+									value = "#{documentoBean.doc.int_007}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('int_007')}"/>
+							</p:column>
+							
+							<p:column>
+									<p:outputLabel for = "idDec7" value = "#{documentoBean.descricaoColunas('dec_007',usuarioBean.usuarioLogin)}"  rendered="#{documentoBean.carregarCampoPorQrCode('dec_007')}" />
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idDec7"	
+									rows="1"						
+									maxlength="255" 								
+									value = "#{documentoBean.doc.dec_007}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('dec_007')}"/>
+							</p:column>
+							
+								
+							<p:column>
+									<p:outputLabel for ="idData7" value =  "#{documentoBean.descricaoColunas('data_007',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.carregarCampoPorQrCode('data_007')}"/>
+							</p:column>
+							<p:column>
+																	
+									<p:calendar  pattern = "yyyy-MM-dd"   
+									id="idData7"	
+									rows="1"						
+									maxlength="255" 							
+									value = "#{documentoBean.doc.data_007}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('data_007')}"/>
+							</p:column>
+							</p:row>
+							
+							<p:row>
+							
+							<p:column>
+									<p:outputLabel for = "idCh8" value = "#{documentoBean.descricaoColunas('char_008',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.carregarCampoPorQrCode('char_008')}"/>
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idCh8"	
+									rows="1"						
+									maxlength="255" 							
+									value = "#{documentoBean.doc.char_008}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('char_008')}"/>
+							</p:column>
+							
+							<p:column>
+									<p:outputLabel for = "idInt8" value = "#{documentoBean.descricaoColunas('int_008',usuarioBean.usuarioLogin)}"  rendered="#{documentoBean.carregarCampoPorQrCode('int_008')}" />
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idInt8"	
+									rows="1"						
+									maxlength="255" 								
+									value = "#{documentoBean.doc.int_008}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('int_008')}"/>
+							</p:column>
+						
+							
+								<p:column>
+									<p:outputLabel for = "idDec8" value = "#{documentoBean.descricaoColunas('dec_008',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.carregarCampoPorQrCode('dec_008')}" />
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idDec8"	
+									rows="1"						
+									maxlength="255" 								
+									value = "#{documentoBean.doc.dec_008}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('dec_008')}"/>
+							</p:column>
+							
+							<p:column>
+									<p:outputLabel for ="idData8" value =  "#{documentoBean.descricaoColunas('data_008',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.carregarCampoPorQrCode('data_008')}"/>
+							</p:column>
+							<p:column>
+																	
+									<p:calendar  pattern = "yyyy-MM-dd" 
+									id="idData8"	
+									rows="1"						
+									maxlength="255" 							
+									value = "#{documentoBean.doc.data_008}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('data_008')}"/>
+							</p:column>
+							
+							</p:row>
+
+							<p:row>
+							<p:column>
+									<p:outputLabel for = "idCh9" value = "#{documentoBean.descricaoColunas('char_009',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.carregarCampoPorQrCode('char_009')}"/>
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idCh9"	
+									rows="1"						
+									maxlength="255" 							
+									value = "#{documentoBean.doc.char_009}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('char_009')}"/>
+							</p:column>
+							
+							
+								<p:column>
+									<p:outputLabel for = "idInt9" value = "#{documentoBean.descricaoColunas('int_009',usuarioBean.usuarioLogin)}"  rendered="#{documentoBean.carregarCampoPorQrCode('int_009')}" />
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idInt9"	
+									rows="1"						
+									maxlength="255" 								
+									value = "#{documentoBean.doc.int_009}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('int_009')}"/>
+							</p:column>
+							
+							<p:column>
+									<p:outputLabel for = "idDec9" value = "#{documentoBean.descricaoColunas('dec_009',usuarioBean.usuarioLogin)}"  rendered="#{documentoBean.carregarCampoPorQrCode('dec_009')}" />
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idDec9"	
+									rows="1"						
+									maxlength="255" 								
+									value = "#{documentoBean.doc.dec_009}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('dec_009')}"/>
+							</p:column>
+							
+							<p:column>
+									<p:outputLabel for ="idData9" value =  "#{documentoBean.descricaoColunas('data_009',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.carregarCampoPorQrCode('data_009')}"/>
+							</p:column>
+							<p:column>
+																	
+									<p:calendar  pattern = "yyyy-MM-dd"
+									id="idData9"	
+									rows="1"						
+									maxlength="255" 							
+									value = "#{documentoBean.doc.data_009}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('data_009')}"/>
+							</p:column>
+							</p:row>
+							
+							<p:row>
+							
+							<p:column>
+									<p:outputLabel for = "idCh10" value ="#{documentoBean.descricaoColunas('char_010',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.carregarCampoPorQrCode('char_010')}"/>
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idCh10"	
+									rows="1"						
+									maxlength="255" 							
+									value = "#{documentoBean.doc.char_010}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('char_010')}"/>
+							</p:column>
+							
+								<p:column>
+									<p:outputLabel for = "idInt10" value = "#{documentoBean.descricaoColunas('int_010',usuarioBean.usuarioLogin)}"  rendered="#{documentoBean.carregarCampoPorQrCode('int_010')}" />
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idInt10"	
+									rows="1"						
+									maxlength="255" 								
+									value = "#{documentoBean.doc.int_010}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('int_010')}"/>
+							</p:column>
+							
+								<p:column>
+									<p:outputLabel for = "idDec10" value = "#{documentoBean.descricaoColunas('dec_010',usuarioBean.usuarioLogin)}"  rendered="#{documentoBean.carregarCampoPorQrCode('dec_010')}" />
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idDec10"	
+									rows="1"						
+									maxlength="255" 								
+									value = "#{documentoBean.doc.dec_010}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('dec_010')}"/>
+							</p:column>
+							
+							<p:column>
+									<p:outputLabel for ="idData10" value =  "#{documentoBean.descricaoColunas('data_010',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.carregarCampoPorQrCode('data_010')}"/>
+							</p:column>
+							<p:column>
+																	
+									<p:calendar  pattern = "yyyy-MM-dd"  
+									id="idData10"	
+									rows="1"						
+									maxlength="255" 							
+									value = "#{documentoBean.doc.data_001}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('data_010')}"/>
+							</p:column>
+							</p:row>
+							
+							<p:row>
+						
+							
+								<p:column>
+									<p:outputLabel for = "idCh11" value = "#{documentoBean.descricaoColunas('char_011',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.carregarCampoPorQrCode('char_011')}"/>
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idCh11"	
+									rows="1"						
+									maxlength="255" 							
+									value = "#{documentoBean.doc.char_011}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('char_011')}"/>
+							</p:column>
+							
+							
+							<p:column>
+									<p:outputLabel for = "idCh12" value = "#{documentoBean.descricaoColunas('char_012',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.carregarCampoPorQrCode('char_012')}"/>
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idCh12"	
+									rows="1"						
+									maxlength="255" 							
+									value = "#{documentoBean.doc.char_012}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('char_012')}"/>
+							</p:column>
+							</p:row>
+							<p:row>
+							<p:column>
+									<p:outputLabel for = "idCh13" value = "#{documentoBean.descricaoColunas('char_013',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.carregarCampoPorQrCode('char_013')}"/>
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idCh13"	
+									rows="1"						
+									maxlength="255" 							
+									value = "#{documentoBean.doc.char_013}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('char_013')}"/>
+							</p:column>
+							
+							
+							<p:column>
+									<p:outputLabel for = "idCh14" value = "#{documentoBean.descricaoColunas('char_014',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.carregarCampoPorQrCode('char_014')}"/>
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idCh14"	
+									rows="1"						
+									maxlength="255" 							
+									value = "#{documentoBean.doc.char_014}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('char_014')}"/>
+							</p:column>
+							</p:row>
+							<p:row>
+							<p:column>
+									<p:outputLabel for = "idCh15" value = "#{documentoBean.descricaoColunas('char_0015',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.carregarCampoPorQrCode('char_015')}"/>
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idCh15"	
+									rows="1"						
+									maxlength="255" 							
+									value = "#{documentoBean.doc.char_015}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('char_015')}"/>
+							</p:column>
+							
+							
+							<p:column>
+									<p:outputLabel for = "idCh16" value = "#{documentoBean.descricaoColunas('char_016',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.carregarCampoPorQrCode('char_016')}"/>
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idCh16"	
+									rows="1"						
+									maxlength="255" 							
+									value = "#{documentoBean.doc.char_016}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('char_016')}"/>
+							</p:column>
+							</p:row>
+							<p:row>
+							<p:column>
+									<p:outputLabel for = "idCh17" value = "#{documentoBean.descricaoColunas('char_017',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.carregarCampoPorQrCode('char_017')}"/>
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idCh17"	
+									rows="1"						
+									maxlength="255" 							
+									value = "#{documentoBean.doc.char_017}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('char_017')}"/>
+							</p:column>
+							
+							
+							<p:column>
+									<p:outputLabel for = "idCh18" value = "#{documentoBean.descricaoColunas('char_018',usuarioBean.usuarioLogin)}"  rendered="#{documentoBean.carregarCampoPorQrCode('char_018')}"/>
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idCh18"	
+									rows="1"						
+									maxlength="255" 							
+									value = "#{documentoBean.doc.char_018}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('char_018')}"/>
+							</p:column>
+							</p:row>
+							
+							<p:row>
+							<p:column>
+									<p:outputLabel for = "idCh19" value = "#{documentoBean.descricaoColunas('char_019',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.carregarCampoPorQrCode('char_019')}"/>
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idCh19"	
+									rows="1"						
+									maxlength="255" 							
+									value = "#{documentoBean.doc.char_019}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('char_019')}"/>
+							</p:column>
+							
+							
+							<p:column>
+									<p:outputLabel for = "idCh20" value = "#{documentoBean.descricaoColunas('char_020',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.carregarCampoPorQrCode('char_020')}"/>
+							</p:column>
+							<p:column>
+																	
+									<p:inputTextarea 
+									id="idCh20"	
+									rows="1"						
+									maxlength="255" 							
+									value = "#{documentoBean.doc.char_020}"
+									style="width:150px"
+									rendered="#{documentoBean.carregarCampoPorQrCode('char_020')}"/>
+							</p:column>
+							
+							
+							</p:row>
+							</p:panelGrid>
+							</p:panel>
+						
+					
+					<p:commandButton id="idqrcode"  style="width:50px;height:30px;" icon="ui-icon-arrowthick-1-s" ajax="false" action="#{documentoBean.adicionarValorUrl()}">				
+								<p:fileDownload value="#{documentoBean.GerarQRCODEPorCamposDoc()}" />									
+						</p:commandButton>
+						
+				
+						</div>
+				</h:form>
+				
+						
+			</ui:define>
+			
+	</ui:composition>
+</html>
+

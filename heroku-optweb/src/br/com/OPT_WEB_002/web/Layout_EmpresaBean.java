@@ -2,6 +2,7 @@ package br.com.OPT_WEB_002.web;
 
 
 
+import java.math.BigInteger;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -22,6 +23,8 @@ public class Layout_EmpresaBean {
 	private List<Layout_Empresa> lista;
 	private LazyDataModel<Layout_Empresa> lazymodel;
 	private Usuario usuario = new Usuario();
+
+	
 	
 	@PostConstruct
 	public void init(){}

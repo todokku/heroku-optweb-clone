@@ -30,14 +30,9 @@ public class Layout_EmpresaRN {
 		if (listar().size() >= 1) {
 					
 			layoutEmpresa.setId_layout(listarUltimoId().getId_layout().add(BigInteger.valueOf(Long.parseLong("1"))));
-	
-			
-				
 				
 				this.layoutEmpresaDAO.salvar(layoutEmpresa);
 				
-				
-					
 		}else{
 		
 		layoutEmpresa.setId_layout(BigInteger.valueOf(Long.parseLong("1")));
@@ -116,6 +111,28 @@ public class Layout_EmpresaRN {
 	public List<Layout_Empresa> listarPorFlagFiltro (Integer cod_empresa,Integer cod_filial,Integer cod_unidade){
 		
 		return layoutEmpresaDAO.listarPorFlagFiltro(cod_empresa, cod_filial, cod_unidade);
+	}
+
+	public List<Layout_Empresa> listarPorQrCodeFlag(BigInteger id_tipo_doc,Integer cod_empresa,Integer cod_filial,Integer cod_unidade){
+		
+		return layoutEmpresaDAO.listarPorQrCodeFlag(id_tipo_doc, cod_empresa, cod_filial, cod_unidade);
+	}
+	
+	public List<Layout_Empresa> listarPorCod(String cod_campo){
+		
+		return this.layoutEmpresaDAO.listarPorCod(cod_campo);
+		
+	}
+	
+	public List<Layout_Empresa> listarPor_tipoDocumento(BigInteger id_tipo_doc){
+		
+		return layoutEmpresaDAO.listarPor_tipoDocumento(id_tipo_doc);
+	}
+	
+	public List<Layout_Empresa> listarPorIdTipoDoc(BigInteger id_tipo_doc){
+		
+		return this.layoutEmpresaDAO.listarPorIdTipoDoc(id_tipo_doc);
+		
 	}
 	
 	public Layout_EmpresaDAO getLayoutEmpresaDAO() {

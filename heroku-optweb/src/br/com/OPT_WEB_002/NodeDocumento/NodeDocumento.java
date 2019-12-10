@@ -1,9 +1,9 @@
 package br.com.OPT_WEB_002.NodeDocumento;
 
-
-
 import java.math.BigInteger;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import org.primefaces.model.DefaultTreeNode;
@@ -16,24 +16,21 @@ import br.com.OPT_WEB_002.tipo_documento.*;
 import br.com.OPT_WEB_002.transacao_documento.*;
 import br.com.OPT_WEB_002.val_campos_trans_doc.*;
 
-
 @ManagedBean(name = "nodeDocumentoBean")
 @ApplicationScoped
 public class NodeDocumento {
+	
+	private String tipo;
+	private String valor;
+	private List<String> lista = new ArrayList<String>();
+	private BigInteger id;
 		
 	TreeNode nodePrincipal = new DefaultTreeNode();
 
-
-	/**
-	 * @param id_doc
-	 * @return
-	 * @throws IllegalArgumentException
-	 * @throws ParseException 
-	 */
 	public TreeNode criarDocumento(BigInteger id_doc) throws IllegalArgumentException, ParseException{
 		
 		Transacao_DocumentoRN transacao_DocumentoRN = new Transacao_DocumentoRN();
-		Campo_AdicionalRN campo_AdicionalRN = new Campo_AdicionalRN();
+		Campo_AdicionalRN campo_AdicionalRN = new Campo_AdicionalRN();	
 		Layout_EmpresaRN layout_EmpresaRN = new Layout_EmpresaRN();
 		Val_Campos_Trans_DocRN val_Campos_Trans_DocRN = new Val_Campos_Trans_DocRN();
 		Tipo_DocumentoRN tipo_DocumentoRN = new Tipo_DocumentoRN();
@@ -72,13 +69,53 @@ public class NodeDocumento {
 		TreeNode nodeValorTransDocArquivo = new DefaultTreeNode();
 
 		TreeNode nodeValCampTransDocArquivo = new DefaultTreeNode();
-
-		if (id_doc != null) {
-		 documento = documentoRN.carregar(id_doc);
+	
+		try{
+	
+			if(tipo != null && valor != null){
+				
+				String[] teste = valor.split(",");
+				
+				for(String val : teste){
+					
+					lista.add(val);
+				}
+						
+					for(String campo : lista){
+					
+						for(Layout_Empresa layout_Emp1 : layout_EmpresaRN.listarPorIdTipoDoc(BigInteger.valueOf(Long.parseLong(tipo)))){
+						
+							for(Documento doc : documentoRN.listarPorIdTipoDoc(layout_Emp1.getId_tipo_doc().getId_tipo_doc())){
+														
+										java.lang.reflect.Field  field = Documento.class.getDeclaredField(layout_Emp1.getCod_campo());				
+										field.setAccessible(true);
+									
+										if(String.valueOf(field.get(doc)).equals(campo)){
+											
+												documento = doc;																																	
+										}		
+								
+							}
+				
+						}
+					
+										
+					}	
+					
+				
+				
+			}else{
+				
+				 documento = documentoRN.carregar(id_doc);
+			}
+		
+		}catch(Exception e){
+			e.printStackTrace();
 		}
-
-		if (documento.getId() != null) {
-
+	
+		if (documento.getId_doc() != null) {
+			
+		
 			nodePrincipal = new DefaultTreeNode("ROOT", null);
 						
 			nodeDadosDocumento = new DefaultTreeNode(new Documento("DADOS", ""), nodePrincipal);
@@ -407,7 +444,7 @@ public class NodeDocumento {
 			nodeTransacoes.setExpanded(true);
 			
 					for (Transacao_Documento transacao_Documento : transacao_DocumentoRN.listarPorIdDoc(documento.getId_doc(),documento.getCod_empresa().getCod_empresa(),documento.getCod_filial().getCod_filial(),documento.getCod_unidade().getCod_unidade())) {
-					
+						System.out.println("transacao2");
 						if (transacao_Documento.getEstado().contentEquals("Nao Iniciado")) {
 
 						nodeCamposTrans = new DefaultTreeNode("transacao_valores",new Transacao_Documento(transacao_Documento.getId_transacao().getId_transacao() + " - "+ transacao_Documento.getId_transacao().getDescricao(), "", ""),nodeTransacoes);
@@ -429,11 +466,11 @@ public class NodeDocumento {
 									
 								} else {
 
-									if (transacao_Documento.getEstado().contentEquals("Finalizado")) {
+								/**	if (transacao_Documento.getEstado().contentEquals("Finalizado")) {
 										nodeCamposTrans = new DefaultTreeNode("transacao_valores",new Transacao_Documento(transacao_Documento.getId_transacao().getId_transacao() + " - "+ transacao_Documento.getId_transacao().getDescricao(),transacao_Documento.getEstado() + " - "+ transacao_Documento.getData_fim().toString() + "  "+ transacao_Documento.getHorario_fim().toString(),""),nodeTransacoes);
 										nodeCamposTrans.setSelectable(false);
 										
-									}
+									}**/
 								}
 							}
 						}
@@ -497,11 +534,11 @@ public class NodeDocumento {
 						nodeCamposAdicionais = new DefaultTreeNode("camp",new Transacao_Documento("CAMPOS ADICIONAIS", "", ""), nodeDadosTransacoes);
 						nodeCamposAdicionais.setExpanded(true);
 						nodeCamposAdicionais.setSelectable(true);
-
+						System.out.println(transacao_Documento.getId_transacao().getId_transacao());
 						for (Campo_Adicional campo_Adicional : campo_AdicionalRN.listarPorIdTransCodEmCodFiCodUni(transacao_Documento.getId_transacao().getId_transacao())) {
-
+							System.out.println("campad2");
 							if (val_Campos_Trans_DocRN.carregarPorIdCampAdic(campo_Adicional.getId_camp_adic(),transacao_Documento.getId_transacao_doc(),transacao_Documento.getCod_empresa().getCod_empresa(),transacao_Documento.getCod_filial().getCod_filial(),transacao_Documento.getCod_unidade().getCod_unidade()).isEmpty()) {
-
+								System.out.println("valcamp1");
 								nodeCamposCampAdic = new DefaultTreeNode("camp_adic",new Transacao_Documento(campo_Adicional.getId_camp_adic().toString() + " - "+ campo_Adicional.getDescricao(), "", ""),nodeCamposAdicionais);
 								nodeCamposCampAdic.setSelectable(false);
 								nodeCamposCampAdic.setExpanded(true);
@@ -613,6 +650,48 @@ public class NodeDocumento {
 	public void setNodePrincipal(TreeNode nodePrincipal) {
 		this.nodePrincipal = nodePrincipal;
 	}
+
+
+
+	public String getValor() {
+		return valor;
+	}
+
+
+	public void setValor(String valor) {
+		this.valor = valor;
+	}
+
+
+	public String getTipo() {
+		return tipo;
+	}
+
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+
+
+	public List<String> getLista() {
+		return lista;
+	}
+
+
+	public void setLista(List<String> lista) {
+		this.lista = lista;
+	}
+
+
+	public BigInteger getId() {
+		return id;
+	}
+
+
+	public void setId(BigInteger id) {
+		this.id = id;
+	}
+
 
 
 

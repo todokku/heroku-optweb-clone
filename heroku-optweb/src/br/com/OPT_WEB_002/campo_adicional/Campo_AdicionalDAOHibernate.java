@@ -1,6 +1,7 @@
 package br.com.OPT_WEB_002.campo_adicional;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.*;
 import org.hibernate.exception.ConstraintViolationException;
@@ -121,20 +122,43 @@ public class Campo_AdicionalDAOHibernate implements Campo_AdicionalDAO {
 
 		return consulta.list();
 	}
-
+	
 	/**Método para listar dados para a tabela campo adicional por id_transacao**/
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Campo_Adicional> listarPorIdTransCodEmCodFiCodUni(BigInteger id_transacao) {
-
-		session = HibernateUtil.getSessionFactory().getCurrentSession();
+			
 		String hql = "select ca from campo_adicional ca where ca.id_transacao = :id_transacao";
-
-		Query consulta = this.session.createQuery(hql);
-
+	
+		Query consulta = session.createQuery(hql);
+		
 		consulta.setBigInteger("id_transacao", id_transacao);
-
+			
 		return consulta.list();
+	}
+
+	/**Método para listar dados para a tabela campo adicional por id_transacao**/
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Campo_Adicional> listarPorIdTransCodEmCodFiCodUniWebService(BigInteger id_transacao) {
+		
+		List<Campo_Adicional> lista = new ArrayList<Campo_Adicional>();
+		
+		session = HibernateUtil.getSessionFactory().getCurrentSession();
+		
+		session.beginTransaction();		
+		
+		String hql = "select ca from campo_adicional ca where ca.id_transacao = :id_transacao";
+	
+		Query consulta = session.createQuery(hql);
+		
+		consulta.setBigInteger("id_transacao", id_transacao);
+	
+		lista = consulta.list();
+		
+		this.session.getTransaction().commit();
+		
+		return lista;
 	}
 
 	/**Método para listar o ultimo valor gravado para a tabela campo adicional**/

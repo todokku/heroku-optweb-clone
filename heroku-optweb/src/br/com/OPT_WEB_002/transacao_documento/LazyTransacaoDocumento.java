@@ -83,7 +83,7 @@ public class LazyTransacaoDocumento extends LazyDataModel<Transacao_Documento>{
 	                }
 	            }
 	            
-	        if(match && transacao_Documento.getId_doc().getSituacao().contentEquals("iniciado")) {
+	        if(match) {
 	                data.add(transacao_Documento);	            
 	        }
 	        

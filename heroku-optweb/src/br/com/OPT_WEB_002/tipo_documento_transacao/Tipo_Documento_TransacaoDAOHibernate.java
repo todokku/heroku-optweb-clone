@@ -1,14 +1,18 @@
 package br.com.OPT_WEB_002.tipo_documento_transacao;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.ConstraintViolationException;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
+import br.com.OPT_WEB_002.documento.Documento;
 import br.com.OPT_WEB_002.util.DAOException;
+import br.com.OPT_WEB_002.util.HibernateUtil;
 
 public class Tipo_Documento_TransacaoDAOHibernate implements Tipo_Documento_TransacaoDAO{
 
@@ -83,13 +87,23 @@ public class Tipo_Documento_TransacaoDAOHibernate implements Tipo_Documento_Tran
 	@Override
 	public List<Tipo_Documento_Transacao> listarPorIdTipoDocCodEmCodFiCodUni(BigInteger id_tipo_doc) {
 
+		List<Tipo_Documento_Transacao> lista = new ArrayList<Tipo_Documento_Transacao>();
+	
+		session = HibernateUtil.getSessionFactory().getCurrentSession();
+		@SuppressWarnings("unused")
+		Transaction trans = session.beginTransaction();
+		
 		String hql = "select tb from tipo_documento_transacao tb where tb.id_tipo_doc = :id_tipo_doc";
 
 		Query consulta = this.session.createQuery(hql);
 	
 		consulta.setBigInteger("id_tipo_doc",id_tipo_doc);
 	
-		return consulta.list();		
+		lista = consulta.list();
+		
+		this.session.getTransaction().commit();
+		
+		return lista;
 	}
 	@Override
 	public Tipo_Documento_Transacao listarUtlimoId() {

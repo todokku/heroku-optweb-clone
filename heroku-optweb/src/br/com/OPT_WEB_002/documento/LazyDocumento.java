@@ -60,9 +60,38 @@ public class LazyDocumento extends LazyDataModel<Documento> {
     public List<Documento> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,Object> filters) {
       	
     	List<Documento> data2 = new ArrayList<Documento>();
-       	
+    	List<Documento> lista3 = new ArrayList<Documento>();
+    	      	
         for(Documento documento : lista2) {
-        
+        	
+        	/**for(Layout_Empresa layout_Empresa : layout_EmpresaRN.listarPorFlagFiltro(1,1,1)){
+        		
+        		try {
+        			
+					Field field = documento.getClass().getDeclaredField(layout_Empresa.getCod_campo());
+					
+
+	        		if(String.valueOf(field.get(documento)).equals(layout_Empresa.getValor_filtro())){
+	        			
+	        			lista3.add(documento);
+	        		}
+	        				        			
+				} catch (NoSuchFieldException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SecurityException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+        		      		
+        	}**/
+        	
         	boolean match = true;
  
             if (filters != null) {
@@ -77,13 +106,18 @@ public class LazyDocumento extends LazyDataModel<Documento> {
                     	
                     	for(Layout_Empresa layout_Empresa : layout_EmpresaRN.listarPorFlagFiltro(documento.getCod_empresa().getCod_empresa(),documento.getCod_filial().getCod_filial(),documento.getCod_unidade().getCod_unidade())){
 	                    	
+							if(layout_Empresa.getValor_filtro() != null){
+								
+								Field campo =	documento.getClass().getDeclaredField(layout_Empresa.getCod_campo());
+								campo.setAccessible(true);								              		
+	                    		fieldValue = String.valueOf(layout_Empresa.getValor_filtro());	  
+							}
+                    		
 	                    	if(filterProperty.equals(layout_Empresa.getCod_campo())){
 	                    								
 								Field campo =	documento.getClass().getDeclaredField(layout_Empresa.getCod_campo());
-								campo.setAccessible(true);
-								              		
-	                    		fieldValue = String.valueOf(campo.get(documento));
-	                    		
+								campo.setAccessible(true);								              		
+	                    		fieldValue = String.valueOf(campo.get(documento));		                    		
 	                    	}
                     	
                     	}
@@ -99,18 +133,21 @@ public class LazyDocumento extends LazyDataModel<Documento> {
                         }
                                                         
                     } catch(Exception e) {
+                    	
                     	e.printStackTrace();
                         match = false;
                     }
                 }
             }
             
+            
            if(match){
-        	         	   
+        	   
+        	   	data2 = lista3;
             	data2.add(documento);            	
         	   
            }
-       
+           
                 
         }
            

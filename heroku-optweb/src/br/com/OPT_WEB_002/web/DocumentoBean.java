@@ -1,4 +1,3 @@
-
 package br.com.OPT_WEB_002.web;
 
 import java.io.*;
@@ -22,10 +21,8 @@ import br.com.OPT_WEB_002.NodeDocumento.NodeDocumento;
 import br.com.OPT_WEB_002.documento.*;
 import br.com.OPT_WEB_002.grupo_valores_possiveis_doc.*;
 import br.com.OPT_WEB_002.layout_empresa.*;
-import br.com.OPT_WEB_002.situacao_tipo_documento.*;
 import br.com.OPT_WEB_002.tipo_documento.*;
-import br.com.OPT_WEB_002.transacao_documento.Transacao_Documento;
-import br.com.OPT_WEB_002.transacao_documento.Transacao_DocumentoRN;
+import br.com.OPT_WEB_002.transacao_documento.*;
 import br.com.OPT_WEB_002.usuario.*;
 import br.com.OPT_WEB_002.util.*;
 import br.com.OPT_WEB_002.val_campos_doc.*;
@@ -35,14 +32,22 @@ import net.sf.jasperreports.engine.JRException;
 @ManagedBean(name = "documentoBean")
 @ViewScoped
 public class DocumentoBean implements Serializable {
-
+	
 	private static final long serialVersionUID = 1L;
 	@ManagedProperty("#{nodeDocumentoBean}")
+	/**variavel para criar tela de rastreabilidade de documento**/
 	private NodeDocumento nodeDocumento;
+	/**objeto que recebe o usuario que esta acessando a aplicação**/
 	private Usuario usuario;
+	/**objeto utilizado para cadastro e visualização de documento**/
 	private Documento documento = new Documento();
+	/**objeto utilizado para carregar parâmetros para rastreabilidade**/
+	private Documento doc = new Documento();
+	/**objeto utilizado para seleção de dados para lista de documentos**/
 	private Documento documentoSelecionado; 
+	/**objeto utlizado para retornar dados para rastreabilidade**/
 	private TreeNode nodePrincipal;
+	/**objeto utlizado para seleção de dados para rastreabilidade**/
 	private TreeNode nodeselecionado;
 	private BigInteger id;
 	private BigInteger idDocSelecionado;
@@ -54,12 +59,15 @@ public class DocumentoBean implements Serializable {
 	private UploadedFile arquivoDoc;
 	private StreamedContent streamedContent;
 	private StreamedContent streamedContentDoc;
+	/**variavel para carregar lista lazy documento**/
 	private Tipo_Documento tipo_Documento = new Tipo_Documento();	
+	
 	private boolean linhaSelecionada = false;
 	private BigInteger idDocDetalhe = null;
 	private List<modeloColuna> columns;
-	private boolean desabilitaCampoIncremento = false;
-			
+	private boolean desabilitaCampoIncremento = false;	
+	
+				
 	public DocumentoBean() {}
 
 	@PostConstruct
@@ -70,7 +78,7 @@ public class DocumentoBean implements Serializable {
 			this.usuario = usuario;
 			return this.usuario;
 	 }
-	 	 
+	  	 
 	public LazyDataModel<Documento> lazyDocumento(Usuario usuario) {
 		
 		/**objeto da classe LazyDocumento recebe uma lista de valores pelo campo id_tipo_doc**/
@@ -78,6 +86,17 @@ public class DocumentoBean implements Serializable {
 		
 		/**método que cria colunas a partir de sua ordem cadastrada na tabela layout_empresa**/
 		criarColunasDinamicas();
+				
+		return lazymodel;
+	}
+	
+	public LazyDataModel<Documento> lazyDocumentoQrCode(Usuario usuario) {
+		
+		/**objeto da classe LazyDocumento recebe uma lista de valores pelo campo id_tipo_doc**/
+		lazymodel = new LazyDocumento(listarPorIdTipoDocCodEmpCodFiCodUni(usuario));	
+		
+		/**método que cria colunas a partir de sua ordem cadastrada na tabela layout_empresa**/
+		criarColunasDinamicasPorQrCode();
 				
 		return lazymodel;
 	}
@@ -98,13 +117,540 @@ public class DocumentoBean implements Serializable {
 					return false;
 				}
 				
-			}catch(NullPointerException e){
+				}catch(NullPointerException e){
+					
+					return false;				
+				}
+		
+	}
+	
+	
+	/**método que verifica quais os campos devem ser mostrados a partir da marcado**/
+	public boolean comparaQrCode(BigInteger id_tipo_doc,String cod_campo,Usuario usuario,Integer id){
+		
+		Layout_EmpresaRN layout_EmpresaRN = new Layout_EmpresaRN(); 
+	
+					
+			try{
 				
-				return false;
+				if(layout_EmpresaRN.listarPorIdTipoDocCodCampo(id_tipo_doc,cod_campo,usuario.getCod_empresa().getCod_empresa(),usuario.getCod_filial().getCod_filial(),usuario.getCod_unidade().getCod_unidade()).getSequencia().equals(id)){
+				     								
+					return true;
+					
+				}else{
+					
+					return false;
+				}
 				
+			}catch(Exception e){
+				
+				e.printStackTrace();
+				return false;				
 			}
 		
 	}
+	
+	/**método que cria colunas dinamicas a partir dos campos relacionados entre layout x tipo_documento**/
+	public List<modeloColuna> criarColunasDinamicasPorQrCode() {
+					
+		List<Integer> listaSeq = new ArrayList<Integer>();
+					   
+	   if(linhaSelecionada == false){ 	
+			
+			columns = new ArrayList<modeloColuna>();
+		
+	    	Layout_EmpresaRN layout_EmpresaRN = new Layout_EmpresaRN();
+	    	
+	    	/**objeto do tipo modelocoluna com setter para o atributo header**/
+	    	modeloColuna coluna = new modeloColuna(null, null); 
+	    	coluna.setHeader(descricaoColunas("char_001", usuario));
+					
+			modeloColuna coluna2 = new modeloColuna(null,null);	        		   	
+		   	coluna2.setHeader(descricaoColunas("char_002", usuario));
+	    		   	   	
+		   	modeloColuna coluna3  = new modeloColuna(null,null);;        		   	
+		   	coluna3.setHeader(descricaoColunas("char_003", usuario));
+		   	
+		   	modeloColuna coluna4  = new modeloColuna(null,null);;	        		   	
+		   	coluna4.setHeader(descricaoColunas("char_004", usuario));
+		   	
+		   	modeloColuna coluna5  = new modeloColuna(null,null);;	        		   	
+		   	coluna5.setHeader(descricaoColunas("char_005", usuario));
+		   	
+		   	modeloColuna coluna6  = new modeloColuna(null,null);;	        		   	
+		   	coluna6.setHeader(descricaoColunas("char_006", usuario));
+		   	
+		   	modeloColuna coluna7  = new modeloColuna(null,null);;	        		   	
+		   	coluna7.setHeader(descricaoColunas("char_007", usuario)); 
+		   	
+		   	modeloColuna coluna8  = new modeloColuna(null,null);;	        		   	
+		   	coluna8.setHeader(descricaoColunas("char_008", usuario));
+		   	
+		   	modeloColuna coluna9  = new modeloColuna(null,null);;	        		   	
+		   	coluna9.setHeader(descricaoColunas("char_009", usuario));
+		   	
+		   	modeloColuna coluna10  = new modeloColuna(null,null);;	        		   	
+		   	coluna10.setHeader(descricaoColunas("char_010", usuario));
+		   	
+		   	modeloColuna coluna11 = new modeloColuna(null, null); 
+	    	coluna11.setHeader(descricaoColunas("char_011", usuario));
+					
+	    	modeloColuna coluna12 = new modeloColuna(null,null);	        		   	
+		   	coluna12.setHeader(descricaoColunas("char_012", usuario));
+			   	   	
+		   	modeloColuna coluna13  = new modeloColuna(null,null);;        		   	
+		   	coluna13.setHeader(descricaoColunas("char_013", usuario));
+		   	
+		   	modeloColuna coluna14  = new modeloColuna(null,null);;	        		   	
+		   	coluna14.setHeader(descricaoColunas("char_014", usuario));
+		   	
+		   	modeloColuna coluna15  = new modeloColuna(null,null);;	        		   	
+		   	coluna15.setHeader(descricaoColunas("char_015", usuario));
+		   	
+		   	modeloColuna coluna16  = new modeloColuna(null,null);;	        		   	
+		   	coluna16.setHeader(descricaoColunas("char_016", usuario));
+		   	
+		   	modeloColuna coluna17  = new modeloColuna(null,null);;	        		   	
+		   	coluna17.setHeader(descricaoColunas("char_017", usuario)); 
+		   	
+		   	modeloColuna coluna18  = new modeloColuna(null,null);;	        		   	
+		   	coluna18.setHeader(descricaoColunas("char_018", usuario));
+		   	
+		   	modeloColuna coluna19  = new modeloColuna(null,null);;	        		   	
+		   	coluna19.setHeader(descricaoColunas("char_019", usuario));
+		   	
+		   	modeloColuna coluna20  = new modeloColuna(null,null);;	        		   	
+		   	coluna20.setHeader(descricaoColunas("char_020", usuario));
+		   	
+		   	modeloColuna coluna21 = new modeloColuna(null, null); 
+	    	coluna21.setHeader(descricaoColunas("int_001", usuario));
+					
+	    	modeloColuna coluna22 = new modeloColuna(null,null);	        		   	
+		   	coluna22.setHeader(descricaoColunas("int_002", usuario));
+			   	   	
+		   	modeloColuna coluna23  = new modeloColuna(null,null);;        		   	
+		   	coluna23.setHeader(descricaoColunas("int_003", usuario));
+		   	
+		   	modeloColuna coluna24  = new modeloColuna(null,null);;	        		   	
+		   	coluna24.setHeader(descricaoColunas("int_004", usuario));
+		   	
+		   	modeloColuna coluna25  = new modeloColuna(null,null);;	        		   	
+		   	coluna25.setHeader(descricaoColunas("int_005", usuario));
+		   	
+		   	modeloColuna coluna26  = new modeloColuna(null,null);;	        		   	
+		   	coluna26.setHeader(descricaoColunas("int_006", usuario));
+		   	
+			modeloColuna coluna27  = new modeloColuna(null,null);;	        		   	
+		   	coluna27.setHeader(descricaoColunas("int_007", usuario)); 
+		   	
+			modeloColuna coluna28  = new modeloColuna(null,null);;	        		   	
+		   	coluna28.setHeader(descricaoColunas("int_008", usuario));
+		   	
+		   	modeloColuna coluna29  = new modeloColuna(null,null);;	        		   	
+		   	coluna29.setHeader(descricaoColunas("int_009", usuario));
+		   	
+			modeloColuna coluna30  = new modeloColuna(null,null);;	        		   	
+		   	coluna30.setHeader(descricaoColunas("int_010", usuario));
+		   	
+	    	modeloColuna coluna31 = new modeloColuna(null, null); 
+	    	coluna31.setHeader(descricaoColunas("dec_001", usuario));
+					
+			modeloColuna coluna32 = new modeloColuna(null,null);	        		   	
+		   	coluna32.setHeader(descricaoColunas("dec_002", usuario));
+			   	   	
+		   	modeloColuna coluna33  = new modeloColuna(null,null);;        		   	
+		   	coluna33.setHeader(descricaoColunas("dec_003", usuario));
+		   	
+			modeloColuna coluna34  = new modeloColuna(null,null);;	        		   	
+		   	coluna34.setHeader(descricaoColunas("dec_004", usuario));
+		   	
+		   	modeloColuna coluna35  = new modeloColuna(null,null);;	        		   	
+		   	coluna35.setHeader(descricaoColunas("dec_005", usuario));
+		   	
+			modeloColuna coluna36  = new modeloColuna(null,null);;	        		   	
+		   	coluna36.setHeader(descricaoColunas("dec_006", usuario));
+		   	
+			modeloColuna coluna37  = new modeloColuna(null,null);;	        		   	
+		   	coluna37.setHeader(descricaoColunas("dec_007", usuario)); 
+		   	
+			modeloColuna coluna38  = new modeloColuna(null,null);;	        		   	
+		   	coluna38.setHeader(descricaoColunas("dec_008", usuario));
+		   	
+		   	modeloColuna coluna39  = new modeloColuna(null,null);;	        		   	
+		   	coluna39.setHeader(descricaoColunas("dec_009", usuario));
+		   	
+			modeloColuna coluna40  = new modeloColuna(null,null);;	        		   	
+		   	coluna40.setHeader(descricaoColunas("dec_010", usuario));
+		   	
+			modeloColuna coluna41  = new modeloColuna(null,null);;	        		   	
+		   	coluna41.setHeader(descricaoColunas("data_001", usuario));
+		   	
+	    	modeloColuna coluna42 = new modeloColuna(null, null); 
+	    	coluna42.setHeader(descricaoColunas("data_002", usuario));
+					
+			modeloColuna coluna43 = new modeloColuna(null,null);	        		   	
+		   	coluna43.setHeader(descricaoColunas("data_003", usuario));
+			   	   	
+		   	modeloColuna coluna44  = new modeloColuna(null,null);;        		   	
+		   	coluna44.setHeader(descricaoColunas("data_004", usuario));
+		   	
+			modeloColuna coluna45  = new modeloColuna(null,null);;	        		   	
+		   	coluna45.setHeader(descricaoColunas("data_005", usuario));
+		   	
+		   	modeloColuna coluna46  = new modeloColuna(null,null);;	        		   	
+		   	coluna46.setHeader(descricaoColunas("data_006", usuario));
+		   	
+			modeloColuna coluna47  = new modeloColuna(null,null);;	        		   	
+		   	coluna47.setHeader(descricaoColunas("data_007", usuario));
+		   	
+			modeloColuna coluna48  = new modeloColuna(null,null);;	        		   	
+		   	coluna48.setHeader(descricaoColunas("data_008", usuario)); 
+		   	
+			modeloColuna coluna49  = new modeloColuna(null,null);;	        		   	
+		   	coluna49.setHeader(descricaoColunas("data_009", usuario));
+		   	
+		    modeloColuna coluna50  = new modeloColuna(null,null);;	        		   	
+		   	coluna50.setHeader(descricaoColunas("data_010", usuario));
+		  
+		   	/**condição para carregar colunas dinamicas**/  	
+		   	if(id_tipo_doc != null){
+    		     		    		 
+	    		 /**bloco para listar todos os objetos da tabela layout que estejam com o campo flag com valor true**/
+	    		 for(Layout_Empresa layout_Empresa : layout_EmpresaRN.listarCamposFlag(id_tipo_doc,usuario.getCod_empresa().getCod_empresa(),usuario.getCod_filial().getCod_filial(),usuario.getCod_unidade().getCod_unidade())){
+	    			 /**objeto array para adicionar todos os campos sequencia do bloco **/
+	    			 listaSeq.add(layout_Empresa.getSequencia());
+	    			 
+	    		 }	   			
+    		
+	    		 /**método que organiza todos os campos sequencias adicionados em ordem crescente**/
+	    		 Collections.sort(listaSeq);
+    		     		
+	    		 /**bloco para listar todos os objetos da listaId**/
+	    		 for(Integer id : listaSeq){
+	    		    		    			
+	    			 try{
+	    			
+		    				 
+							if(comparaFlagCampo(id_tipo_doc,"char_001",usuario,id)){	  
+								
+								coluna.setProperty("char_001");    
+								columns.add(coluna);	    	        	   
+							} 
+						 	 
+							if(comparaFlagCampo(id_tipo_doc,"char_002",usuario,id)){	  
+								
+								coluna2.setProperty("char_002");    	  
+							    columns.add(coluna2);	
+							} 
+						
+							if(comparaFlagCampo(id_tipo_doc,"char_003",usuario,id)){
+							 	
+								coluna3.setProperty("char_003"); 
+							 	columns.add(coluna3);
+							} 
+						
+							if(comparaFlagCampo(id_tipo_doc,"char_004",usuario,id)){	  
+								 
+								coluna4.setProperty("char_004"); 		
+								columns.add(coluna4);
+							} 
+						
+							if(comparaFlagCampo(id_tipo_doc,"char_005",usuario,id)){	  
+							 	
+								coluna5.setProperty("char_005"); 
+							 	columns.add(coluna5);
+							} 
+						
+							if(comparaFlagCampo(id_tipo_doc,"char_006",usuario,id)){	
+								
+							 	coluna6.setProperty("char_006"); 
+							 	columns.add(coluna6);
+							} 
+							    	
+							if(comparaFlagCampo(id_tipo_doc,"char_007",usuario,id)){	  
+								 
+								coluna7.setProperty("char_007"); 		
+								columns.add(coluna7);
+							} 
+						
+							if(comparaFlagCampo(id_tipo_doc,"char_008", usuario, id)){	  
+							 	
+								coluna8.setProperty("char_008"); 
+							 	columns.add(coluna8);
+							} 
+						
+							if(comparaFlagCampo(id_tipo_doc,"char_009", usuario, id)){	  
+							 	
+								coluna9.setProperty("char_009"); 
+							 	columns.add(coluna9);
+							} 
+						
+							if(comparaFlagCampo(id_tipo_doc,"char_010",usuario, id)){
+								
+							 	coluna10.setProperty("char_010"); 
+							 	columns.add(coluna10);
+							} 
+						
+							if(comparaFlagCampo(id_tipo_doc,"char_011", usuario, id)){	  
+								 
+								coluna11.setProperty("char_011"); 		
+								columns.add(coluna11);
+							} 
+						
+							if(comparaFlagCampo(id_tipo_doc,"char_012", usuario, id)){
+							 	
+								coluna12.setProperty("char_012"); 
+							 	columns.add(coluna12);
+							} 
+						
+							if(comparaFlagCampo(id_tipo_doc,"char_013", usuario, id)){
+								
+							 	coluna13.setProperty("char_013"); 
+							 	columns.add(coluna13);
+							} 
+							
+							if(comparaFlagCampo(id_tipo_doc,"char_014", usuario, id)){	  
+								 
+								coluna14.setProperty("char_014"); 		
+								columns.add(coluna14);
+							} 
+						
+							if(comparaFlagCampo(id_tipo_doc,"char_015", usuario, id)){	  
+							 	
+								coluna15.setProperty("char_015"); 
+							 	columns.add(coluna15);
+							} 
+						
+							if(comparaFlagCampo(id_tipo_doc,"char_016", usuario, id)){	  
+							 	
+								coluna16.setProperty("char_016"); 
+							 	columns.add(coluna16);
+							} 
+						
+							
+							if(comparaFlagCampo(id_tipo_doc,"char_017", usuario, id)){	  
+								 
+								coluna17.setProperty("char_017"); 		
+							    columns.add(coluna17);
+							} 
+						
+							if(comparaFlagCampo(id_tipo_doc,"char_018", usuario, id)){	  
+							 	
+								coluna18.setProperty("char_018"); 
+							 	columns.add(coluna18);
+							} 
+							
+							if(comparaFlagCampo(id_tipo_doc,"char_019", usuario, id)){	 
+								
+							 	coluna19.setProperty("char_019"); 
+							 	columns.add(coluna19);
+							} 
+							
+							if(comparaFlagCampo(id_tipo_doc,"char_020", usuario, id)){	 
+								
+							 	coluna20.setProperty("char_020"); 
+							 	columns.add(coluna20);
+							} 
+						
+						
+							if(comparaFlagCampo(id_tipo_doc,"int_001", usuario, id)){	  
+								
+								coluna21.setProperty("int_001"); 		
+								columns.add(coluna21);
+							} 
+						
+							if(comparaFlagCampo(id_tipo_doc,"int_002", usuario, id)){
+							 	
+								coluna12.setProperty("int_002"); 
+							 	columns.add(coluna22);
+							} 
+							
+							if(comparaFlagCampo(id_tipo_doc,"int_003", usuario, id)){
+								
+							 	coluna21.setProperty("int_003"); 
+							 	columns.add(coluna23);
+							} 
+							
+							if(comparaFlagCampo(id_tipo_doc,"int_004", usuario, id)){
+								 
+								coluna24.setProperty("int_004"); 		
+								columns.add(coluna24);
+							} 
+						
+							if(comparaFlagCampo(id_tipo_doc,"int_005", usuario, id)){
+							 	
+								coluna25.setProperty("int_005"); 
+							 	columns.add(coluna25);
+							} 
+							
+							if(comparaFlagCampo(id_tipo_doc,"int_006", usuario, id)){
+								
+							 	coluna26.setProperty("int_006"); 
+							 	columns.add(coluna26);
+							} 
+						
+							
+							if(comparaFlagCampo(id_tipo_doc,"int_007", usuario, id)){
+								 
+								coluna27.setProperty("int_007"); 		
+								columns.add(coluna27);
+							} 
+						
+							if(comparaFlagCampo(id_tipo_doc,"int_008", usuario, id)){
+							 	
+								coluna28.setProperty("int_008"); 
+							 	columns.add(coluna28);
+							} 
+							
+							if(comparaFlagCampo(id_tipo_doc,"int_009", usuario, id)){
+								
+							 	coluna29.setProperty("int_009"); 
+							 	columns.add(coluna29);
+							} 
+							
+							if(comparaFlagCampo(id_tipo_doc,"int_010", usuario, id)){	 
+								
+							 	coluna30.setProperty("int_010"); 
+							 	columns.add(coluna30);
+							} 
+						
+							if(comparaFlagCampo(id_tipo_doc,"dec_001", usuario, id)){
+								 
+								coluna31.setProperty("dec_001"); 		
+								columns.add(coluna31);
+							} 
+						
+							if(comparaFlagCampo(id_tipo_doc,"dec_002", usuario, id)){	  
+							 	
+								coluna32.setProperty("dec_002"); 
+							 	columns.add(coluna32);
+							} 
+							
+							if(comparaFlagCampo(id_tipo_doc,"dec_003", usuario, id)){	
+								
+							 	coluna33.setProperty("dec_003"); 
+							 	columns.add(coluna33);
+							} 
+							
+							if(comparaFlagCampo(id_tipo_doc,"dec_004", usuario, id)){	  
+								 
+								coluna34.setProperty("dec_004"); 		
+								columns.add(coluna34);
+							} 
+						
+							if(comparaFlagCampo(id_tipo_doc,"dec_005", usuario, id)){
+							 	
+								coluna35.setProperty("dec_005"); 
+							 	columns.add(coluna35);
+							} 
+							
+							if(comparaFlagCampo(id_tipo_doc,"dec_006", usuario, id)){	
+								
+							 	coluna36.setProperty("dec_006"); 
+							 	columns.add(coluna36);
+							} 
+						
+							
+							if(comparaFlagCampo(id_tipo_doc,"dec_007", usuario, id)){	  
+								 
+								coluna37.setProperty("dec_007"); 		
+								columns.add(coluna37);
+							} 
+						
+							if(comparaFlagCampo(id_tipo_doc,"dec_008", usuario, id)){	  
+							 	
+								coluna38.setProperty("dec_008"); 
+							 	columns.add(coluna38);
+							} 
+							
+							if(comparaFlagCampo(id_tipo_doc,"dec_009", usuario, id)){
+								
+							 	coluna39.setProperty("dec_009"); 
+							 	columns.add(coluna39);
+							} 
+							
+							if(comparaFlagCampo(id_tipo_doc,"int_010", usuario, id)){
+							 	coluna40.setProperty("dec_010"); 
+							 	columns.add(coluna40);
+							} 
+						
+							if(comparaFlagCampo(id_tipo_doc,"data_001", usuario, id)){	  
+								 
+								coluna41.setProperty("data_001"); 		
+								columns.add(coluna41);
+							} 
+						
+							if(comparaFlagCampo(id_tipo_doc,"data_002", usuario, id)){	  
+							 	
+								coluna42.setProperty("data_002"); 
+							 	columns.add(coluna42);
+							} 
+							
+							if(comparaFlagCampo(id_tipo_doc,"data_003", usuario, id)){
+								
+							 	coluna43.setProperty("data_003"); 
+							 	columns.add(coluna43);
+							} 
+							
+							if(comparaFlagCampo(id_tipo_doc,"data_004", usuario, id)){
+								 
+								coluna44.setProperty("data_004"); 		
+								columns.add(coluna44);
+							} 
+						
+							if(comparaFlagCampo(id_tipo_doc,"data_005", usuario, id)){	  
+							 	
+								coluna45.setProperty("data_005"); 
+							 	columns.add(coluna45);
+							} 
+							
+							if(comparaFlagCampo(id_tipo_doc,"data_006", usuario, id)){	
+								
+							 	coluna46.setProperty("data_006"); 
+							 	columns.add(coluna46);
+							} 
+						
+							
+							if(comparaFlagCampo(id_tipo_doc,"data_007", usuario, id)){	  
+								 
+								coluna47.setProperty("data_007"); 		
+								columns.add(coluna47);
+							} 
+						
+							if(comparaFlagCampo(id_tipo_doc,"data_008", usuario, id)){	  
+							 	
+								coluna48.setProperty("data_008"); 
+							 	columns.add(coluna48);
+							} 
+							
+							if(comparaFlagCampo(id_tipo_doc,"data_009", usuario, id)){
+								
+							 	coluna49.setProperty("data_009"); 
+							 	columns.add(coluna49);
+							} 
+							
+							if(comparaFlagCampo(id_tipo_doc,"data_010", usuario, id)){
+								
+							 	coluna50.setProperty("data_010"); 
+							 	columns.add(coluna50);
+							} 
+								    			 
+    			 }catch(NullPointerException e){
+    				 
+    				 return null;
+    			 }   	
+ 		    	 		    	
+    		}
+	    		 }	
+	    		/**objeto com valor adicionado para true para carregar dados da datatable de documento e de transacao documento**/
+	    		linhaSelecionada = true;
+	    		
+        		return columns;
+         }
+	  
+		return null;
+    }
+
 	
 	public BigInteger carregarDocTransDocCampAdic(Usuario usuario) {
 
@@ -139,6 +685,45 @@ public class DocumentoBean implements Serializable {
 			return null;
 		}
 
+	}
+	
+	public class camposLayout implements Serializable{
+		
+		/**
+		 * 
+		 */
+		
+		private static final long serialVersionUID = 1L;
+
+		private String descricao;
+		
+		private String cod_campo;
+				
+		public camposLayout(String cod_campo,String descricao){
+			
+			this.cod_campo = cod_campo;
+			this.descricao = descricao;
+			
+		}
+		
+		
+			public String getCod_campo() {			
+				return cod_campo;
+			}
+			
+			public void setCod_campo(String cod_campo) {
+				this.cod_campo = cod_campo;
+			}
+			
+
+			public String getDescricao() {			
+				return descricao;
+			}
+			
+			public void setDescricao(String descricao) {
+				this.descricao = descricao;
+			}
+		
 	}
 	
 	
@@ -679,34 +1264,10 @@ public class DocumentoBean implements Serializable {
 		return null;
     }
 
-	public String CorSituacaoRastreabilidade(Documento documento) {
-
-		Situacao_Tipo_DocumentoRN situacao_Tipo_DocumentoRN = new Situacao_Tipo_DocumentoRN();
-
-		for (Situacao_Tipo_Documento situacao_Tipo_Documento2 : situacao_Tipo_DocumentoRN
-				.listarPorIdTipoDoc(id_tipo_doc)) {
-
-			if (documento.getSituacao() != situacao_Tipo_Documento2.getDescricao()) {
-
-				return situacao_Tipo_Documento2.getCor_situacao();
-
-			} else {
-
-				return null;
-			}
-
-		}
-
-		return null;
-	}
-
-	/**
-	 * metodos para rastreabilidade de documentos
-	 * 
-	 * @throws ParseException
-	 **/
+	
+	
 	public TreeNode getNodePrincipal() throws IllegalArgumentException, IllegalAccessException, ParseException {
-
+		
 		nodePrincipal = nodeDocumento.criarDocumento(pesquisarRastreabilidade());
 
 		return nodePrincipal;
@@ -715,8 +1276,9 @@ public class DocumentoBean implements Serializable {
 	public BigInteger pesquisarRastreabilidade() {
 
 		DocumentoRN documentoRN = new DocumentoRN();
+		
 
-		if (documentoRN.carregar(id) != null) {
+		if (id != null && documentoRN.carregar(id) != null) {
 
 			id_tipo_doc = documentoRN.carregar(id).getId_tipo_doc().getId_tipo_doc();
 			return id;
@@ -839,7 +1401,6 @@ public class DocumentoBean implements Serializable {
 
 				try {
 
-
 					if (isLinhaSelecionada()) {
 						
 						id_doc = documentoRN.listarPorIdTipoDocCodEmpCodFiCodUni(id_tipo_doc,
@@ -930,8 +1491,9 @@ public class DocumentoBean implements Serializable {
 
 	public BigInteger selecionarLinhaDocDetalhe(SelectEvent event) {
 
+		System.out.println("teste selecao 1");
 		this.idDocDetalhe = BigInteger.valueOf(Long.parseLong(((Documento) event.getObject()).getId_doc().toString()));
-
+		System.out.println("teste selecao 2");
 		return this.idDocDetalhe;
 	}
 
@@ -1108,44 +1670,6 @@ public class DocumentoBean implements Serializable {
 		}
 
 	}
-
-	/**
-	 * public Documento preencherHoraIni() {
-	 * 
-	 * if (this.documento.getDataIniPrev() != null) {
-	 * 
-	 * LocalTime horariocorrente = LocalTime.of(8, 00, 00);
-	 * 
-	 * String horario = horariocorrente.getHour() + ":" +
-	 * horariocorrente.getMinute() + ":" + horariocorrente.getSecond();
-	 * 
-	 * SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss"); try {
-	 * this.documento.setHorarioIniPrev(sdf.parse(horario)); } catch
-	 * (ParseException e) {
-	 * 
-	 * e.printStackTrace(); }
-	 * 
-	 * return this.documento; } else { return null; }
-	 * 
-	 * }
-	 * 
-	 * public Documento preencherHoraFim() {
-	 * 
-	 * if (this.documento.getDataFimPrev() != null) {
-	 * 
-	 * LocalTime horariocorrente = LocalTime.of(18, 00, 00);
-	 * 
-	 * String horario = horariocorrente.getHour() + ":" +
-	 * horariocorrente.getMinute() + ":" + horariocorrente.getSecond();
-	 * 
-	 * SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss"); try {
-	 * this.documento.setHorarioFimPrev(sdf.parse(horario)); } catch
-	 * (ParseException e) {
-	 * 
-	 * e.printStackTrace(); }
-	 * 
-	 * return this.documento; } else { return null; } }
-	 **/
 
 	public boolean desabilitarCampos() {
 
@@ -1463,8 +1987,6 @@ public class DocumentoBean implements Serializable {
 
 	}
 
-	
-
 	public String redirecionaRastreabilidadePorDocumento() {
 
 		if (this.documentoSelecionado != null) {
@@ -1474,8 +1996,7 @@ public class DocumentoBean implements Serializable {
 
 		} else {
 
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!", "Documento n�o foi selecionado!"));
+			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!", "Documento n�o foi selecionado!"));
 			return null;
 		}
 	}
@@ -1576,6 +2097,7 @@ public class DocumentoBean implements Serializable {
 		Layout_EmpresaRN layout_EmpresaRN = new Layout_EmpresaRN();
 	
 		try{
+			
 		if(layout_EmpresaRN.listarPorIdTipoDocCodCampo(id_tipo_doc, cod_campo,documento.getCod_empresa().getCod_empresa(),documento.getCod_filial().getCod_filial(),documento.getCod_unidade().getCod_unidade()).isFlagCampos()){
 			
 			desabilitaCampoIncremento = true;
@@ -1594,8 +2116,130 @@ public class DocumentoBean implements Serializable {
 		return false;
 	}
 	
-
 	
+	   public List<Documento> listarCampos(Usuario usuario){
+			
+		DocumentoRN documentoRN = new DocumentoRN();				
+		return documentoRN.listarPorIdTipoDoc(id_tipo_doc);	
+
+	   }
+	   	   	
+	   public StreamedContent GerarQRCODEPorCamposDoc() {
+		
+		   		   
+			try {
+														
+				QRCodeWriter qrCodeWriter = new QRCodeWriter();
+
+				BitMatrix bitMatrix = qrCodeWriter.encode(adicionarValorUrl(), BarcodeFormat.QR_CODE, 350, 350);
+
+				ByteArrayOutputStream pngOutputStream = new ByteArrayOutputStream();
+
+				MatrixToImageWriter.writeToStream(bitMatrix, "PNG", pngOutputStream);
+
+				InputStream in = new ByteArrayInputStream(pngOutputStream.toByteArray());
+
+				
+				StreamedContent streamedContent = new DefaultStreamedContent(in, ".png", "documento.png");
+
+				return streamedContent;
+
+			} catch (IOException e) {
+
+				e.printStackTrace();
+				return null;
+
+			} catch (Exception e) {
+
+				e.printStackTrace();
+				return null;
+			}
+	}
+	   
+	   public Boolean carregarCampoPorQrCode(String cod_campo){
+		   
+		   Layout_EmpresaRN layout_EmpresaRN = new Layout_EmpresaRN();
+		   
+		  try{ 
+					
+			   if(layout_EmpresaRN.listarPorIdTipoDocCodCampo(id_tipo_doc,cod_campo,usuario.getCod_empresa().getCod_empresa(),usuario.getCod_filial().getCod_filial(),usuario.getCod_unidade().getCod_unidade()).isQrcode()){
+				   
+				   return true;
+				   
+			   }else{
+				   return false;
+			   }
+			   
+		  }catch(NullPointerException e){
+			  
+			  return false;
+		  }
+	}
+	   
+	public String adicionarValorUrl(){
+		   
+		   Documento doc = new Documento();
+		   
+		   String url = "http://optweb.herokuapp.com/restrito/rastreabilidade/rastreabilidade.xhtml?tipo="; 
+		
+		   url = url + String.valueOf(id_tipo_doc) + "&val=";
+	
+		   for(Integer i = 0; i < columns.size();i++){
+			   
+			   	try {
+				   
+			   		Field campo = doc.getClass().getDeclaredField(columns.get(i).property);
+			   		campo.setAccessible(true);
+											
+					if(i == 0){
+										
+						if(campo.getName().contains("data") && campo.get(doc) != null){
+						
+							url = url +  "," + String.valueOf(campo.get(doc));
+						
+						}else{					
+					
+							if(campo.get(doc) != null){
+						
+								url = url +  campo.get(doc).toString() + ",";
+													
+							}
+						}					
+					
+					}else{
+					
+						if(campo.getName().contains("data") && campo.get(doc) != null){
+						
+							url = url +  campo.get(doc).toString() + ",";
+						
+						}else{
+						
+							if(campo.get(doc) != null){
+							
+								url = url + campo.get(doc).toString() + ",";
+													
+							}
+						}
+					
+					}
+				 				
+			    } catch (NoSuchFieldException e) {				
+					e.printStackTrace();
+				} catch (SecurityException e) {			
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {					
+					e.printStackTrace();
+				}catch (NullPointerException e) {				
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {					
+					e.printStackTrace();
+				}
+			   	   
+		   }
+		   
+		   return  url;		   	  
+	}
+		
 	public void setStreamedContentDoc(StreamedContent streamedContentDoc) {
 		this.streamedContentDoc = streamedContentDoc;
 	}
@@ -1765,6 +2409,16 @@ public class DocumentoBean implements Serializable {
 		return desabilitaCampoIncremento;
 	}
 
+
+	public Documento getDoc() {
+		return doc;
+	}
+
+	public void setDoc(Documento doc) {
+		this.doc = doc;
+	}
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -1903,8 +2557,5 @@ public class DocumentoBean implements Serializable {
 			return false;
 		return true;
 	}
-
-
-
 
 }

@@ -110,7 +110,7 @@
 								<p:confirm header="Confirmation" message="Deseja realmente salvar?" icon="ui-icon-disk" />						
 							</p:commandButton>	
 								
-								<p:commandButton icon="ui-icon-arrowrefresh-1-w" immediate="true" action="#{usuarioBean.redirecionaMenu()}" style="width:30px;height:30px" onclick="PF('dlg').show()" oncomplete="PF('dlg').hide()" resetValues="true"/>			           		   				
+								<p:commandButton icon="ui-icon-arrowrefresh-1-w" immediate="true" action="/restrito/usuario/usuario.xhtml?faces-redirect=true" style="width:30px;height:30px" onclick="PF('dlg').show()" oncomplete="PF('dlg').hide()" resetValues="true"/>			           		   				
 								
 								<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
 									<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />

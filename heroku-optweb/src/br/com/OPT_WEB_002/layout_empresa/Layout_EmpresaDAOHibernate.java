@@ -5,7 +5,10 @@ package br.com.OPT_WEB_002.layout_empresa;
 import java.math.BigInteger;
 import java.util.*;
 import org.hibernate.*;
+
+import br.com.OPT_WEB_002.documento.Documento;
 import br.com.OPT_WEB_002.util.DAOException;
+import br.com.OPT_WEB_002.util.HibernateUtil;
 
 
 public class Layout_EmpresaDAOHibernate implements Layout_EmpresaDAO {
@@ -93,22 +96,20 @@ public class Layout_EmpresaDAOHibernate implements Layout_EmpresaDAO {
 		
 		Query consulta = this.session.createQuery(hql);		
 		
-		consulta.setString("cod_campo",cod_campo);
-		
-		consulta.setInteger("cod_empresa", cod_empresa);
-		
-		consulta.setInteger("cod_filial", cod_filial);
-		
+		consulta.setString("cod_campo",cod_campo);		
+		consulta.setInteger("cod_empresa", cod_empresa);		
+		consulta.setInteger("cod_filial", cod_filial);		
 		consulta.setInteger("cod_unidade", cod_unidade);
-
 		
-		return (Layout_Empresa) consulta.uniqueResult();
-		
-		
+		return (Layout_Empresa) consulta.uniqueResult();	
 	}
 	
 	@SuppressWarnings({ "unchecked"})
 	public List<Layout_Empresa> listarPorIdTipoDoc(BigInteger id_tipo_doc,Integer cod_empresa, Integer cod_filial,Integer cod_unidade) {
+
+	
+
+		
 		
 		String hql = "select tb from layout_empresa tb where tb.id_tipo_doc = :id_tipo_doc and tb.cod_empresa = :cod_empresa and tb.cod_filial = :cod_filial and tb.cod_unidade = :cod_unidade";
 		Query consulta = this.session.createQuery(hql);
@@ -203,11 +204,82 @@ public class Layout_EmpresaDAOHibernate implements Layout_EmpresaDAO {
 		this.session = session;
 	}
 
+	@Override
+	public List<Layout_Empresa>  listarPorQrCodeFlag(BigInteger id_tipo_doc,Integer cod_empresa,Integer cod_filial,Integer cod_unidade) {
+
+		String hql = "select tb from layout_empresa tb where tb.id_tipo_doc = :id_tipo_doc and tb.qrcode = true and tb.cod_empresa = :cod_empresa and tb.cod_filial = :cod_filial and tb.cod_unidade = :cod_unidade";
+		
+		Query consulta = this.session.createQuery(hql);
+	
+		consulta.setBigInteger("id_tipo_doc",id_tipo_doc);
+		consulta.setInteger("cod_empresa",cod_empresa);
+		consulta.setInteger("cod_filial",cod_filial);
+		consulta.setInteger("cod_unidade",cod_unidade);
+	
+		return consulta.list();
+		
+	}
+
+		public void iniciaSessao(){
+			
+			session.beginTransaction();
+		}
+
+		@Override
+		public List<Layout_Empresa> listarPorCod(String cod_campo) {
+			
+			String hql = "select l from layout_empresa l where l.cod_campo = :cod_campo";
+			
+			Query consulta = this.session.createQuery(hql);		
+			
+			consulta.setString("cod_campo",cod_campo);
+									
+			return  consulta.list();
+			
+		}
+
+		@Override
+		public List<Layout_Empresa> listarPorIdTipoDoc(BigInteger id_tipo_doc) {
+			
+
+			String hql = "select tb from layout_empresa tb where tb.id_tipo_doc = :id_tipo_doc and tb.qrcode = true order by tb.sequencia asc";
+			
+			Query consulta = this.session.createQuery(hql);
+			
+			consulta.setBigInteger("id_tipo_doc",id_tipo_doc);	
+		
+			return  consulta.list();
+			
+		}
+
+		public List<Layout_Empresa> listarPor_tipoDocumento(BigInteger id_tipo_doc){
+			
+			List<Layout_Empresa> lista = new ArrayList<Layout_Empresa>();
+			
+			session = HibernateUtil.getSessionFactory().getCurrentSession();
+			@SuppressWarnings("unused")
+			Transaction trans = session.beginTransaction();
+						
+			String hql = "select tb from layout_empresa tb where tb.id_tipo_doc = :id_tipo_doc";
+			Query consulta = this.session.createQuery(hql);
+			
+		   	consulta.setBigInteger("id_tipo_doc",id_tipo_doc);
+					
+			lista = consulta.list();
+			
+			this.session.getTransaction().commit();
+			
+			return lista;
+			
+		}
+
+	}
+
 	
 	
 	
 
 
 
-}
+
 

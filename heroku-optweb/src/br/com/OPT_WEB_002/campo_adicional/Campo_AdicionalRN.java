@@ -68,6 +68,12 @@ public class Campo_AdicionalRN {
 		
 	}
 	
+	public List<Campo_Adicional>  listarPorIdTransCoEmCodFiCodUniWebService(BigInteger id_transacao){
+		
+		return campoAdicionalDAO.listarPorIdTransCodEmCodFiCodUniWebService(id_transacao);
+		
+	}
+	
 	public Campo_Adicional listarUltimoId(){
 		
 		return campoAdicionalDAO.listarUltimoId();

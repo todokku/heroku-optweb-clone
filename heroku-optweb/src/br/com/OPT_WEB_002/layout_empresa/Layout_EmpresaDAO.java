@@ -3,6 +3,7 @@ package br.com.OPT_WEB_002.layout_empresa;
 import java.math.BigInteger;
 import java.util.List;
 
+import br.com.OPT_WEB_002.documento.Documento;
 import br.com.OPT_WEB_002.util.DAOException;
 
 public interface Layout_EmpresaDAO {
@@ -32,4 +33,16 @@ public interface Layout_EmpresaDAO {
 	public List<Layout_Empresa> listarCampoReferencia(BigInteger id_tipo_doc,Integer cod_empresa,Integer cod_filial,Integer cod_unidade);
 	
 	public List<Layout_Empresa> listarPorFlagFiltro(Integer cod_empresa,Integer cod_filial,Integer cod_unidade);
+	
+	public List<Layout_Empresa> listarPorQrCodeFlag(BigInteger id_tipo_doc,Integer cod_empresa,Integer cod_filial,Integer cod_unidade);
+	
+	public List<Layout_Empresa> listarPorCod(String cod_campo);
+	
+	public List<Layout_Empresa> listarPorIdTipoDoc(BigInteger id_tipo_doc);
+	
+	public List<Layout_Empresa> listarPor_tipoDocumento(BigInteger id_tipo_doc);
+	
+	public void iniciaSessao();
+	
+	
 }

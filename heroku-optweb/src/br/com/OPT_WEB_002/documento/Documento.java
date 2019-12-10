@@ -2,11 +2,8 @@ package br.com.OPT_WEB_002.documento;
 
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
-
 import javax.persistence.*;
 import br.com.OPT_WEB_002.empresa.Empresa;
 import br.com.OPT_WEB_002.filial.Filial;
@@ -54,9 +51,6 @@ public class Documento implements Serializable {
 	@Column(nullable = true)
 	@Temporal(TemporalType.DATE)
 	private Date data_001, data_002, data_003, data_004, data_005, data_006, data_007, data_008, data_009, data_010;
-
-	@Column(columnDefinition = "varchar(100)")
-	private String situacao;
 
 	private String cliente;
 	
@@ -562,15 +556,6 @@ public class Documento implements Serializable {
 		this.data_010 = data_010;
 	}
 
-	public String getSituacao() {
-		return situacao;
-	}
-
-	public void setSituacao(String situacao) {
-		this.situacao = situacao;
-	}
-
-
 	public byte[] getArquivo() {
 		return arquivo;
 	}
@@ -664,7 +649,8 @@ public class Documento implements Serializable {
 		result = prime * result + ((char_017 == null) ? 0 : char_017.hashCode());
 		result = prime * result + ((char_018 == null) ? 0 : char_018.hashCode());
 		result = prime * result + ((char_019 == null) ? 0 : char_019.hashCode());
-		result = prime * result + ((char_020 == null) ? 0 : char_020.hashCode());	
+		result = prime * result + ((char_020 == null) ? 0 : char_020.hashCode());
+		result = prime * result + ((cliente == null) ? 0 : cliente.hashCode());
 		result = prime * result + ((cod_empresa == null) ? 0 : cod_empresa.hashCode());
 		result = prime * result + ((cod_filial == null) ? 0 : cod_filial.hashCode());
 		result = prime * result + ((cod_unidade == null) ? 0 : cod_unidade.hashCode());
@@ -705,9 +691,17 @@ public class Documento implements Serializable {
 		result = prime * result + ((int_009 == null) ? 0 : int_009.hashCode());
 		result = prime * result + ((int_010 == null) ? 0 : int_010.hashCode());
 		result = prime * result + ((label == null) ? 0 : label.hashCode());
-		result = prime * result + ((nome_arquivo == null) ? 0 : nome_arquivo.hashCode());	
-	result = prime * result + ((situacao == null) ? 0 : situacao.hashCode());
+		result = prime * result + ((nome_arquivo == null) ? 0 : nome_arquivo.hashCode());
+		result = prime * result + Float.floatToIntBits(quantidade);
 		return result;
+	}
+
+	public float getQuantidade() {
+		return quantidade;
+	}
+
+	public void setQuantidade(float quantidade) {
+		this.quantidade = quantidade;
 	}
 
 	@Override
@@ -825,6 +819,11 @@ public class Documento implements Serializable {
 			if (other.char_020 != null)
 				return false;
 		} else if (!char_020.equals(other.char_020))
+			return false;
+		if (cliente == null) {
+			if (other.cliente != null)
+				return false;
+		} else if (!cliente.equals(other.cliente))
 			return false;
 		if (cod_empresa == null) {
 			if (other.cod_empresa != null)
@@ -1001,20 +1000,9 @@ public class Documento implements Serializable {
 				return false;
 		} else if (!nome_arquivo.equals(other.nome_arquivo))
 			return false;
-		if (situacao == null) {
-			if (other.situacao != null)
-				return false;
-		} else if (!situacao.equals(other.situacao))
+		if (Float.floatToIntBits(quantidade) != Float.floatToIntBits(other.quantidade))
 			return false;
 		return true;
-	}
-
-	public float getQuantidade() {
-		return quantidade;
-	}
-
-	public void setQuantidade(float quantidade) {
-		this.quantidade = quantidade;
 	}
 
 }

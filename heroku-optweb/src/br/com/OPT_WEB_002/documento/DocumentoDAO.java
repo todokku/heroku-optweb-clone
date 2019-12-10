@@ -36,12 +36,7 @@ public interface DocumentoDAO {
 	
 	public  Documento consultaWebService(BigInteger id_doc);
 	
-	public void iniciaSessao();
-		
+	public List<Documento> listarPorIdTipoDoc(BigInteger id_tipo_doc);
 	
-
-	
-	
-
-			
+				
 }

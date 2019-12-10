@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -189,7 +188,7 @@
 									<p:inputText 
 																	
 									id = "idint002"
-									disabled="#{documentoBean.desabilitaCampoIncremental('int_002',usuarioBean.usuarioLogin)}"								
+									disabled="#{documentoBean.desabilitaCampoIncremental('int_002',documentoBean.documento)}"								
 									maxlength="40"  
 									rendered="#{documentoBean.filtro2('int_002') and documentoBean.verificaValorPos('int_002').size() == null}"
 									value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).int_002}"
@@ -1146,4 +1145,3 @@
 		</ui:composition>	
 		</body>
 </html>
-

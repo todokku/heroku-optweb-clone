@@ -48,7 +48,11 @@ public class Layout_Empresa implements Serializable {
 	@Column(columnDefinition = "BOOLEAN DEFAULT false")
 	private boolean filtro;	
 	
+	private String valor_filtro;
 	
+	@Column(columnDefinition = "BOOLEAN DEFAULT false")
+	private boolean qrcode;	
+				
 	private Integer sequencia;
 	
 	@Column(columnDefinition = "BOOLEAN DEFAULT false")
@@ -155,6 +159,23 @@ public class Layout_Empresa implements Serializable {
 	public void setReferencia(boolean referencia) {
 		this.referencia = referencia;
 	}
+	
+	public boolean isFiltro() {
+		return filtro;
+	}
+
+	public void setFiltro(boolean filtro) {
+		this.filtro = filtro;
+	}
+
+	public boolean isQrcode() {
+		return qrcode;
+	}
+
+	public void setQrcode(boolean qrcode) {
+		this.qrcode = qrcode;
+	}
+	
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
@@ -169,10 +190,12 @@ public class Layout_Empresa implements Serializable {
 		result = prime * result + ((cod_filial == null) ? 0 : cod_filial.hashCode());
 		result = prime * result + ((cod_unidade == null) ? 0 : cod_unidade.hashCode());
 		result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
+		result = prime * result + (filtro ? 1231 : 1237);
 		result = prime * result + (flagCampos ? 1231 : 1237);
 		result = prime * result + (flag_campo ? 1231 : 1237);
 		result = prime * result + ((id_layout == null) ? 0 : id_layout.hashCode());
 		result = prime * result + ((id_tipo_doc == null) ? 0 : id_tipo_doc.hashCode());
+		result = prime * result + (qrcode ? 1231 : 1237);
 		result = prime * result + (referencia ? 1231 : 1237);
 		result = prime * result + ((sequencia == null) ? 0 : sequencia.hashCode());
 		return result;
@@ -212,6 +235,8 @@ public class Layout_Empresa implements Serializable {
 				return false;
 		} else if (!descricao.equals(other.descricao))
 			return false;
+		if (filtro != other.filtro)
+			return false;
 		if (flagCampos != other.flagCampos)
 			return false;
 		if (flag_campo != other.flag_campo)
@@ -226,6 +251,8 @@ public class Layout_Empresa implements Serializable {
 				return false;
 		} else if (!id_tipo_doc.equals(other.id_tipo_doc))
 			return false;
+		if (qrcode != other.qrcode)
+			return false;
 		if (referencia != other.referencia)
 			return false;
 		if (sequencia == null) {
@@ -236,14 +263,13 @@ public class Layout_Empresa implements Serializable {
 		return true;
 	}
 
-	public boolean isFiltro() {
-		return filtro;
+	public String getValor_filtro() {
+		return valor_filtro;
 	}
 
-	public void setFiltro(boolean filtro) {
-		this.filtro = filtro;
+	public void setValor_filtro(String valor_filtro) {
+		this.valor_filtro = valor_filtro;
 	}
-	
-	
+
 	
 }
