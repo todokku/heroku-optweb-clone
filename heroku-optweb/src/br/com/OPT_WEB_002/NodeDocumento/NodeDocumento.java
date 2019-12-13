@@ -20,7 +20,7 @@ import br.com.OPT_WEB_002.transacao_documento.*;
 import br.com.OPT_WEB_002.val_campos_trans_doc.*;
 
 @ManagedBean(name = "nodeDocumentoBean")
-@SessionScoped
+@ApplicationScoped
 public class NodeDocumento {
 	
 	private String tipo;

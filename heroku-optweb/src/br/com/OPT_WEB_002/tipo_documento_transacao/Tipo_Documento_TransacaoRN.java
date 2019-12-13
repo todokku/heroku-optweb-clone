@@ -21,8 +21,6 @@ public class Tipo_Documento_TransacaoRN {
 
 		if (listar().size() >= 1) {
 					
-	
-	
 			Tipo_Documento_Transacao tipo_Documento_Transacao2 = tipo_Documento_Transacao;
 				
 			/**Incremento da chave com +1 a partir do último id que está salvo no banco de dados**/
@@ -72,8 +70,13 @@ public class Tipo_Documento_TransacaoRN {
 	
 	
 	public List<Tipo_Documento_Transacao> listarPorIdTipoDocCodEmCodFiCodUni(BigInteger id_tipo_doc){
-		System.out.println("listan" + this.tipo_Documento_TransacaoDAO.listarPorIdTipoDocCodEmCodFiCodUni(id_tipo_doc).size());
+		
 		return this.tipo_Documento_TransacaoDAO.listarPorIdTipoDocCodEmCodFiCodUni(id_tipo_doc);
+	}
+	
+	public List<Tipo_Documento_Transacao> listarPorIdTipoDocCodEmCodFiCodUniWebService(BigInteger id_tipo_doc){
+		
+		return this.tipo_Documento_TransacaoDAO.listarPorIdTipoDocCodEmCodFiCodUniWebService(id_tipo_doc);
 	}
 	
 	public Tipo_Documento_Transacao listarUltimoId(){

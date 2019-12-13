@@ -1,4 +1,4 @@
-package br.com.OPT_WEB_002.web;
+﻿package br.com.OPT_WEB_002.web;
 
 import java.io.*;
 import java.lang.reflect.Field;
@@ -2047,7 +2047,7 @@ public class DocumentoBean implements Serializable {
 
 		String p_id_doc = idDocDetalhe.toString();
 
-		String url = "https://optweb.herokuapp.com/restrito/rastreabilidade/rastreabilidade.xhtml?id=" + p_id_doc;
+		String url = "https://optweb-2.herokuapp.com/restrito/rastreabilidade/rastreabilidade.xhtml?id=" + p_id_doc;
 
 		try {
 
@@ -2178,7 +2178,7 @@ public class DocumentoBean implements Serializable {
 	   
 	public String adicionarValorUrl(){
 			   
-		   String url = "http://optweb.herokuapp.com/restrito/rastreabilidade/rastreabilidade.xhtml?tipo="; 
+		   String url = "http://optweb-2.herokuapp.com/restrito/rastreabilidade/rastreabilidade.xhtml?tipo="; 
 		
 		   url = url + String.valueOf(id_tipo_doc) + "&val=";
 	

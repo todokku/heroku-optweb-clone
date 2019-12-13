@@ -47,9 +47,11 @@ public class DocumentoRN {
 				}else{
 					documento.setId(incremento.add(BigInteger.valueOf(Long.parseLong("1"))));
 				}
-							
-		documentoDAO.salvar(documento);
 
+				System.out.println(tipo_Documento_TransacaoRN.listarPorIdTipoDocCodEmCodFiCodUni(BigInteger.valueOf(Long.parseLong("1"))) + "erro");					
+		documentoDAO.salvar(documento);
+		
+		System.out.println("msg1");
 		for(Tipo_Documento_Transacao tipo_Documento_Transacao : tipo_Documento_TransacaoRN.listarPorIdTipoDocCodEmCodFiCodUni(documento.getId_tipo_doc().getId_tipo_doc())){
 			System.out.println("msg2");
 			transacao_Documento = new Transacao_Documento();
@@ -119,7 +121,7 @@ public class DocumentoRN {
 	
 		 this.documentoDAO.cadastrarDocumentoWebService(documento);
 		
-		  for(Tipo_Documento_Transacao tipo_Documento_Transacao : tipo_Documento_TransacaoRN.listarPorIdTipoDocCodEmCodFiCodUni(documento.getId_tipo_doc().getId_tipo_doc())){
+		  for(Tipo_Documento_Transacao tipo_Documento_Transacao : tipo_Documento_TransacaoRN.listarPorIdTipoDocCodEmCodFiCodUniWebService(documento.getId_tipo_doc().getId_tipo_doc())){
 		
 				transacao_Documento = new Transacao_Documento();
 								

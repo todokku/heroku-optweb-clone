@@ -21,6 +21,8 @@ public interface Tipo_Documento_TransacaoDAO {
 
 	public List<Tipo_Documento_Transacao> listarPorIdTipoDocCodEmCodFiCodUni(BigInteger id_tipo_doc);
 	
+	public List<Tipo_Documento_Transacao> listarPorIdTipoDocCodEmCodFiCodUniWebService(BigInteger id_tipo_doc);
+	
 	public Tipo_Documento_Transacao listarUtlimoId();
 	
 	public Tipo_Documento_Transacao carregarPorIdTransIdTipo(BigInteger id_transacao,BigInteger id_tipo_doc);

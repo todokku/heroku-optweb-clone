@@ -85,7 +85,7 @@ public class Tipo_Documento_TransacaoDAOHibernate implements Tipo_Documento_Tran
 	}
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Tipo_Documento_Transacao> listarPorIdTipoDocCodEmCodFiCodUni(BigInteger id_tipo_doc) {
+	public List<Tipo_Documento_Transacao> listarPorIdTipoDocCodEmCodFiCodUniWebService(BigInteger id_tipo_doc) {
 
 		List<Tipo_Documento_Transacao> lista = new ArrayList<Tipo_Documento_Transacao>();
 	
@@ -104,6 +104,19 @@ public class Tipo_Documento_TransacaoDAOHibernate implements Tipo_Documento_Tran
 		this.session.getTransaction().commit();
 		
 		return lista;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Tipo_Documento_Transacao> listarPorIdTipoDocCodEmCodFiCodUni(BigInteger id_tipo_doc) {
+		
+		String hql = "select tb from tipo_documento_transacao tb where tb.id_tipo_doc = :id_tipo_doc";
+
+		Query consulta = this.session.createQuery(hql);
+	
+		consulta.setBigInteger("id_tipo_doc",id_tipo_doc);
+		
+		return consulta.list();
 	}
 	@Override
 	public Tipo_Documento_Transacao listarUtlimoId() {
