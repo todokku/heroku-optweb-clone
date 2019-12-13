@@ -47,11 +47,11 @@ public class DocumentoRN {
 				}else{
 					documento.setId(incremento.add(BigInteger.valueOf(Long.parseLong("1"))));
 				}
-					
+							
 		documentoDAO.salvar(documento);
-	   	  
+
 		for(Tipo_Documento_Transacao tipo_Documento_Transacao : tipo_Documento_TransacaoRN.listarPorIdTipoDocCodEmCodFiCodUni(documento.getId_tipo_doc().getId_tipo_doc())){
-		
+			System.out.println("msg2");
 			transacao_Documento = new Transacao_Documento();
 		
 			transacao_Documento.getCod_empresa().setCod_empresa(documento.getCod_empresa().getCod_empresa());

@@ -74,35 +74,39 @@ public class NodeDocumento {
 		TreeNode nodeValCampTransDocArquivo = new DefaultTreeNode();
 	
 		try{
+			
+			System.out.println("msg1");
 	
 			if(tipo != null && valor != null && id_doc == null){
-				
+				System.out.println("msg2");
 				String[] teste = valor.split(",");
 				
 				for(String val : teste){
-					
+					System.out.println("msg3");
 					lista.add(val);
 				}			
 									
 						for(Layout_Empresa layout_Emp1 : layout_EmpresaRN.listarPorIdTipoDoc(BigInteger.valueOf(Long.parseLong(tipo)))){
-							
+							System.out.println("msg4");
 							for(Documento doc : documentoRN.listarPorIdTipoDoc(layout_Emp1.getId_tipo_doc().getId_tipo_doc())){
-								
+								System.out.println("msg5");
 										java.lang.reflect.Field  field = Documento.class.getDeclaredField(layout_Emp1.getCod_campo());				
 										field.setAccessible(true);
 										
 										for(String campo : lista){
-											
+											System.out.println("msg6");
 											if(String.valueOf(field.get(doc)).equals(campo)){
-												
+												System.out.println("msg7");
 												documento = doc;
+												
 												lista.remove(campo);						
 											}		
 										}
 							}
 				
 						}					
-										
+						System.out.println("msg8");				
+						System.out.println(lista.size());
 							if(lista.size() != 0){
 								return null;
 							}
