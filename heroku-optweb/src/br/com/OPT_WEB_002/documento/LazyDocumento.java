@@ -143,7 +143,7 @@ public class LazyDocumento extends LazyDataModel<Documento> {
             
            if(match){
         	   
-        	   	data2 = lista3;
+        	   	
             	data2.add(documento);            	
         	   
            }

@@ -30,24 +30,18 @@ import br.com.OPT_WEB_002.val_campos_trans_doc.*;
 import net.sf.jasperreports.engine.JRException;
 
 @ManagedBean(name = "documentoBean")
-@ViewScoped
+@SessionScoped
 public class DocumentoBean implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	@ManagedProperty("#{nodeDocumentoBean}")
-	/**variavel para criar tela de rastreabilidade de documento**/
+
 	private NodeDocumento nodeDocumento;
-	/**objeto que recebe o usuario que esta acessando a aplicação**/
 	private Usuario usuario;
-	/**objeto utilizado para cadastro e visualização de documento**/
-	private Documento documento = new Documento();
-	/**objeto utilizado para carregar parâmetros para rastreabilidade**/
-	private Documento doc = new Documento();
-	/**objeto utilizado para seleção de dados para lista de documentos**/
+	private Documento documento = new Documento();	
+	private Documento doc = new Documento();	
 	private Documento documentoSelecionado; 
-	/**objeto utlizado para retornar dados para rastreabilidade**/
-	private TreeNode nodePrincipal;
-	/**objeto utlizado para seleção de dados para rastreabilidade**/
+	private TreeNode nodePrincipal;	
 	private TreeNode nodeselecionado;
 	private BigInteger id;
 	private BigInteger idDocSelecionado;
@@ -61,19 +55,14 @@ public class DocumentoBean implements Serializable {
 	private StreamedContent streamedContentDoc;
 	/**variavel para carregar lista lazy documento**/
 	private Tipo_Documento tipo_Documento = new Tipo_Documento();	
-	
 	private boolean linhaSelecionada = false;
 	private BigInteger idDocDetalhe = null;
 	private List<modeloColuna> columns;
 	private boolean desabilitaCampoIncremento = false;	
-	
-				
+					
 	public DocumentoBean() {}
-
-	@PostConstruct
-	private void init() {}
 		   	   	
-	 public Usuario retornaLogin(Usuario usuario) {
+	public Usuario retornaLogin(Usuario usuario) {
 		 
 			this.usuario = usuario;
 			return this.usuario;
@@ -85,8 +74,14 @@ public class DocumentoBean implements Serializable {
 		lazymodel = new LazyDocumento(listarPorIdTipoDocCodEmpCodFiCodUni(usuario));	
 		
 		/**método que cria colunas a partir de sua ordem cadastrada na tabela layout_empresa**/
+		if(listarPorIdTipoDocCodEmpCodFiCodUni(usuario).size() != 0){
+		System.out.println(lazymodel);	
 		criarColunasDinamicas();
-				
+		/**objeto com valor adicionado para true para carregar dados da datatable de documento e de transacao documento**/
+		linhaSelecionada = true;	    		   	
+   
+		}
+		
 		return lazymodel;
 	}
 	
@@ -154,6 +149,7 @@ public class DocumentoBean implements Serializable {
 	public List<modeloColuna> criarColunasDinamicasPorQrCode() {
 					
 		List<Integer> listaSeq = new ArrayList<Integer>();
+		DocumentoRN documentoRN = new DocumentoRN();
 					   
 	   if(linhaSelecionada == false){ 	
 			
@@ -318,14 +314,11 @@ public class DocumentoBean implements Serializable {
 	    		 /**bloco para listar todos os objetos da tabela layout que estejam com o campo flag com valor true**/
 	    		 for(Layout_Empresa layout_Empresa : layout_EmpresaRN.listarCamposFlag(id_tipo_doc,usuario.getCod_empresa().getCod_empresa(),usuario.getCod_filial().getCod_filial(),usuario.getCod_unidade().getCod_unidade())){
 	    			 /**objeto array para adicionar todos os campos sequencia do bloco **/
-	    			 listaSeq.add(layout_Empresa.getSequencia());
+	    		
+	    			 listaSeq.add(layout_Empresa.getSequencia());	    			 
 	    			 
 	    		 }	   			
-    		
-	    		 /**método que organiza todos os campos sequencias adicionados em ordem crescente**/
-	    		 Collections.sort(listaSeq);
-    		     		
-	    		 /**bloco para listar todos os objetos da listaId**/
+	    		
 	    		 for(Integer id : listaSeq){
 	    		    		    			
 	    			 try{
@@ -642,9 +635,17 @@ public class DocumentoBean implements Serializable {
  		    	 		    	
     		}
 	    		 }	
+		   	
+		   	try{
+		   		System.out.println(documentoRN.listar().getId_doc());
+		   	if(documentoRN.listar().getId_doc() != null){
 	    		/**objeto com valor adicionado para true para carregar dados da datatable de documento e de transacao documento**/
 	    		linhaSelecionada = true;
-	    		
+		   	}
+		   	}catch(Exception e){
+		   		e.printStackTrace();
+		   		
+		   	}
         		return columns;
          }
 	  
@@ -769,6 +770,7 @@ public class DocumentoBean implements Serializable {
 	public List<modeloColuna> criarColunasDinamicas() {
 					
 		List<Integer> listaId = new ArrayList<Integer>();
+		DocumentoRN documentoRN = new DocumentoRN();
 			   
 	   if(linhaSelecionada == false){ 	
 			
@@ -937,7 +939,7 @@ public class DocumentoBean implements Serializable {
 	    		 }	   			
     		
 	    		 /**método que organiza todos os campos sequencias adicionados em ordem crescente**/
-	    		 Collections.sort(listaId);
+	    		
     		     		
 	    		 /**bloco para listar todos os objetos da listaId**/
 	    		 for(Integer id : listaId){
@@ -1254,10 +1256,8 @@ public class DocumentoBean implements Serializable {
     			 }   	
  		    	 		    	
     		}
-	    		
-	    		/**objeto com valor adicionado para true para carregar dados da datatable de documento e de transacao documento**/
-	    		linhaSelecionada = true;
-	    		
+	    			    		
+	    	    		
         		return columns;
          }
 	  }
@@ -1277,7 +1277,6 @@ public class DocumentoBean implements Serializable {
 
 		DocumentoRN documentoRN = new DocumentoRN();
 		
-
 		if (id != null && documentoRN.carregar(id) != null) {
 
 			id_tipo_doc = documentoRN.carregar(id).getId_tipo_doc().getId_tipo_doc();
@@ -1381,7 +1380,7 @@ public class DocumentoBean implements Serializable {
 	/** fim metodos para rastreabilidade de documentos **/
 
 	/** metodos para cadastro de documentos **/
-	public List<Documento> listarPorIdTipoDocCodEmpCodFiCodUni(Usuario usuario) {
+	public List<Documento> listarPorIdTipoDocCodEmpCodFiCodUni(Usuario usuario) throws IndexOutOfBoundsException {
 	
 		DocumentoRN documentoRN = new DocumentoRN();
 		Transacao_DocumentoRN transacao_DocumentoRN = new Transacao_DocumentoRN();
@@ -1406,11 +1405,11 @@ public class DocumentoBean implements Serializable {
 						id_doc = documentoRN.listarPorIdTipoDocCodEmpCodFiCodUni(id_tipo_doc,
 								usuario.getCod_empresa().getCod_empresa(), usuario.getCod_filial().getCod_filial(),
 								usuario.getCod_unidade().getCod_unidade()).get(0).getId_doc();
-				
+					
 						id_trans_doc = transacao_DocumentoRN.listarPorIdDoc(id_doc,
 								usuario.getCod_empresa().getCod_empresa(), usuario.getCod_filial().getCod_filial(),
 								usuario.getCod_unidade().getCod_unidade()).get(0).getId_transacao_doc();
-
+						
 					}
 
 				} catch (Exception e) {
@@ -1481,7 +1480,7 @@ public class DocumentoBean implements Serializable {
 	public BigInteger selecionarLinhaDoc(SelectEvent event) {
 
 		this.idDocSelecionado = BigInteger.valueOf(Long.parseLong(((Documento) event.getObject()).getId_doc().toString()));
-	     
+	    		
 		linhaSelecionada = false;
 		
 		id_trans_doc = null;
@@ -1708,7 +1707,7 @@ public class DocumentoBean implements Serializable {
 			layoutEmpresa = layout_EmpresaRN.listarPorIdTipoDocCodCampo(id_tipo_doc, cod_campo,
 					documento.getCod_empresa().getCod_empresa(), documento.getCod_filial().getCod_filial(),
 					documento.getCod_unidade().getCod_unidade());
-			
+			if(layoutEmpresa != null){
 			for (Val_Campos_Doc val_Campos_Doc : val_Campos_DocRN.listarPorIdTipoDocIdLay(
 					layoutEmpresa.getId_tipo_doc().getId_tipo_doc(), layoutEmpresa.getId_layout(),
 					layoutEmpresa.getCod_empresa().getCod_empresa(), layoutEmpresa.getCod_filial().getCod_filial(),
@@ -1720,6 +1719,7 @@ public class DocumentoBean implements Serializable {
 						val_Campos_Doc.getCod_filial().getCod_filial(),
 						val_Campos_Doc.getCod_unidade().getCod_unidade());
 				
+			}
 			}
 		}
 
@@ -1830,9 +1830,9 @@ public class DocumentoBean implements Serializable {
 	public String salvar() throws DAOException {
 
 		DocumentoRN documentoRN = new DocumentoRN();
-
+		System.out.println("salvar1");
 		if (id == null) {
-			System.out.println("salvar");
+			System.out.println("salvar2");
 			
 			if (arquivoDoc.getFileName().contains(".pdf")) {
 				this.documento.setExtensao_arq(".pdf");
@@ -1871,7 +1871,7 @@ public class DocumentoBean implements Serializable {
 			this.documento.setNome_arquivo(arquivoDoc.getFileName());
 
 			try {
-
+				System.out.println("salvar3");
 				this.documento.setArquivo(IOUtils.toByteArray(arquivoDoc.getInputstream()));
 
 			} catch (IOException e) {
@@ -1880,9 +1880,9 @@ public class DocumentoBean implements Serializable {
 			}
 
 			try {
-								
+				System.out.println("salvar4");	
 				documentoRN.salvar(this.documento);
-
+				System.out.println("salvar5");
 				this.documento = new Documento();
 
 				this.documentoSelecionado = new Documento();
@@ -2098,7 +2098,8 @@ public class DocumentoBean implements Serializable {
 	
 		try{
 			
-		if(layout_EmpresaRN.listarPorIdTipoDocCodCampo(id_tipo_doc, cod_campo,documento.getCod_empresa().getCod_empresa(),documento.getCod_filial().getCod_filial(),documento.getCod_unidade().getCod_unidade()).isFlagCampos()){
+			
+		if(documento != null && layout_EmpresaRN.listarPorIdTipoDocCodCampo(id_tipo_doc, cod_campo,documento.getCod_empresa().getCod_empresa(),documento.getCod_filial().getCod_filial(),documento.getCod_unidade().getCod_unidade()).isFlagCampos()){
 			
 			desabilitaCampoIncremento = true;
 			return desabilitaCampoIncremento;
@@ -2177,9 +2178,7 @@ public class DocumentoBean implements Serializable {
 	}
 	   
 	public String adicionarValorUrl(){
-		   
-		   Documento doc = new Documento();
-		   
+			   
 		   String url = "http://optweb.herokuapp.com/restrito/rastreabilidade/rastreabilidade.xhtml?tipo="; 
 		
 		   url = url + String.valueOf(id_tipo_doc) + "&val=";
@@ -2236,7 +2235,8 @@ public class DocumentoBean implements Serializable {
 				}
 			   	   
 		   }
-		   
+		
+		   System.out.println(url);
 		   return  url;		   	  
 	}
 		

@@ -27,36 +27,41 @@
 				
 					<p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
 					
-					<p:outputLabel value="Empresa:"/>
+					<p:outputLabel value="Empresa:"/>	
 					
-					<p:column>			
-						<p:inputText value="#{grupoValoresBean.iniciar(usuarioBean.usuarioLogin).cod_empresa.cod_empresa}" style="width:20px" disabled="true"/>
-						<p:outputLabel value="#{usuarioBean.usuarioLogin.cod_empresa.descricao}"/>
-					</p:column>	
+					<p:column>						
+						<p:inputText value="#{grupoValoresBean.iniciar(usuarioBean.usuarioLogin).cod_empresa.cod_empresa}" style="width:20px" disabled="true"/>					
+						<p:outputLabel value="#{usuarioBean.usuarioLogin.cod_empresa.descricao}" style="margin-left:10px"/>
+					</p:column>
+					
 										
-					<p:outputLabel value="Filial:"/>					
-					<p:column>			
-						<p:inputText value="#{grupoValoresBean.iniciar(usuarioBean.usuarioLogin).cod_filial.cod_filial}" style="width:20px" disabled="true"/>
-						<p:outputLabel value="#{usuarioBean.usuarioLogin.cod_filial.descricao}"/>
-					</p:column>	
+					<p:outputLabel value="Filial:"/>
+					
+					<p:column>						
+						<p:inputText value="#{grupoValoresBean.iniciar(usuarioBean.usuarioLogin).cod_filial.cod_filial}" style="width:20px" disabled="true"/>					
+						<p:outputLabel value="#{usuarioBean.usuarioLogin.cod_filial.descricao}" style = "margin-left:10px"/>
+					</p:column>
 										
-					<p:outputLabel value="Unidade Negócio:"/>					
-					<p:column>			
-						<p:inputText value="#{grupoValoresBean.iniciar(usuarioBean.usuarioLogin).cod_unidade.cod_unidade}" style="width:20px" disabled="true"/>
-						<p:outputLabel value="#{usuarioBean.usuarioLogin.cod_unidade.descricao}"/>
-					</p:column>	
+					<p:outputLabel value="Unidade Negócio:"/>
+												
+					<p:column>						
+						<p:inputText value="#{grupoValoresBean.iniciar(usuarioBean.usuarioLogin).cod_unidade.cod_unidade}" style="width:20px" disabled="true"/>					
+						<p:outputLabel value="#{usuarioBean.usuarioLogin.cod_unidade.descricao}" style="margin-left:10px"/>
+					</p:column>
 					
 					<p:outputLabel value="Código:"/>
 					<p:inputText value="#{grupoValoresBean.iniciar(usuarioBean.usuarioLogin).codigo}"/>
 										
+					
 					<p:outputLabel value="Descrição:"/>
+					
 					<p:inputText value="#{grupoValoresBean.iniciar(usuarioBean.usuarioLogin).descricao}"/>
 									
 					<p:commandButton action="#{grupoValoresBean.salvar()}" value="Salvar">
 						 <p:confirm header="Confirmation" message="Deseja realmente salvar?" icon="ui-icon-disk"/>
 					</p:commandButton>																	
 									
-						<p:commandButton icon="ui-icon-arrowrefresh-1-w" action="/restrito/grupo_valores_possiveis_doc/grupo_valores_possiveis_doc.xhtml?faces-redirect=true"  style="width:30px;height:30px"/>			           		   				
+						<p:commandButton icon="ui-icon-arrowrefresh-1-w" action="/restrito/grupo_valores_possiveis_doc/grupo_valores_possiveis_doc.xhtml"  style="width:30px;height:30px"/>			           		   				
 																	
 						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
 							<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />

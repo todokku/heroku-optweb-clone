@@ -20,25 +20,40 @@ public class DocumentoRN {
 
 	public void salvar(Documento documento) throws DAOException {
 	
+		DocumentoRN documentoRN = new DocumentoRN();
 		Transacao_DocumentoRN transacao_DocumentoRN = new Transacao_DocumentoRN();
 	    Transacao_Documento transacao_Documento;	
 		Tipo_Documento_TransacaoRN tipo_Documento_TransacaoRN = new Tipo_Documento_TransacaoRN();
 		Campo_AdicionalRN campo_AdicionalRN = new Campo_AdicionalRN();
 		Val_Campos_Trans_DocRN val_Campos_Trans_DocRN = new Val_Campos_Trans_DocRN();
 		Val_Campos_Trans_Doc val_Campos_Trans_Doc;
+		BigInteger incremento;
 				
 		float resultadoTempo = 0;		
 		float comparador = 0;	
 		documento.setQuantidade(0);
 		
-		documento.setId(BigInteger.valueOf(Long.parseLong(String.valueOf(listarPorCodEmCodFiCodUni(documento.getCod_empresa().getCod_empresa(),documento.getCod_filial().getCod_filial(),documento.getCod_unidade().getCod_unidade()).size()))).add(BigInteger.valueOf(Long.parseLong("1")))) ;
-	
+			try{
+			
+			  incremento = documentoRN.listarUltimoRegistro(documento.getId_tipo_doc().getId_tipo_doc(),documento.getCod_empresa().getCod_empresa(),documento.getCod_filial().getCod_filial(),documento.getCod_unidade().getCod_unidade()).getId();
+			
+			}catch(NullPointerException e){			
+			   incremento = null;
+			}
+			
+		
+				if(incremento == null){
+					documento.setId(BigInteger.valueOf(Long.parseLong("1")));
+				}else{
+					documento.setId(incremento.add(BigInteger.valueOf(Long.parseLong("1"))));
+				}
+					
 		documentoDAO.salvar(documento);
-	   	    
+	   	  
 		for(Tipo_Documento_Transacao tipo_Documento_Transacao : tipo_Documento_TransacaoRN.listarPorIdTipoDocCodEmCodFiCodUni(documento.getId_tipo_doc().getId_tipo_doc())){
-	
+		
 			transacao_Documento = new Transacao_Documento();
-							
+		
 			transacao_Documento.getCod_empresa().setCod_empresa(documento.getCod_empresa().getCod_empresa());
 			transacao_Documento.getCod_filial().setCod_filial(documento.getCod_filial().getCod_filial());
 			transacao_Documento.getCod_unidade().setCod_unidade(documento.getCod_unidade().getCod_unidade());
@@ -80,7 +95,7 @@ public class DocumentoRN {
 						val_Campos_Trans_Doc.getId_camp_adic().setId_camp_adic(campo_Adicional.getId_camp_adic());
 																					
 						val_Campos_Trans_DocRN.salvar(val_Campos_Trans_Doc);	
-			
+					
 				}		
 		
 		}

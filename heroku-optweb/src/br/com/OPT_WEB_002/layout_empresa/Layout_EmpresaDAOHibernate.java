@@ -59,8 +59,7 @@ public class Layout_EmpresaDAOHibernate implements Layout_EmpresaDAO {
 		String hql = "select tb from layout_empresa tb where tb.id_layout = :id_layout";
 		Query consulta = this.session.createQuery(hql);
 		
-		consulta.setBigInteger("id_layout",id_layout);
-			
+		consulta.setBigInteger("id_layout",id_layout);			
 		return (Layout_Empresa) consulta.uniqueResult();
 			
 	}
@@ -150,7 +149,7 @@ public class Layout_EmpresaDAOHibernate implements Layout_EmpresaDAO {
 	public List<Layout_Empresa> listarCamposFlag(BigInteger id_tipo_doc,Integer cod_empresa, Integer cod_filial,
 			Integer cod_unidade) {
 		
-		String hql = "select tb from layout_empresa tb where tb.id_tipo_doc = :id_tipo_doc and  tb.cod_empresa = :cod_empresa and tb.cod_filial = :cod_filial and tb.cod_unidade = :cod_unidade and tb.flag_campo = true";
+		String hql = "select tb from layout_empresa tb where tb.id_tipo_doc = :id_tipo_doc and  tb.cod_empresa = :cod_empresa and tb.cod_filial = :cod_filial and tb.cod_unidade = :cod_unidade and tb.flag_campo = true order by tb.sequencia asc";
 		
 		Query consulta = this.session.createQuery(hql);
 		

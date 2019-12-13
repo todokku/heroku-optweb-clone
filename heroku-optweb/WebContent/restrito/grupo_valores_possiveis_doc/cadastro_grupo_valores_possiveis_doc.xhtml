@@ -25,19 +25,19 @@
 								<p:outputLabel value="Empresa:" for = "idEmp"/>
 								<p:column>
 									<p:inputText value="#{grupoValPosDocBean.iniciar(usuarioBean.usuarioLogin).cod_empresa.cod_empresa}" id = "idEmp" style="width:30px" disabled="true"/>
-									<p:outputLabel value="#{usuarioBean.usuarioLogin.cod_empresa.descricao}"/>
+									<p:outputLabel value="#{usuarioBean.usuarioLogin.cod_empresa.descricao}" style="margin-left:10px"/>
 								</p:column>
 								
 								<p:outputLabel value="Filial:" for="idFi"/>
 								<p:column>
 									<p:inputText value="#{grupoValPosDocBean.iniciar(usuarioBean.usuarioLogin).cod_filial.cod_filial}" id="idFi" style="width:30px" disabled="true"/>
-									<p:outputLabel value="#{usuarioBean.usuarioLogin.cod_filial.descricao}"/>
+									<p:outputLabel value="#{usuarioBean.usuarioLogin.cod_filial.descricao}" style="margin-left:10px"/>
 								</p:column>
 								
 								<p:outputLabel value="Unidade Negócio:"/>
 								<p:column>
 									<p:inputText value="#{grupoValPosDocBean.iniciar(usuarioBean.usuarioLogin).cod_unidade.cod_unidade}" style = "width:30px" disabled="true"/>
-									<p:outputLabel value="#{usuarioBean.usuarioLogin.cod_unidade.descricao}"/>
+									<p:outputLabel value="#{usuarioBean.usuarioLogin.cod_unidade.descricao}" style="margin-left:10px"/>
 								</p:column>
 																						
 								<p:outputLabel value="Grupo de Valores:" for="idgrupo"/>
@@ -53,7 +53,7 @@
 									<p:confirm header="Confirmation" message="Deseja realmente salvar?" icon="ui-icon-disk"/>																	
 								</p:commandButton>
 									
-								<p:commandButton icon="ui-icon-arrowrefresh-1-w" action="/restrito/grupo_valores_possiveis_doc/grupo_valores_possiveis_doc?faces-redirect=true"  style="width:30px;height:30px"/>			           		   				
+								<p:commandButton icon="ui-icon-arrowrefresh-1-w" action="grupo_valores_possiveis_doc"  style="width:30px;height:30px"/>			           		   				
 																	
 								<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
 									<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />

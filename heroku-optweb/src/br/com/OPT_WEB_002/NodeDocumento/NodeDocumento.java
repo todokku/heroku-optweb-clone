@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
+
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 import br.com.OPT_WEB_002.campo_adicional.*;
@@ -17,7 +20,7 @@ import br.com.OPT_WEB_002.transacao_documento.*;
 import br.com.OPT_WEB_002.val_campos_trans_doc.*;
 
 @ManagedBean(name = "nodeDocumentoBean")
-@ApplicationScoped
+@SessionScoped
 public class NodeDocumento {
 	
 	private String tipo;
@@ -72,37 +75,37 @@ public class NodeDocumento {
 	
 		try{
 	
-			if(tipo != null && valor != null){
+			if(tipo != null && valor != null && id_doc == null){
 				
 				String[] teste = valor.split(",");
 				
 				for(String val : teste){
 					
 					lista.add(val);
-				}
-						
-					for(String campo : lista){
-					
+				}			
+									
 						for(Layout_Empresa layout_Emp1 : layout_EmpresaRN.listarPorIdTipoDoc(BigInteger.valueOf(Long.parseLong(tipo)))){
-						
+							
 							for(Documento doc : documentoRN.listarPorIdTipoDoc(layout_Emp1.getId_tipo_doc().getId_tipo_doc())){
-														
+								
 										java.lang.reflect.Field  field = Documento.class.getDeclaredField(layout_Emp1.getCod_campo());				
 										field.setAccessible(true);
-									
-										if(String.valueOf(field.get(doc)).equals(campo)){
+										
+										for(String campo : lista){
 											
-												documento = doc;																																	
-										}		
-								
+											if(String.valueOf(field.get(doc)).equals(campo)){
+												
+												documento = doc;
+												lista.remove(campo);						
+											}		
+										}
 							}
 				
-						}
-					
+						}					
 										
-					}	
-					
-				
+							if(lista.size() != 0){
+								return null;
+							}
 				
 			}else{
 				
@@ -113,8 +116,7 @@ public class NodeDocumento {
 			e.printStackTrace();
 		}
 	
-		if (documento.getId_doc() != null) {
-			
+		if (documento.getId() != null) {
 		
 			nodePrincipal = new DefaultTreeNode("ROOT", null);
 						
@@ -147,8 +149,7 @@ public class NodeDocumento {
 			nodeCamposDoc.setSelectable(false);
 
 			for (Layout_Empresa layout_Empresa : layout_EmpresaRN.listarPorIdTipoDoc(documento.getId_tipo_doc().getId_tipo_doc(), documento.getCod_empresa().getCod_empresa(),documento.getCod_filial().getCod_filial(), documento.getCod_unidade().getCod_unidade())) {
-				
-										
+														
 				if(layout_Empresa.getCod_campo().equals("char_001")){		
 					nodeCamposlayout = new DefaultTreeNode("layout",new Documento(layout_Empresa.getDescricao(),documento.getChar_001()),nodeDadosDocumento);
 					nodeCamposlayout.setSelectable(false);
@@ -306,7 +307,6 @@ public class NodeDocumento {
 					nodeCamposlayout.setSelectable(false);
 				}
 			
-
 				if(layout_Empresa.getCod_campo().equals("int_008")){		
 					nodeCamposlayout = new DefaultTreeNode("layout",new Documento(layout_Empresa.getDescricao(),String.valueOf(documento.getInt_008())),nodeDadosDocumento);
 					nodeCamposlayout.setSelectable(false);
@@ -327,8 +327,7 @@ public class NodeDocumento {
 					nodeCamposlayout = new DefaultTreeNode("layout",new Documento(layout_Empresa.getDescricao(),String.valueOf(documento.getDec_001())),nodeDadosDocumento);
 					nodeCamposlayout.setSelectable(false);
 				}
-					
-			
+							
 				if(layout_Empresa.getCod_campo().equals("dec_002")){		
 					nodeCamposlayout = new DefaultTreeNode("layout",new Documento(layout_Empresa.getDescricao(),String.valueOf(documento.getDec_002())),nodeDadosDocumento);
 					nodeCamposlayout.setSelectable(false);
@@ -407,20 +406,17 @@ public class NodeDocumento {
 					nodeCamposlayout = new DefaultTreeNode("layout",new Documento(layout_Empresa.getDescricao(),String.valueOf(documento.getDec_005())),nodeDadosDocumento);
 					nodeCamposlayout.setSelectable(false);
 			    }
-						
-				
+							
 				if(layout_Empresa.getCod_campo().equals("data_006")){		
 					nodeCamposlayout = new DefaultTreeNode("layout",new Documento(layout_Empresa.getDescricao(),String.valueOf(documento.getData_006())),nodeDadosDocumento);
 					nodeCamposlayout.setSelectable(false);
 				}
-				    			
-				
+							
 				if(layout_Empresa.getCod_campo().equals("data_007")){		
 					nodeCamposlayout = new DefaultTreeNode("layout",new Documento(layout_Empresa.getDescricao(),String.valueOf(documento.getData_007())),nodeDadosDocumento);
 					nodeCamposlayout.setSelectable(false);
 				}
 				
-
 				if(layout_Empresa.getCod_campo().equals("data_008")){		
 					nodeCamposlayout = new DefaultTreeNode("layout",new Documento(layout_Empresa.getDescricao(),String.valueOf(documento.getData_008())),nodeDadosDocumento);
 					nodeCamposlayout.setSelectable(false);

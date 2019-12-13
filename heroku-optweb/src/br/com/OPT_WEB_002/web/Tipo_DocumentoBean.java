@@ -175,7 +175,8 @@ public class Tipo_DocumentoBean implements Serializable{
 	
 	public Tipo_Documento descricaoTipoDoc(BigInteger id_tipo_doc){
 		
-		Tipo_DocumentoRN tipo_DocumentoRN = new Tipo_DocumentoRN();		
+		Tipo_DocumentoRN tipo_DocumentoRN = new Tipo_DocumentoRN();	
+		System.out.println(id_tipo_doc);
 		return tipo_DocumentoRN.carregar(id_tipo_doc);
 		
 	}
