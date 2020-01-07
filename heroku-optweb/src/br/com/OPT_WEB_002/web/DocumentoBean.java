@@ -30,7 +30,7 @@ import br.com.OPT_WEB_002.val_campos_trans_doc.*;
 import net.sf.jasperreports.engine.JRException;
 
 @ManagedBean(name = "documentoBean")
-@SessionScoped
+@ViewScoped
 public class DocumentoBean implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -59,6 +59,7 @@ public class DocumentoBean implements Serializable {
 	private BigInteger idDocDetalhe = null;
 	private List<modeloColuna> columns;
 	private boolean desabilitaCampoIncremento = false;	
+
 					
 	public DocumentoBean() {}
 		   	   	
@@ -67,7 +68,7 @@ public class DocumentoBean implements Serializable {
 			this.usuario = usuario;
 			return this.usuario;
 	 }
-	  	 
+
 	public LazyDataModel<Documento> lazyDocumento(Usuario usuario) {
 		
 		/**objeto da classe LazyDocumento recebe uma lista de valores pelo campo id_tipo_doc**/
@@ -75,7 +76,7 @@ public class DocumentoBean implements Serializable {
 		
 		/**método que cria colunas a partir de sua ordem cadastrada na tabela layout_empresa**/
 		if(listarPorIdTipoDocCodEmpCodFiCodUni(usuario).size() != 0){
-		System.out.println(lazymodel);	
+		
 		criarColunasDinamicas();
 		/**objeto com valor adicionado para true para carregar dados da datatable de documento e de transacao documento**/
 		linhaSelecionada = true;	    		   	
@@ -1268,12 +1269,12 @@ public class DocumentoBean implements Serializable {
 	
 	public TreeNode getNodePrincipal() throws IllegalArgumentException, IllegalAccessException, ParseException {
 		
-		nodePrincipal = nodeDocumento.criarDocumento(pesquisarRastreabilidade());
+		nodePrincipal = nodeDocumento.criarDocumento(pesquisarRastreabilidadePorIdDoc());
 
 		return nodePrincipal;
 	}
 
-	public BigInteger pesquisarRastreabilidade() {
+	public BigInteger pesquisarRastreabilidadePorIdDoc() {
 
 		DocumentoRN documentoRN = new DocumentoRN();
 		
@@ -1284,10 +1285,12 @@ public class DocumentoBean implements Serializable {
 
 		} else {
 
-			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!", "Documento não existe!"));
-			return null;
+			id = null;
+			return id;
 		}
 	}
+	
+	
 
 	public String redirecionaDownloadConsulta() {
 
@@ -1351,7 +1354,7 @@ public class DocumentoBean implements Serializable {
 
 			InputStream in = new ByteArrayInputStream(transacao_Documento.getArquivo());
 			this.streamedContent = new DefaultStreamedContent(in, transacao_Documento.getExtensaoarq(),
-					transacao_Documento.getNome_arquivo());
+			transacao_Documento.getNome_arquivo());
 
 		}
 
@@ -1366,7 +1369,7 @@ public class DocumentoBean implements Serializable {
 			InputStream in = new ByteArrayInputStream(val_Campos_Trans_Doc.getArquivo());
 
 			this.streamedContent = new DefaultStreamedContent(in, val_Campos_Trans_Doc.getExtensaoarq(),
-					val_Campos_Trans_Doc.getNome_arquivo());
+			val_Campos_Trans_Doc.getNome_arquivo());
 
 		}
 
@@ -1830,9 +1833,16 @@ public class DocumentoBean implements Serializable {
 	public String salvar() throws DAOException {
 
 		DocumentoRN documentoRN = new DocumentoRN();
-		System.out.println("salvar1");
+	;
 		if (id == null) {
-			System.out.println("salvar2");
+					
+			if (arquivoDoc.getFileName().contains(".ppt")) {
+				this.documento.setExtensao_arq(".ppt");
+			}
+			
+			if (arquivoDoc.getFileName().contains(".pptx")) {
+				this.documento.setExtensao_arq(".pptx");
+			}
 			
 			if (arquivoDoc.getFileName().contains(".pdf")) {
 				this.documento.setExtensao_arq(".pdf");
@@ -1871,7 +1881,7 @@ public class DocumentoBean implements Serializable {
 			this.documento.setNome_arquivo(arquivoDoc.getFileName());
 
 			try {
-				System.out.println("salvar3");
+				
 				this.documento.setArquivo(IOUtils.toByteArray(arquivoDoc.getInputstream()));
 
 			} catch (IOException e) {
@@ -1880,9 +1890,9 @@ public class DocumentoBean implements Serializable {
 			}
 
 			try {
-				System.out.println("salvar4");	
+		
 				documentoRN.salvar(this.documento);
-				System.out.println("salvar5");
+			
 				this.documento = new Documento();
 
 				this.documentoSelecionado = new Documento();
@@ -1898,6 +1908,28 @@ public class DocumentoBean implements Serializable {
 		} else {
 
 			try {
+				
+
+				if (arquivoDoc.getFileName().contains(".ppt") && arquivoDoc != null) {
+
+					this.documento.setExtensao_arq(".ppt");
+					this.documento.setNome_arquivo(arquivoDoc.getFileName());
+					this.documento.setArquivo(IOUtils.toByteArray(arquivoDoc.getInputstream()));
+				}
+
+				if (arquivoDoc.getFileName().contains(".pptx") && arquivoDoc != null) {
+
+					this.documento.setExtensao_arq(".pptx");
+					this.documento.setNome_arquivo(arquivoDoc.getFileName());
+					this.documento.setArquivo(IOUtils.toByteArray(arquivoDoc.getInputstream()));
+				}
+
+				if (arquivoDoc.getFileName().contains(".pdf") && arquivoDoc != null) {
+
+					this.documento.setExtensao_arq(".pdf");
+					this.documento.setNome_arquivo(arquivoDoc.getFileName());
+					this.documento.setArquivo(IOUtils.toByteArray(arquivoDoc.getInputstream()));
+				}
 			
 				if (arquivoDoc.getFileName().contains(".pdf") && arquivoDoc != null) {
 
@@ -1909,6 +1941,12 @@ public class DocumentoBean implements Serializable {
 				else if (arquivoDoc.getFileName().contains(".xlsx") && arquivoDoc != null) {
 
 					this.documento.setExtensao_arq(".xlsx");
+					this.documento.setNome_arquivo(arquivoDoc.getFileName());
+					this.documento.setArquivo(IOUtils.toByteArray(arquivoDoc.getInputstream()));
+					
+				} else if (arquivoDoc.getFileName().contains(".doc") && arquivoDoc != null) {
+
+					this.documento.setExtensao_arq(".doc");
 					this.documento.setNome_arquivo(arquivoDoc.getFileName());
 					this.documento.setArquivo(IOUtils.toByteArray(arquivoDoc.getInputstream()));
 
@@ -2009,6 +2047,7 @@ public class DocumentoBean implements Serializable {
 
 	public String redirecionaMenu() {
 
+		this.id_tipo_doc = null;
 		this.documento = null;
 		this.documento = new Documento();
 		this.documentoSelecionado = null;
@@ -2047,7 +2086,7 @@ public class DocumentoBean implements Serializable {
 
 		String p_id_doc = idDocDetalhe.toString();
 
-		String url = "https://optweb-2.herokuapp.com/restrito/rastreabilidade/rastreabilidade.xhtml?id=" + p_id_doc;
+		String url = "https://optweb.herokuapp.com/restrito/rastreabilidade/rastreabilidade.xhtml?id=" + p_id_doc;
 
 		try {
 
@@ -2079,7 +2118,7 @@ public class DocumentoBean implements Serializable {
 	}
 
 	public String verificaArquivoAnexado(String arquivo) {
-
+System.out.println("entrou");
 		if (arquivo.isEmpty()) {
 			return "";
 
@@ -2178,7 +2217,7 @@ public class DocumentoBean implements Serializable {
 	   
 	public String adicionarValorUrl(){
 			   
-		   String url = "http://optweb-2.herokuapp.com/restrito/rastreabilidade/rastreabilidade.xhtml?tipo="; 
+		   String url = "http://optweb.herokuapp.com/restrito/rastreabilidade/rastreabilidade.xhtml?tipo="; 
 		
 		   url = url + String.valueOf(id_tipo_doc) + "&val=";
 	

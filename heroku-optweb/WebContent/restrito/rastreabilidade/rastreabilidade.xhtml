@@ -117,14 +117,18 @@
 				<p:graphicImage value="/imagens/loadingBar-1.gif" />
 			</p:dialog>
 			
-			<p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
+			<p:panelGrid columns="4" styleClass="ui-panelgrid-blank">
 	
 				<p:inputText value="#{documentoBean.id}"
-					style="font-family: Verdana,Arial,Helvetica,sans-serif;font-size: 12px;">
+					style="font-family: Verdana,Arial,Helvetica,sans-serif;font-size:12px;" size="1">
 					<p:ajax event="keyup" update="search" />
 				</p:inputText>
 	
-				<p:commandButton action="#{documentoBean.pesquisarRastreabilidade()}" icon="ui-icon-search" style="width:26px;height:26px;margin-left:10px" onclick="start()"  id="search" update="form"  /> 
+				<p:commandButton action="#{documentoBean.pesquisarRastreabilidadePorIdDoc()}" icon="ui-icon-search" style="width:26px;height:26px;" onclick="start()"  id="search" update="form" /> 
+				
+				<p:commandButton label="expande" value="#{nodeDocumentoBean.expandeNodeTransRastreabilidade()}" action="#{nodeDocumentoBean.expandeNodeTransRastreabilidade()}"  style="width:80px;height:26px;font-family:Verdana,Arial,Helvetica,sans-serif;font-size:12px;" onclick="start()"  id="expIdTrans" update="form" /> 
+				
+				<p:commandButton label="Download"  value = "Download" action="lista_downloads" style="width:85px;height:26px;font-family:Verdana,Arial,Helvetica,sans-serif;font-size:12px;" onclick="start()"  id="searchIdld" update="form" /> 
 				
 			</p:panelGrid><br/>
 	

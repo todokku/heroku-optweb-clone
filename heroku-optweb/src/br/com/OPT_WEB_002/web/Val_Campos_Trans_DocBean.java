@@ -128,6 +128,12 @@ public class Val_Campos_Trans_DocBean implements Serializable {
 						this.valCampTrans.setNome_arquivo(arquivo.getFileName());
 						this.valCampTrans.setArquivo(IOUtils.toByteArray(arquivo.getInputstream()));
 						
+					}else if(arquivo.getFileName().contains(".doc") && arquivo != null){
+							
+						this.valCampTrans.setExtensaoarq(".doc");
+						this.valCampTrans.setNome_arquivo(arquivo.getFileName());
+						this.valCampTrans.setArquivo(IOUtils.toByteArray(arquivo.getInputstream()));
+										
 					}else if(arquivo.getFileName().contains(".docx") && arquivo != null){
 							
 						this.valCampTrans.setExtensaoarq(".docx");
@@ -154,28 +160,44 @@ public class Val_Campos_Trans_DocBean implements Serializable {
 						this.valCampTrans.setArquivo(IOUtils.toByteArray(arquivo.getInputstream()));
 		
 					} else if (arquivo.getFileName().contains(".png")) {
+						
 						this.valCampTrans.setExtensaoarq(".png");
 						this.valCampTrans.setNome_arquivo(arquivo.getFileName());
 						this.valCampTrans.setArquivo(IOUtils.toByteArray(arquivo.getInputstream()));
 								
 					} else if (arquivo.getFileName().contains(".bmp")) {
+						
 						this.valCampTrans.setExtensaoarq(".bmp");
 						this.valCampTrans.setNome_arquivo(arquivo.getFileName());
 						this.valCampTrans.setArquivo(IOUtils.toByteArray(arquivo.getInputstream()));
 					
 					} else if (arquivo.getFileName().contains(".rar")) {
+						
 						this.valCampTrans.setExtensaoarq(".rar");
 						this.valCampTrans.setNome_arquivo(arquivo.getFileName());
 						this.valCampTrans.setArquivo(IOUtils.toByteArray(arquivo.getInputstream()));
 						
 					} else if (arquivo.getFileName().contains(".zip")) {
+						
 						this.valCampTrans.setExtensaoarq(".zip");
 						this.valCampTrans.setNome_arquivo(arquivo.getFileName());
 						this.valCampTrans.setArquivo(IOUtils.toByteArray(arquivo.getInputstream()));
 					}
-
-
-							 			
+					
+					else if (arquivo.getFileName().contains(".ppt")) {
+						
+						this.valCampTrans.setExtensaoarq(".ppt");
+						this.valCampTrans.setNome_arquivo(arquivo.getFileName());
+						this.valCampTrans.setArquivo(IOUtils.toByteArray(arquivo.getInputstream()));
+					}
+					
+					else if (arquivo.getFileName().contains(".pptx")) {
+						
+						this.valCampTrans.setExtensaoarq(".pptx");
+						this.valCampTrans.setNome_arquivo(arquivo.getFileName());
+						this.valCampTrans.setArquivo(IOUtils.toByteArray(arquivo.getInputstream()));
+					}
+									 			
 					val_Campos_Trans_DocRN.alterar(this.valCampTrans);		
 					return "/restrito/documento/documento.xhtml?id=" + this.valCampTrans.getId_trans_doc().getId_doc().getId_tipo_doc().getId_tipo_doc() + "&idtr=" + this.valCampTrans.getId_trans_doc().getId_transacao_doc() + "&doc=" + valCampTrans.getId_trans_doc().getId_doc().getId_doc()  + "faces-redirect=true";
 						
@@ -196,8 +218,10 @@ public class Val_Campos_Trans_DocBean implements Serializable {
 		val_Campos_Trans_DocRN = new Val_Campos_Trans_DocRN();
 		
 		try {
-			this.valCampTrans = val_Campos_Trans_DocRN.carregar(val_Campos_Trans_DocSelecionado.getId_val_camp_trans_doc());
+			
+			this.valCampTrans = val_Campos_Trans_DocRN.carregar(val_Campos_Trans_DocSelecionado.getId_val_camp_trans_doc());			
 			val_Campos_Trans_DocRN.excluir(this.valCampTrans);
+			
 		} catch (DAOException e) {
 			
 			e.printStackTrace();

@@ -1,5 +1,6 @@
 package br.com.OPT_WEB_002.rest;
 
+import java.io.FileOutputStream;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import javax.annotation.PostConstruct;
@@ -7,6 +8,16 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
+import org.apache.commons.io.IOUtils;
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataParam;
+
+import com.itextpdf.text.pdf.codec.Base64.InputStream;
+import com.itextpdf.text.pdf.codec.Base64.OutputStream;
+
 import br.com.OPT_WEB_002.documento.*;
 import br.com.OPT_WEB_002.layout_empresa.*;
 
@@ -19,23 +30,77 @@ public class DocumentoCadastroRest {
    
 	@PostConstruct
 	public void init() {}
-
+		
 	@POST
 	@Path("/cadastrar/{valores}")
-	@Consumes(javax.ws.rs.core.MediaType.TEXT_PLAIN)
-	@javax.ws.rs.Produces(javax.ws.rs.core.MediaType.TEXT_PLAIN)
-
-	public void salvarEtiquetas(@PathParam("valores") String valores) throws NoSuchFieldException, SecurityException{
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Produces(MediaType.APPLICATION_JSON)
+	public void salvarEtiquetas(@PathParam("valores") String valores,
+								@FormDataParam("file") java.io.InputStream uploadArquivo,
+		    					@FormDataParam("file") FormDataContentDisposition detalhesArquivo) throws Exception{
 		
 		Documento doc = new Documento();
-												
+		
+		System.out.println(detalhesArquivo.getFileName());
+		
+	    doc.setArquivo(IOUtils.toByteArray(uploadArquivo));
+	    doc.setNome_arquivo(detalhesArquivo.getFileName());
+	    
+		
+		if (detalhesArquivo.getFileName().contains(".ppt")) {
+			doc.setExtensao_arq(".ppt");
+		}
+		
+		if (detalhesArquivo.getFileName().contains(".pptx")) {
+			doc.setExtensao_arq(".pptx");
+		}
+		
+		if (detalhesArquivo.getFileName().contains(".pdf")) {
+			doc.setExtensao_arq(".pdf");
+		}
+
+		if (detalhesArquivo.getFileName().contains(".xlsx")) {
+			doc.setExtensao_arq(".xlsx");
+		}
+
+		if (detalhesArquivo.getFileName().contains(".docx")) {
+			doc.setExtensao_arq(".docx");
+		}
+		
+		if (detalhesArquivo.getFileName().contains(".txt")) {
+		    doc.setExtensao_arq(".txt");
+		}
+		 
+	    if (detalhesArquivo.getFileName().contains(".htm")) {
+			doc.setExtensao_arq(".html");
+	    }
+
+		if (detalhesArquivo.getFileName().contains(".jpeg")) {
+			doc.setExtensao_arq(".jpeg");
+		}	
+
+		if (detalhesArquivo.getFileName().contains(".png")) {
+			doc.setExtensao_arq(".png");
+		}
+		
+	    if (detalhesArquivo.getFileName().contains(".bmp")) {
+			doc.setExtensao_arq(".bmp");
+		}
+
+	    if (detalhesArquivo.getFileName().contains(".zip")) {
+			doc.setExtensao_arq(".zip");
+		}
+	    
+		if (detalhesArquivo.getFileName().contains(".rar")) {
+			doc.setExtensao_arq(".rar");
+		}
+				
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 							
 		valoresWebService = valores.split(",");
-								
-		doc.getId_tipo_doc().setId_tipo_doc(BigInteger.valueOf(Long.parseLong(valoresWebService[0])));
-																
 									
+		doc.getId_tipo_doc().setId_tipo_doc(BigInteger.valueOf(Long.parseLong(valoresWebService[0])));
+																		
 						for(Layout_Empresa layout_Empresa : Layout_EmpresaRN.listarPor_tipoDocumento(doc.getId_tipo_doc().getId_tipo_doc())){
 					
 							doc.getCod_empresa().setCod_empresa(layout_Empresa.getCod_empresa().getCod_empresa());
@@ -57,7 +122,6 @@ public class DocumentoCadastroRest {
 									doc.setChar_002(valoresWebService[2]);
 								}
 								
-
 								if(campoDocumento.getName().equals("char_003")){
 									
 									doc.setChar_003(valoresWebService[3]);
@@ -78,7 +142,6 @@ public class DocumentoCadastroRest {
 									doc.setChar_006(valoresWebService[6]);
 								}
 								
-
 								if(campoDocumento.getName().equals("char_007")){
 									
 									doc.setChar_007(valoresWebService[7]);
@@ -89,7 +152,6 @@ public class DocumentoCadastroRest {
 									doc.setChar_008(valoresWebService[8]);
 								}
 								
-
 								if(campoDocumento.getName().equals("char_009")){
 									
 									doc.setChar_009(valoresWebService[9]);
@@ -160,7 +222,6 @@ public class DocumentoCadastroRest {
 									doc.setInt_002(Integer.parseInt(valoresWebService[22]));
 								}
 								
-
 								if(campoDocumento.getName().equals("int_003")){
 									
 									doc.setInt_003(Integer.parseInt(valoresWebService[23]));
@@ -297,17 +358,15 @@ public class DocumentoCadastroRest {
 									doc.setData_010(formatter.parse(valoresWebService[50]));
 								}
 								
-							}catch(Exception e){
+						}catch(Exception e){
 								
 								e.printStackTrace();
-							}
+						}
 							
-					
-				
-				
 					}
+		
 				documentoRN.cadastrarDocumentoWebService(doc);					
-					
+		
 	}
 
 	public DocumentoCadastroRest() {}

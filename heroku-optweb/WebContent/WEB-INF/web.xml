@@ -58,6 +58,10 @@ http://java.sun.com/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
 		<servlet-name>Jersey REST Service</servlet-name>
 		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
 		<init-param>
+    		<param-name>jersey.config.server.provider.classnames</param-name>
+    		<param-value>org.glassfish.jersey.media.multipart.MultiPartFeature</param-value>
+		</init-param>
+		<init-param>
 			<param-name>jersey.config.server.provider.packages</param-name>
 			<param-value>br.com.OPT_WEB_002.rest</param-value>
 		</init-param>
@@ -71,5 +75,7 @@ http://java.sun.com/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
 		<servlet-name>Jersey REST Service</servlet-name>
 		<url-pattern>/rest/*</url-pattern>
 	</servlet-mapping>
+	
+	
 		           	  	
 </web-app>

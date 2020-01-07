@@ -1,5 +1,7 @@
 package br.com.OPT_WEB_002.NodeDocumento;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -9,24 +11,30 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 
+import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.StreamedContent;
 import org.primefaces.model.TreeNode;
 import br.com.OPT_WEB_002.campo_adicional.*;
 import br.com.OPT_WEB_002.cliente.ClienteRN;
 import br.com.OPT_WEB_002.documento.*;
 import br.com.OPT_WEB_002.layout_empresa.*;
 import br.com.OPT_WEB_002.tipo_documento.*;
+import br.com.OPT_WEB_002.transacao.Transacao;
 import br.com.OPT_WEB_002.transacao_documento.*;
 import br.com.OPT_WEB_002.val_campos_trans_doc.*;
 
 @ManagedBean(name = "nodeDocumentoBean")
-@ApplicationScoped
+@SessionScoped
 public class NodeDocumento {
 	
 	private String tipo;
 	private String valor;
 	private List<String> lista = new ArrayList<String>();
 	private BigInteger id;
+	private boolean expandirNodeTrans = false;
+	private List<StreamedContent> listaAnexos = new ArrayList<StreamedContent>();
+	private StreamedContent downloadNode = new DefaultStreamedContent();
 		
 	TreeNode nodePrincipal = new DefaultTreeNode();
 
@@ -72,44 +80,40 @@ public class NodeDocumento {
 		TreeNode nodeValorTransDocArquivo = new DefaultTreeNode();
 
 		TreeNode nodeValCampTransDocArquivo = new DefaultTreeNode();
+		
+	
 	
 		try{
 			
-			System.out.println("msg1");
-	
+				
 			if(tipo != null && valor != null && id_doc == null){
-				System.out.println("msg2");
+				
 				String[] teste = valor.split(",");
 				
 				for(String val : teste){
-					System.out.println("msg3");
+					
 					lista.add(val);
 				}			
 									
 						for(Layout_Empresa layout_Emp1 : layout_EmpresaRN.listarPorIdTipoDoc(BigInteger.valueOf(Long.parseLong(tipo)))){
-							System.out.println("msg4");
+							
 							for(Documento doc : documentoRN.listarPorIdTipoDoc(layout_Emp1.getId_tipo_doc().getId_tipo_doc())){
-								System.out.println("msg5");
+							
 										java.lang.reflect.Field  field = Documento.class.getDeclaredField(layout_Emp1.getCod_campo());				
 										field.setAccessible(true);
 										
 										for(String campo : lista){
-											System.out.println("msg6");
+										
 											if(String.valueOf(field.get(doc)).equals(campo)){
-												System.out.println("msg7");
+											
 												documento = doc;
-												
-												lista.remove(campo);						
+																		
 											}		
 										}
 							}
 				
 						}					
-						System.out.println("msg8");				
-						System.out.println(lista.size());
-							if(lista.size() != 0){
-								return null;
-							}
+					
 				
 			}else{
 				
@@ -119,7 +123,9 @@ public class NodeDocumento {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-	
+		
+		this.id = documento.getId_doc();
+
 		if (documento.getId() != null) {
 		
 			nodePrincipal = new DefaultTreeNode("ROOT", null);
@@ -444,18 +450,21 @@ public class NodeDocumento {
 			nodeTransacoes.setExpanded(true);
 			
 					for (Transacao_Documento transacao_Documento : transacao_DocumentoRN.listarPorIdDoc(documento.getId_doc(),documento.getCod_empresa().getCod_empresa(),documento.getCod_filial().getCod_filial(),documento.getCod_unidade().getCod_unidade())) {
-						System.out.println("transacao2");
+						
 						if (transacao_Documento.getEstado().contentEquals("Nao Iniciado")) {
 
 						nodeCamposTrans = new DefaultTreeNode("transacao_valores",new Transacao_Documento(transacao_Documento.getId_transacao().getId_transacao() + " - "+ transacao_Documento.getId_transacao().getDescricao(), "", ""),nodeTransacoes);
 						nodeCamposTrans.setSelectable(false);
-					
+						
+						
+						
 						} else {
 
 							if (transacao_Documento.getEstado().contentEquals("Iniciado")) {
 
 								nodeCamposTrans = new DefaultTreeNode("transacao_valores",new Transacao_Documento(transacao_Documento.getId_transacao().getId_transacao() + " - "+ transacao_Documento.getId_transacao().getDescricao(),transacao_Documento.getEstado() + " - "+ transacao_Documento.getData_ini().toString() + "  "+ transacao_Documento.getHorario_ini().toString(),""),nodeTransacoes);
 								nodeCamposTrans.setSelectable(false);
+								
 							
 							} else {
 
@@ -464,19 +473,19 @@ public class NodeDocumento {
 									nodeCamposTrans = new DefaultTreeNode("transacao_valores",new Transacao_Documento(transacao_Documento.getId_transacao().getId_transacao()+ " - " + transacao_Documento.getId_transacao().getDescricao(), "", ""),nodeTransacoes);
 									nodeCamposTrans.setSelectable(false);	
 									
+									
 								} else {
 
-								/**	if (transacao_Documento.getEstado().contentEquals("Finalizado")) {
+									if (transacao_Documento.getEstado().contentEquals("Finalizado")) {
 										nodeCamposTrans = new DefaultTreeNode("transacao_valores",new Transacao_Documento(transacao_Documento.getId_transacao().getId_transacao() + " - "+ transacao_Documento.getId_transacao().getDescricao(),transacao_Documento.getEstado() + " - "+ transacao_Documento.getData_fim().toString() + "  "+ transacao_Documento.getHorario_fim().toString(),""),nodeTransacoes);
 										nodeCamposTrans.setSelectable(false);
 										
-									}**/
+									}
 								}
 							}
 						}
-
-								
-										
+						
+						nodeCamposTrans.setExpanded(expandirNodeTrans);
 						nodeDadosTransacoes = new DefaultTreeNode("trans_doc", new Transacao_Documento("DADOS", "", ""),nodeCamposTrans);
 						nodeDadosTransacoes.setSelectable(true);
 						nodeDadosTransacoes.setExpanded(true);
@@ -534,11 +543,11 @@ public class NodeDocumento {
 						nodeCamposAdicionais = new DefaultTreeNode("camp",new Transacao_Documento("CAMPOS ADICIONAIS", "", ""), nodeDadosTransacoes);
 						nodeCamposAdicionais.setExpanded(true);
 						nodeCamposAdicionais.setSelectable(true);
-						System.out.println(transacao_Documento.getId_transacao().getId_transacao());
+						
 						for (Campo_Adicional campo_Adicional : campo_AdicionalRN.listarPorIdTransCodEmCodFiCodUni(transacao_Documento.getId_transacao().getId_transacao())) {
-							System.out.println("campad2");
+							
 							if (val_Campos_Trans_DocRN.carregarPorIdCampAdic(campo_Adicional.getId_camp_adic(),transacao_Documento.getId_transacao_doc(),transacao_Documento.getCod_empresa().getCod_empresa(),transacao_Documento.getCod_filial().getCod_filial(),transacao_Documento.getCod_unidade().getCod_unidade()).isEmpty()) {
-								System.out.println("valcamp1");
+								
 								nodeCamposCampAdic = new DefaultTreeNode("camp_adic",new Transacao_Documento(campo_Adicional.getId_camp_adic().toString() + " - "+ campo_Adicional.getDescricao(), "", ""),nodeCamposAdicionais);
 								nodeCamposCampAdic.setSelectable(false);
 								nodeCamposCampAdic.setExpanded(true);
@@ -600,44 +609,81 @@ public class NodeDocumento {
 
 		}
 	
-	public String valorParaLabelReferencia(BigInteger id_tipo_doc) {
-
-		Tipo_DocumentoRN tipo_DocumentoRN = new Tipo_DocumentoRN();
-
-		if (id_tipo_doc != null) {
-
-			return tipo_DocumentoRN.carregar(id_tipo_doc).getReferencia();
+	public String expandeNodeTransRastreabilidade(){
+		
+		if(expandirNodeTrans == false){
+			expandirNodeTrans = true;
+			return "Expandir";
+		}else{
+			
+			expandirNodeTrans = false;
+			return "Voltar";
 		}
-
-		return "Referencia";
-
-	}
-
-	public String valorParaLabelReferencia2(BigInteger id_tipo_doc) {
-
-		Tipo_DocumentoRN tipo_DocumentoRN = new Tipo_DocumentoRN();
-
-		if (id_tipo_doc != null) {
-
-			return tipo_DocumentoRN.carregar(id_tipo_doc).getReferencia_2();
-		}
-
-		return "Referencia_2";
-
+		
+		
 	}
 	
-	public String valorParaLabelReferencia3(BigInteger id_tipo_doc) {
+	
+	public List<StreamedContent> retornaAnexos(BigInteger id){
+		System.out.println("Entrou");
+	
+		Transacao_DocumentoRN transacao_DocumentoRN = new Transacao_DocumentoRN();
+		DocumentoRN documentoRN = new DocumentoRN();
+		Val_Campos_Trans_DocRN val_Campos_Trans_DocRN = new Val_Campos_Trans_DocRN();
+		
+		for(Documento documento : documentoRN.listarPorIdDoc(id)){
+			
+			if(documento.getArquivo() != null){
+				
+				System.out.println("msg2");
 
-		Tipo_DocumentoRN tipo_DocumentoRN = new Tipo_DocumentoRN();
+				InputStream in = new ByteArrayInputStream(documento.getArquivo());
+				System.out.println("msg3");
+				StreamedContent streamedContent = new DefaultStreamedContent(in, documento.getExtensao_arq(),documento.getNome_arquivo());
+				System.out.println("msg4");
+				listaAnexos.add(streamedContent);
+				System.out.println("msg5");
+				listaAnexos.add(streamedContent);
+				
+			}
+			
+		for(Transacao_Documento transacao : transacao_DocumentoRN.listarPorIdDoc(id,documento.getCod_empresa().getCod_empresa(),documento.getCod_filial().getCod_filial(),documento.getCod_unidade().getCod_unidade())){
+						
+			System.out.println("msg1");
+			System.out.println(transacao.getId_transacao_doc());
+			
+			if(transacao.getArquivo() != null){
+				
+			System.out.println("msg2");
 
-		if (id_tipo_doc != null) {
-
-			return tipo_DocumentoRN.carregar(id_tipo_doc).getReferencia_3();
+			InputStream in = new ByteArrayInputStream(transacao.getArquivo());
+			System.out.println("msg3");
+			StreamedContent streamedContent = new DefaultStreamedContent(in, transacao.getExtensaoarq(),transacao.getNome_arquivo());
+			System.out.println("msg4");
+			listaAnexos.add(streamedContent);
+			System.out.println("msg5");
+			
+			}
+			
+			
+			for(Val_Campos_Trans_Doc val_Campos_Trans_Doc : val_Campos_Trans_DocRN.listarPorIdTransDoc(transacao.getId_transacao_doc(),transacao.getCod_empresa().getCod_empresa(),transacao.getCod_filial().getCod_filial(),transacao.getCod_unidade().getCod_unidade())){
+				
+				InputStream in = new ByteArrayInputStream(val_Campos_Trans_Doc.getArquivo());
+				System.out.println("msg3");
+				StreamedContent streamedContent = new DefaultStreamedContent(in, val_Campos_Trans_Doc.getExtensaoarq(),val_Campos_Trans_Doc.getNome_arquivo());
+				System.out.println("msg4");
+				listaAnexos.add(streamedContent);
+				System.out.println("msg5");
+				
+			}
+					
 		}
-
-		return "Referencia_2";
-
+		}
+		
+		System.out.println(listaAnexos.size());
+		return listaAnexos;
 	}
+	  	 
 	
 	public NodeDocumento(){}
 
@@ -690,6 +736,36 @@ public class NodeDocumento {
 
 	public void setId(BigInteger id) {
 		this.id = id;
+	}
+
+
+	public boolean isExpandirNodeTrans() {
+		return expandirNodeTrans;
+	}
+
+
+	public void setExpandirNodeTrans(boolean expandirNodeTrans) {
+		this.expandirNodeTrans = expandirNodeTrans;
+	}
+
+
+	public List<StreamedContent> getListaAnexos() {
+		return listaAnexos;
+	}
+
+
+	public void setListaAnexos(List<StreamedContent> listaAnexos) {
+		this.listaAnexos = listaAnexos;
+	}
+
+
+	public StreamedContent getDownloadNode() {
+		return downloadNode;
+	}
+
+
+	public void setDownloadNode(StreamedContent downloadNode) {
+		this.downloadNode = downloadNode;
 	}
 
 

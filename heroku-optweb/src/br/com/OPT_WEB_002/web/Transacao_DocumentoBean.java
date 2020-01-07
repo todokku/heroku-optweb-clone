@@ -166,46 +166,66 @@ public String salvar() throws DAOException {
 		    			
 		if (this.transacao_documentoSelecionada.getId_transacao_doc() == null) {
 						
-					if(arquivo.getFileName().contains(".pdf")){						
+					if(arquivo.getFileName().contains(".pdf")){	
+						
 						this.transacao_documento.setExtensaoarq(".pdf");						
 					}
 				
 					else if(arquivo.getFileName().contains(".xlsx")){
 					
-							this.transacao_documento.setExtensaoarq(".xlsx");					
+						this.transacao_documento.setExtensaoarq(".xlsx");	
+						
+					}else if(arquivo.getFileName().contains(".doc")){						
+							
+							this.transacao_documento.setExtensaoarq(".doc");
 						
 					}else if(arquivo.getFileName().contains(".docx")){						
-							this.transacao_documento.setExtensaoarq(".docx");						
+						
+						this.transacao_documento.setExtensaoarq(".docx");						
 								
 					}else if(arquivo.getFileName().contains(".txt")){					
-							this.transacao_documento.setExtensaoarq(".txt");								
+						
+						this.transacao_documento.setExtensaoarq(".txt");								
 					}
 					
 					else if(arquivo.getFileName().contains(".htm")){						
-							this.transacao_documento.setExtensaoarq(".html");
+						
+						this.transacao_documento.setExtensaoarq(".html");
 					}	
 
 					else if (arquivo.getFileName().contains(".jpeg")) {
+						
 						this.transacao_documento.setExtensaoarq(".jpeg");			
 			
 					} else if (arquivo.getFileName().contains(".png")) {
+						
 						this.transacao_documento.setExtensaoarq(".png");			
 								
 					} else if (arquivo.getFileName().contains(".bmp")) {
+						
 						this.transacao_documento.setExtensaoarq(".bmp");
 					}
 								
 					 else if (arquivo.getFileName().contains(".rar")) {
+						 
 						this.transacao_documento.setExtensaoarq(".rar");
 					}
 		
 					else if(arquivo.getFileName().contains(".zip")) {
+						
 						this.transacao_documento.setExtensaoarq(".zip");
 					}
-													
 					
-
-
+					else if(arquivo.getFileName().contains(".ppt")) {
+						
+						this.transacao_documento.setExtensaoarq(".ppt");
+					}
+					
+					else if(arquivo.getFileName().contains(".pptx")) {
+						
+						this.transacao_documento.setExtensaoarq(".pptx");
+					}
+					
 						this.transacao_documento.setNome_arquivo(arquivo.getFileName());
 					
 							try {
@@ -243,6 +263,12 @@ public String salvar() throws DAOException {
 					
 						this.transacao_documento.setExtensaoarq(".xlsx");
 						this.transacao_documento.setNome_arquivo(arquivo.getFileName());		
+						this.transacao_documento.setArquivo(IOUtils.toByteArray(arquivo.getInputstream()));
+						
+					}else if(arquivo.getFileName().contains(".doc") && arquivo != null){
+						
+					    this.transacao_documento.setExtensaoarq(".doc");
+						this.transacao_documento.setNome_arquivo(arquivo.getFileName());					
 						this.transacao_documento.setArquivo(IOUtils.toByteArray(arquivo.getInputstream()));
 				
 					}else if(arquivo.getFileName().contains(".docx") && arquivo != null){
@@ -292,6 +318,19 @@ public String salvar() throws DAOException {
 					} else if (arquivo.getFileName().contains(".zip")) {
 						
 						this.transacao_documento.setExtensaoarq(".zip");	
+						this.transacao_documento.setNome_arquivo(arquivo.getFileName());						
+						this.transacao_documento.setArquivo(IOUtils.toByteArray(arquivo.getInputstream()));
+					}
+						
+					else if (arquivo.getFileName().contains(".ppt")) {
+						
+						this.transacao_documento.setExtensaoarq(".ppt");	
+						this.transacao_documento.setNome_arquivo(arquivo.getFileName());						
+						this.transacao_documento.setArquivo(IOUtils.toByteArray(arquivo.getInputstream()));
+								
+					} else if (arquivo.getFileName().contains(".pptx")) {
+						
+						this.transacao_documento.setExtensaoarq(".pptx");	
 						this.transacao_documento.setNome_arquivo(arquivo.getFileName());						
 						this.transacao_documento.setArquivo(IOUtils.toByteArray(arquivo.getInputstream()));
 					}

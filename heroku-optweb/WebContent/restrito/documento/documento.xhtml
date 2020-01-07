@@ -81,7 +81,13 @@
 											   																			
 							</f:facet>
 							
+									<p:column headerText="A" width="10" rendered = "#{documentoBean.id_tipo_doc != null}">
+								       <p:graphicImage value="#{documentoBean.verificaArquivoAnexado(documento.nome_arquivo)}"/>
+							        </p:column>	
+									
+							
 								<p:columns value="#{documentoBean.columns}" var="column" id="colunas"  filterBy="#{documento[column.property]}">
+								
 									
 									<f:facet name="header" >
 										<p:outputLabel value="#{column.header}"  />
