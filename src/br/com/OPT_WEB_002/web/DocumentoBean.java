@@ -1470,7 +1470,7 @@ public class DocumentoBean implements Serializable {
 			return null;
 		}
 		}
-		
+		return null;
 	}
 
 	public List<Documento> listarPorCodEmpCodFiCodUni(Usuario usuario) {
