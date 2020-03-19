@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+      
+
+<h:head>
+	<title>Val Campos Trans Doc</title>
+</h:head>   
+
+	<ui:composition template="/template/interna.xhtml">
+		<ui:define name="titulo">Val Campos Trans Doc</ui:define>
+			<ui:define name="corpo">
+				<h:form id = "formMesssages">
+					<p:messages id = "messages" autoUpdate="true" closable="true" showDetail="true"/>					
+				</h:form>
+					
+					<h:form id = "formCadastro">
+					
+						<p:ajaxStatus onstart="PF('dlg').show()" oncomplete="PF('dlg').hide()"/>
+						<p:dialog closable="false" draggable="false" header="Processando" hideEffect="fade" modal="true" resizable="false" responsive="true"  showEffect="fade"  widgetVar="dlg">
+							<p:graphicImage value ="/imagens/loadingBar-1.gif"/>
+						</p:dialog>
+						
+						<div class = "ui-fluid">
+							<p:dataTable 
+								id = "table"
+								value = "#{valCampBean.listarPorIdTransCodEmCodFiCodUni(usuarioBean.usuarioLogin)}" 
+								var = "valCamp"									
+								rules = "rows"				
+								cellpadding ="20"
+								selection = "#{valCampBean.val_Campos_Trans_DocSelecionado}"			
+								selectionMode="single"
+								rowKey="#{valCamp.id_val_camp_trans_doc}"							
+								rows="20" 															
+								paginator="true"								
+								reflow="true"
+								filteredValue="#{valCampBean.lista}"
+								>
+														
+								<p:column width="15" headerText="Id">
+									#{valCamp.id_val_camp_trans_doc}					
+								</p:column>	
+																		        																													
+								<p:column width="50" headerText="Trans.Doc">
+									#{valCamp.id_trans_doc.id_transacao_doc}						
+								</p:column>
+																			        																													
+								<p:column width="80" headerText="Camp.Adic">
+									#{valCamp.id_camp_adic.descricao}						
+								</p:column>
+								
+								<p:column width="80" headerText="Transação">
+									#{valCamp.id_trans_doc.id_transacao.descricao}
+								</p:column>
+															
+								<p:column width = "80" headerText="Cod.Campo">
+									#{valCamp.id_camp_adic.cod_campo}
+								</p:column>
+														
+								<p:column width = "320" headerText="Descrição">
+									#{valCamp.id_camp_adic.descricao}
+								</p:column>
+																		
+								<p:column width="58" headerText="Resultado">
+									#{valCamp.resultado}
+								</p:column>				
+																								
+								<p:column width="70" headerText="Observação">
+									#{valCamp.observacao}
+								</p:column>
+																								
+								<p:column headerText="Arquivo" width="65">
+								
+									<p:commandLink style="text-decoration:none" ajax="false" value="#{valCampBean.tamanhoNomeArquivo(valCamp.nome_arquivo)}" immediate="true" process="@this" update="@this">																	
+										<p:fileDownload value="#{valCampBean.streamedContent}"/>
+										<f:param name="idValCamp" value="#{valCamp.id_val_camp_trans_doc}" />																	
+									</p:commandLink>
+																		 			
+   						 		</p:column>
+   						 		
+								<f:facet name="footer">	
+									
+										<div align="left">	
+													
+										<p:commandButton icon="ui-icon-document"  style="width:30px;height:30px;" action="#{valCampBean.alterar()}"/>
+									    <p:commandButton icon="ui-icon-arrowrefresh-1-w" action="/restrito/menu.xhtml?faces-redirect=true"  style="width:30px;height:30px;margin-left:10px" />
+										
+										</div>
+										
+								</f:facet>	
+																																												
+    					</p:dataTable >
+							   					   											
+						</div>
+				
+					</h:form>
+			</ui:define>
+	</ui:composition>
+   
+</html>

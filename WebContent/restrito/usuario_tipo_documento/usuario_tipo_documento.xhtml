@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Usuario Tipo Documento</title>
+</h:head>
+
+<ui:composition template="/template/interna.xhtml">
+
+	<ui:define name="titulo"></ui:define>
+
+	<ui:define name="corpo">
+
+		<h:form id="formCadastro">
+
+			<p:messages id="messages" autoUpdate="true" closable="true"
+				showDetail="true" />
+
+			<p:dialog showEffect="fade" hideEffect="fade" widgetVar="dlg"
+				modal="true" responsive="true" closable="false"
+				header="Processando..." resizable="false">
+				<p:graphicImage value="/imagens/loadingBar-1.gif" />
+			</p:dialog>
+
+			<div class="ui-fluid">
+
+				<p:dataTable
+					value="#{usuario_tipo_docBean.listarPorCodEmCodFiCodUni(usuarioBean.usuarioLogin)}"
+					var="usu_tipo_doc" rules="rows" cellpadding="20"
+					selection="#{usuario_tipo_docBean.usuario_Tipo_DocumentoSelecionado}"
+					selectionMode="single" rowKey="#{usu_tipo_doc}" reflow="true"
+					rows="20" widgetVar="tabelaUsuTipDoc" paginator="true"
+					paginatorPosition="bottom">
+
+					<f:facet name="header">Usuario.Tipo.Documento</f:facet>
+
+					<p:column headerText="Usuário"
+						filterBy="#{usu_tipo_doc.id_usuario}" width="40">					
+								#{usu_tipo_doc.id_usuario.nome}			 
+						</p:column>
+
+					<p:column headerText="Tipo Doc" width="30">						
+								#{usu_tipo_doc.id_tipo_doc.cod_campo}		
+						</p:column>
+
+					<p:column headerText="Descrição" width="600">						
+								#{usu_tipo_doc.id_tipo_doc.descricao}		
+						</p:column>
+
+					<f:facet name="footer">
+
+						<div align="left">
+
+							<p:commandButton icon="ui-icon-document"
+								style="width:30px;height:30px"
+								action="#{usuario_tipo_docBean.novo()}"
+								onclick="PF('dlg').show())" />
+								
+							<p:commandButton action="#{usuario_tipo_docBean.alterar()}" icon="ui-icon-pencil"  style="width:30px;height:30px;margin-left:10px"/>	    
+
+							<p:commandButton icon="ui-icon-trash"
+								action="#{usuario_tipo_docBean.excluir()}"
+								style="width:30px;
+											 height:30px;
+											 margin-left:10px">
+
+								<p:confirm header="Confirmation" message="Confirmar exclusão?"
+									icon="ui-icon-alert" />
+
+							</p:commandButton>
+
+							<p:commandButton icon="ui-icon-arrowrefresh-1-w"
+								action="#{usuarioBean.redirecionaMenu()}"
+								style="width:30px;height:30px;margin-left:10px"
+								onclick="PF('dlg').show()" />
+
+							<p:confirmDialog global="true" showEffect="fade"
+								hideEffect="fade">
+								<p:commandButton value="Yes" type="button"
+									styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+								<p:commandButton value="No" type="button"
+									styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+							</p:confirmDialog>
+
+						</div>
+
+					</f:facet>
+
+				</p:dataTable>
+				<br />
+
+			</div>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
+
+</html>

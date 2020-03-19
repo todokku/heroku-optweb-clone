@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD-3//EN"
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd" >
+<hibernate-configuration>
+
+    <session-factory>
+    
+                
+		 <!--   <property name="hibernate.connection.username">xadqrtiwwjhlpv</property>
+		        <property name="hibernate.connection.password">7624cec09e1039cf18d64a332f4be8d942ad285df0711b5f0aaf28ffdb91faba</property>
+		        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property> 
+		        <property name="hibernate.connection.url">jdbc:postgresql://ec2-54-163-226-238.compute-1.amazonaws.com:5432/dfrbahc2ppl0sk</property>-->
+		        
+		       <property name="hibernate.connection.username">postgres</property>	
+			   <property name="hibernate.connection.password">root</property>
+			   <property name="hibernate.connection.driver_class">org.postgresql.Driver</property> 
+			   <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/opt_web_002</property>
+		 		
+			   <property name="hibernate.transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</property> 
+			   <property name="hibernate.current_session_context_class">thread</property> 
+		       <property name="current.session.context.class">thread</property>
+			   <property name="hibernate.show_sql">true</property>
+			   <property name="hibernate.format_sql">true</property>
+			   <property name="hibernate.hbm2ddl.auto">update</property>
+		
+			   <mapping class ="br.com.OPT_WEB_002.documento.Documento"/>
+			   <mapping class ="br.com.OPT_WEB_002.usuario.Usuario" />
+			   <mapping class ="br.com.OPT_WEB_002.empresa.Empresa"/>
+			   <mapping class ="br.com.OPT_WEB_002.filial.Filial"/>
+			   <mapping class ="br.com.OPT_WEB_002.unidade_negocio.Unidade_Negocio"/>
+			   <mapping class ="br.com.OPT_WEB_002.tipo_documento.Tipo_Documento"/>
+			   <mapping class ="br.com.OPT_WEB_002.val_campos_doc.Val_Campos_Doc"/>
+			   <mapping class ="br.com.OPT_WEB_002.layout_empresa.Layout_Empresa"/>	
+			   <mapping class ="br.com.OPT_WEB_002.transacao.Transacao"/>
+			   <mapping class ="br.com.OPT_WEB_002.transacao_documento.Transacao_Documento"/>
+			   <mapping class ="br.com.OPT_WEB_002.campo_adicional.Campo_Adicional"/>
+			   <mapping class ="br.com.OPT_WEB_002.tipo_documento_transacao.Tipo_Documento_Transacao"/>
+			   <mapping class ="br.com.OPT_WEB_002.val_campos_trans_doc.Val_Campos_Trans_Doc"/>			
+			   <mapping class ="br.com.OPT_WEB_002.grupo_valores.Grupo_Valores"/>
+			   <mapping class ="br.com.OPT_WEB_002.grupo_valores_possiveis_doc.Grupo_Valores_Possiveis_Doc"/>
+			   <mapping class ="br.com.OPT_WEB_002.situacao_tipo_documento.Situacao_Tipo_Documento"/>			  
+			   <mapping class ="br.com.OPT_WEB_002.usuario_tipo_documento.Usuario_Tipo_Documento"/>
+		
+	</session-factory>
+	
+</hibernate-configuration>

@@ -1,0 +1,158 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+	<meta name="viewport" content="user-scalable=no; width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+	<meta name="mobile-web-app-capable" content="yes;"/>
+	
+	<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1"/>
+	
+		<h:outputStylesheet library="css" name="estilo.css" />
+
+		<title>Rastreabilidade</title>
+
+	<f:metadata>
+		<f:viewParam name="id" value="#{documentoBean.id}"/>
+		<f:viewParam name="tipo" value="#{nodeDocumentoBean.tipo}"/>
+		<f:viewParam name="val" value="#{nodeDocumentoBean.valor}"/>	
+	</f:metadata>
+	</h:head>
+	
+	<h:body style="width:100%;margin-top:0;margin:auto 0;margin-right:0">
+	              
+	    <p:ajaxStatus onstart="PF('dlg').show()" onsuccess="PF('dlg').hide()"/>
+			<p:dialog closable="false" draggable="false" header="Processando..." hideEffect="fade" modal="true" resizable="false" responsive="true" widgetVar="dlg">
+			<p:graphicImage value = "/imagens/loadingBar-1.gif"/>										
+		</p:dialog>
+		
+		<div id="container">
+
+			<div class="cabecalho" />
+
+				<div style="min-height:25px;padding:auto 0;clear:both;background-color:#{empresaBean.mudarCorLayout(usuarioBean.usuarioLogin)};">
+
+				<p:panelGrid columns="1" styleClass="ui-panelgrid-blank" style="font-family: Verdana,Arial,Helvetica,sans-serif;font-size: 12px;">
+				
+				<p:row>
+				
+					<p:panelGrid columns="4">
+						<p:column>
+							<p:outputLabel value="Usuario:" style="color:white" />
+							<p:outputLabel
+								value="#{usuarioBean.usuarioLogin.nome}"
+								style="color:white" />
+						</p:column>
+
+						<p:column>
+							<p:outputLabel value="Empresa:" style="color:white" />
+							<p:outputLabel
+								value="#{usuarioBean.usuarioLogin.cod_empresa.cod_empresa}"
+								style="margin-right:10px;color:white" />
+							<p:outputLabel
+								value="#{usuarioBean.usuarioLogin.cod_empresa.descricao}"
+								style="color:white" />
+						</p:column>
+
+						<p:column>
+							<p:outputLabel value="Filial:" style="color:white" />
+							<p:outputLabel
+								value="#{usuarioBean.usuarioLogin.cod_filial.cod_filial}"
+								style="margin-right:10px;color:white" />
+							<p:outputLabel
+								value="#{usuarioBean.usuarioLogin.cod_filial.descricao}"
+								style="color:white" />
+						</p:column>
+
+						<p:column>
+							<p:outputLabel value="Unidade Negocio:" style="color:white" />
+							<p:outputLabel
+								value="#{usuarioBean.usuarioLogin.cod_unidade.cod_unidade}"
+								style="margin-right:10px;color:white" />
+							<p:outputLabel
+								value="#{usuarioBean.usuarioLogin.cod_unidade.descricao}"
+								style="color:white" />
+						</p:column>
+						
+					</p:panelGrid>
+					
+				</p:row>
+				
+				</p:panelGrid>
+			
+			</div>
+		
+		</div>
+
+		<h:form id="form" >
+		
+		<div class="ui-fluid">
+	
+			<p:messages showDetail="true" closable="true" id="messages" />
+		    <p:growl id="msgs" showDetail="true" escape="false" />
+	
+			<script type="text/javascript">
+				
+					function start() {
+				    	PF('dlg').show();
+					}
+				 
+					function stop() {
+				    	PF('dlg').hide();
+					}
+				
+			</script>
+	
+			<p:dialog
+				style="font-family: Verdana,Arial,Helvetica,sans-serif;font-size: 12px;"
+				closable="false" draggable="false" header="Processando..."
+				hideEffect="fade" modal="true" resizable="false" responsive="true"
+				widgetVar="dlg">
+				<p:graphicImage value="/imagens/loadingBar-1.gif" />
+			</p:dialog>
+			
+			<p:panelGrid columns="4" styleClass="ui-panelgrid-blank">
+	
+				<p:inputText value="#{documentoBean.id}"
+					style="font-family: Verdana,Arial,Helvetica,sans-serif;font-size:12px;" size="1">
+					<p:ajax event="keyup" update="search" />
+				</p:inputText>
+	
+				<p:commandButton action="#{documentoBean.pesquisarRastreabilidadePorIdDoc()}" icon="ui-icon-search" style="width:26px;height:26px;" onclick="start()"  id="search" update="form" /> 
+				
+				<p:commandButton label="expande" value="#{nodeDocumentoBean.expandeNodeTransRastreabilidade()}" action="#{nodeDocumentoBean.expandeNodeTransRastreabilidade()}"  style="width:80px;height:26px;font-family:Verdana,Arial,Helvetica,sans-serif;font-size:12px;" onclick="start()"  id="expIdTrans" update="form" /> 
+				
+				
+			</p:panelGrid><br/>
+	
+			<p:treeTable  liveResize="true" scrollHeight="100%" resizableColumns="true" scrollable="true" scrollWidth="220%"  value="#{documentoBean.nodePrincipal}" var="no" selection="#{documentoBean.nodeselecionado}" selectionMode="single"
+		    style="width:100%;overflow:auto;display:block;font-family:Verdana,Arial,Helvetica,sans-serif;font-size:12px;margin-top:0;" dynamic = "true" id="tree" rendered="#{documentoBean.nodePrincipal != null}" >
+	                                                                            
+	                <!-- <p:ajax event="select"   listener="#{documentoBean.selecionarNodeDoc}" />-->
+	       		
+	             	<p:column style="width:100px">
+						<p:outputLabel value="#{no.label}" onclick="PF('dlg').show();PF('dlg').hide()"  />				
+					</p:column>
+					
+					<p:column resizable="true">									  	 
+						<p:outputLabel value="#{no.campo}" onclick="PF('dlg').show();PF('dlg').hide()" />		    
+					</p:column>		
+	
+			</p:treeTable><br/>								
+							
+				<p:commandButton update="msgs" style="width:30px;height:30px;margin-left:10px" icon="ui-icon-arrowthick-1-s"  action="#{documentoBean.redirecionaDownloadConsulta()}" />
+				
+			    <p:commandButton rendered="#{usuarioBean.usuarioLogin != null}" style="width:30px;height:30px;margin-left:10px" icon="ui-icon-arrowrefresh-1-w" action="#{documentoBean.redirecionaConsultaUsuario()}" />
+	     	
+	</div>
+		</h:form>
+	
+	</h:body>
+
+</html>

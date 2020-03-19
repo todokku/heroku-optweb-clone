@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+            
+<h:head><title>Cadastro Usuário</title>
+
+	<f:metadata>	    
+ 		<f:viewParam name = "id" value = "#{usuarioBean.id_usuario}"/>		     		
+	</f:metadata>
+
+</h:head>     
+     
+<ui:composition template="/template/interna.xhtml">
+
+		<ui:define name="titulo">Cadastro Usuário</ui:define>
+		
+			<ui:define name="corpo">
+		        		        			        		      		
+						<h:form id="formCadastro">
+						
+						<p:messages id="msg" autoUpdate="true" closable="true"/>
+							
+						<p:dialog showEffect="fade" hideEffect="fade" widgetVar="dlg" modal="true" responsive="true" closable="false" header="Processando...">
+							<p:graphicImage value="/imagens/loadingBar-1.gif" />    
+						</p:dialog>
+															         
+						<h:inputHidden value="#{usuarioBean.iniciar().id_usuario}"  />
+																			
+						<div class="ui-fluid">
+					
+						<p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
+														     																				       					
+					 		<p:outputLabel value = "Nome:" for = "nome"/>							
+							<p:inputText value="#{usuarioBean.iniciar().nome}" id="nome"	style="width:150px"/>
+																										
+								
+							<p:outputLabel value = "Email:" for = "email"/>														
+							<p:inputText id = "email" label = "Email" value="#{usuarioBean.iniciar().email}"
+							size = "50" maxlength="50" style="width:250px"/>						 
+																		
+							<p:outputLabel value="Empresa:"/>											
+							<p:selectOneMenu  style="width:200px" value="#{usuarioBean.empresa.cod_empresa}" id="idEmpresa" >
+								
+							<f:selectItem noSelectionOption="true" itemLabel="  Selecione " />								
+							<f:selectItems value="#{empresaBean.listar(usuarioBean.usuarioLogin)}"  var="empresa" itemLabel="#{empresa.descricao}"  itemValue="#{empresa.cod_empresa}" />										
+								
+							</p:selectOneMenu>								
+															
+							<p:outputLabel value="Filial:"/>											
+							<p:selectOneMenu style="width:200px" value="#{usuarioBean.filial.cod_filial}" id = "idFilial">
+							<f:selectItem noSelectionOption="true" itemLabel="  Selecione " />				
+							<f:selectItems value="#{filialBean.listar(usuarioBean.usuarioLogin)}" var="filial" itemLabel="#{filial.descricao}" itemValue="#{filial.cod_filial}" />										
+							
+							</p:selectOneMenu>
+								
+							<p:outputLabel value="Unidade Negócio:"/>											
+							<p:selectOneMenu style="width:200px" value="#{usuarioBean.unidade_Negocio.cod_unidade}" id="idUni">													 	
+						 							
+						 	<f:selectItem noSelectionOption="true" itemLabel="  Selecione  "/>										 							
+							<f:selectItems value="#{unidadeNegocioBean.listar(usuarioBean.usuarioLogin)}" var="unidade" itemLabel="#{unidade.descricao}" itemValue="#{unidade.cod_unidade}"/>										
+							  
+							</p:selectOneMenu>
+										
+							<p:outputLabel value="Idioma:" for = "idioma"/>				
+							<p:selectOneMenu  id="idioma" value="#{usuarioBean.iniciar().idioma}" style="width:200px" >
+									
+								<f:selectItem noSelectionOption="true" itemLabel="  Selecione  "/>
+								<f:selectItem  itemValue="pt_BR" itemLabel="Português"/>
+								<f:selectItem  itemValue="en_US" itemLabel="English"/>
+								<f:selectItem  itemValue="es_ES" itemLabel="Espanhol"/>					
+							
+							</p:selectOneMenu>	
+						
+							<p:outputLabel value="Tipo Usuário:"/>
+							<p:selectOneRadio value="#{usuarioBean.iniciar().tipo_usuario}">
+								<f:selectItem itemLabel="Externo" itemValue="false" />
+								<f:selectItem itemLabel="Interno" itemValue="true"/>
+							</p:selectOneRadio>
+							
+							<p:panelGrid columns="2" >							 
+							 
+							   <p:column>
+          		    		   		<p:outputLabel value="Ini Doc: " for="idinidoc"/>         		    		 
+          		    		   </p:column>
+          		    		   <p:selectBooleanCheckbox value="#{usuarioBean.iniciar().iniciar_documento}" id="idinidoc" style="margin-right:20px"/>		   
+          		    		   
+			           		   <p:column>
+          		    		   		<p:outputLabel value="Alt Doc: " for="idaltdoc"/>         		    		 
+          		    		   </p:column>
+          		    		   <p:selectBooleanCheckbox value="#{usuarioBean.iniciar().alt_documento}" id="idaltdoc" style="margin-right:20px"/>
+          		    		   
+          		    		     
+			           		   <p:column>
+          		    		   		<p:outputLabel value="Exc Doc: " for="idexcdoc"/>         		    		 
+          		    		   </p:column>
+          		    		   <p:selectBooleanCheckbox value="#{usuarioBean.iniciar().exc_documento}" id="idexcdoc" style="margin-right:20px"/>
+          		    		   
+          		    		   <p:column>    
+          		    		   		<p:outputLabel value="Ini Trans: " for="idinitrans"/>         		    		 
+          		    		   </p:column>
+          		    		   <p:selectBooleanCheckbox value="#{usuarioBean.iniciar().iniciar_transacao}" id="idinitrans" style="margin-right:20px"/>
+							     		  	
+          		    		</p:panelGrid>   
+          		    		
+          		    		 <p:panelGrid columns="2"> 
+          		    		          		    		                     		    		      	     
+			           		   <p:column>
+          		    		   		<p:outputLabel value="Alt Camp Ad: " for="idaltcamp"/>         		    		 
+          		    		   </p:column>
+          		    		   <p:selectBooleanCheckbox value="#{usuarioBean.iniciar().alt_camp_ad}" id="idaltcamp" style="margin-right:20px"/>	
+			           		          		    		      	     
+			           		   <p:column>
+          		    		   		<p:outputLabel value="Alt Trans: " for="idalttrans"/>         		    		 
+          		    		   </p:column>
+          		    		   <p:selectBooleanCheckbox value="#{usuarioBean.iniciar().alt_transacao}" id="idalttrans" style="margin-right:20px"/>
+          		    		          		    		      	     
+			           		   <p:column>
+          		    		   		<p:outputLabel value="Exc Trans: " for="idexctrans"/>         		    		 
+          		    		   </p:column>
+          		    		   <p:selectBooleanCheckbox value="#{usuarioBean.iniciar().exc_transacao}" id="idexctrans" style="margin-right:20px"/>
+          		    		  		                   		    		     		    		   
+			           		</p:panelGrid>
+			           														
+							<p:outputLabel value="Login:" for = "login" />
+							<p:inputText label = "Login" value="#{usuarioBean.iniciar().login}"								
+							id = "login" size = "15" maxlength="15"	style="width:90px"/>									
+							
+																					
+							<p:outputLabel value="Senha:" for = "senha"/>			
+							<p:password  value="#{usuarioBean.iniciar().senha}"						
+							id = "senha" redisplay="true" label = "Senha" size = "10" maxlength="10"	
+							style="width:90px"/>
+							
+				
+							<p:outputLabel value="Confirmar Senha:" for = "confirmarsenha" rendered="#{usuarioBean.DesabilitarSenhaConfirmada()}"/>
+							<p:password value="#{usuarioBean.confirmarSenha}" id = "confirmarsenha"
+							label = "Confirmar Senha" size = "10" maxlength = "10" redisplay = "true"							
+							style="width:90px" rendered="#{usuarioBean.DesabilitarSenhaConfirmada()}"/>
+							
+								
+							<p:commandButton action = "#{usuarioBean.salvar()}" value = "Salvar"  >								
+								<p:confirm header="Confirmation" message="Deseja realmente salvar?" icon="ui-icon-disk" />						
+							</p:commandButton>	
+								
+								<p:commandButton icon="ui-icon-arrowrefresh-1-w" immediate="true" action="usuario" style="width:30px;height:30px" onclick="PF('dlg').show()" oncomplete="PF('dlg').hide()" resetValues="true"/>			           		   				
+								
+								<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+									<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+									<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+								</p:confirmDialog>	
+								
+						</p:panelGrid>
+										
+			        </div>				
+				
+				</h:form>		
+		  
+	</ui:define>	
+	
+</ui:composition>
+</html>

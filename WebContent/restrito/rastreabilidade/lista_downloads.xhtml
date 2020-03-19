@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Lista Downloads</title>	
+	<f:metadata>
+		<f:viewParam name="id" value="#{nodeDocumentoBean.id}"/>
+	</f:metadata>
+	
+</h:head>    
+
+	<ui:composition template="/template/interna.xhtml">
+		<ui:define name="titulo">Lista Downloads</ui:define>
+			<ui:define name = "corpo">
+								
+				<h:form id = "formMessages">				
+				
+					<p:messages id="messages" 
+	           		 closable = "true"
+	           		 showDetail="true"/>
+				
+				</h:form>
+				
+						<script type="text/javascript">								
+							function start() {PF('dlg').show();}								 
+							function stop() {PF('dlg').hide();}								
+						</script>	
+				
+				<p:ajaxStatus onstart="PF('dlg').show()" onsuccess="PF('dlg').hide();PF('dlg').initPosition()"/>
+						
+				<p:dialog
+					style="font-family: Verdana,Arial,Helvetica,sans-serif;font-size: 12px;"
+					closable="false" draggable="false" header="Processando..."
+					hideEffect="fade" modal="true" resizable="false" responsive="true"
+					widgetVar="dlg">
+					<p:graphicImage value="/imagens/loadingBar-1.gif" />
+				</p:dialog>
+										
+					<h:form id = "formCadastro">
+																			
+						<div class = "ui-fluid" >
+							
+							<p:panelGrid columns="1" styleClass="ui-panelgrid-blank">
+								<p:selectOneMenu value = "#{nodeDocumentoBean.downloadNode}" converter="Convers">						
+									<f:selectItems value="#{nodeDocumentoBean.retornaAnexos(nodeDocumentoBean.id)}" var="anexo" itemLabel="#{anexo}" itemValue="#{anexo}"/>						
+								</p:selectOneMenu>
+								<p:row>
+									<p:commandButton  value="Download" style="width:100px;height:25px;font-family:Verdana,Arial,Helvetica,sans-serif;font-size:12px;"  ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);">
+										<p:fileDownload value="#{nodeDocumentoBean.downloadNode}"/>
+									</p:commandButton>
+										<p:commandButton icon="ui-icon-arrowrefresh-1-w" action="#{nodeDocumentoBean.redirecionaRastreabilidade()}" immediate="true"  style="width:24px;height:24px;margin-right:12px" onstart="PF('dlg').show();PF('dlg').initPosition()" />									
+								</p:row>
+							</p:panelGrid>
+																														
+						</div>	
+					</h:form>
+							
+			</ui:define>
+	</ui:composition>
+</html>

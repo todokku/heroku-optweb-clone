@@ -1,0 +1,83 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<f:metadata>
+	
+	<f:viewParam name="id" value = "#{documentoBean.id}"/>
+	<f:viewParam name="iddoc" value = "#{documentoBean.id_doc}"/>
+	<f:viewParam name="idtr" value = "#{documentoBean.id_trans_doc}"/>
+	<f:viewParam name="idca" value = "#{documentoBean.id_val_camp_trans_doc}"/>
+	</f:metadata>	
+</h:head> 
+<body> 
+		
+		<ui:composition  template="/template/interna.xhtml">
+		
+			<ui:define name="titulo"></ui:define>
+				
+				<ui:define name="corpo">	
+		
+				<h:form id="formCadastro">	
+				
+						<div class = "ui-fluid">
+														
+				  		<p:dataTable rendered = "#{documentoBean.id_doc != null}"  rowKey="#{documento.id_doc}" value="#{documentoBean.listarDownloadConsulta(documentoBean.id_doc)}" var="documento" selection="#{documentoBean.documentoSelecionado}" selectionMode="single"  >
+         		          		  		
+					   		<p:column style="height:50px" >
+					   		<p:outputLabel value="#{documento.nome_arquivo}"/>
+					   		</p:column>
+					      
+   				  		</p:dataTable>
+   				  		   				  											
+				  		<p:dataTable rendered="#{documentoBean.id_trans_doc != null}"  rowKey="#{transDoc.id_transacao_doc}" value="#{transacaoDocumentoBean.listarPorIdTransDoc(documentoBean.id_trans_doc)}" var="transDoc" selection="#{transacaoDocumentoBean.transacao_documentoSelecionada}" selectionMode="single"  >
+         		          		 
+					   		<p:column style="height:50px" >
+					   		<p:outputLabel value="#{transDoc.nome_arquivo}"/>
+					   		</p:column>
+					      
+   				  		</p:dataTable>
+   				  		
+   				  		<p:dataTable rendered = "#{documentoBean.id_val_camp_trans_doc != null}"  rowKey="#{valCampAd.id_val_camp_trans_doc}" value="#{valCampBean.listarPorIdValCampoTransDoc(documentoBean.id_val_camp_trans_doc)}" var="valCampAd" selection="#{valCampBean.val_Campos_Trans_DocSelecionado}" selectionMode="single"  >
+         		          		 
+					   		<p:column style="height:50px" >
+					   		<p:outputLabel value="#{valCampAd.nome_arquivo}"/>
+					   		</p:column>
+					      
+   				  		</p:dataTable>
+   				  		
+   				  		<p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
+			
+						<p:commandButton style="width:30px;height:30px;margin-left:10px"   icon="ui-icon-arrowthick-1-s" actionListener="#{documentoBean.downloadConsulta()}" ajax="false">
+							<p:fileDownload value="#{documentoBean.streamedContent}" />
+						</p:commandButton> 
+						
+						 <p:commandButton action="#{documentoBean.redirecionaRastreabilidade()}" style="width:30px;height:30px;margin-left:10px" icon="ui-icon-arrowrefresh-1-w"/> 
+						</p:panelGrid>
+						</div> 	
+			</h:form>
+			
+  </ui:define>
+		
+</ui:composition>
+
+</body> 
+</html>
+
+
+
+
+
+
+
+   
+ 
+   
+   
+	
+  

@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"> 
+
+<h:head><title>Usuario Tipo Documento</title>
+	
+	<f:metadata>	
+		<f:viewParam name = "id" value = "#{usuario_tipo_docBean.id_usuario_tipo_documento}"/>
+	</f:metadata>
+
+</h:head> 
+	
+	<ui:composition template="/template/interna.xhtml">
+	
+			<ui:define name="titulo">Usuario Tipo Documento</ui:define>
+	
+				<ui:define name="corpo">
+				        			           	 			          	   
+           	   		<h:form id = "formcadastro">
+           	   		     	   		
+           	   		 <p:messages id="messages" 
+           	   			 closable="true"
+           	   			 autoUpdate="true"
+           	   			 showDetail="true"/>   
+           	             	   			           		
+           	   			<div class = "ui-fluid">
+           	                                 	                      	                    		           	   	
+			           	   	<p:panelGrid columns="2" styleClass="ui-panelgrid-blank" >   
+			           	   				           	   	      	   	 	         			           		           	
+			           		   	<p:outputLabel value="Empresa:" for = "codEmpresa"/>	
+			           		   				           		   	
+			           		   	<p:column width = "50">		           		   
+				           		   <p:inputText value ="#{usuario_tipo_docBean.iniciar(usuarioBean.usuarioLogin).cod_empresa.cod_empresa}"
+				           		 
+				           		   id = "codEmpresa"
+				           		   maxlength="5"
+				           		   size="5"
+				           		   style="width:25px"
+				           		   disabled="true"/>			          			
+			          		   	   <p:outputLabel style="width:325px;margin-left:10px"  value = "#{usuarioBean.usuarioLogin.cod_empresa.descricao}"/>					           		   			           		  		           		   
+			           		   </p:column>	
+			           		     		           					              	 
+			           		   <p:outputLabel value="Filial:" for = "codFilial"/>	
+			           		   
+			           		   <p:column width = "50">			           		   
+				           		   <p:inputText value ="#{usuario_tipo_docBean.iniciar(usuarioBean.usuarioLogin).cod_filial.cod_filial}"				           		 
+				           		   id = "codFilial"
+				           		   maxlength="5"
+				           		   size="5"
+				           		   style="width:25px"
+				           		   disabled="true"/>			           		   
+			           		   	   <p:outputLabel style="width:325px;margin-left:10px" value = "#{usuarioBean.usuarioLogin.cod_filial.descricao}"/>
+			                   </p:column>  
+			           		   
+			           		   <p:outputLabel value = "Unidade Negócio:" for = "codUnidade"/>
+			           		   			           		   
+			           		   <p:column width = "50">
+				           		   <p:inputText value ="#{usuario_tipo_docBean.iniciar(usuarioBean.usuarioLogin).cod_unidade.cod_unidade}"
+				           		   id = "codUnidade"
+				           		   maxlength="5"
+				           		   size="5"			           		 
+				           		   style="width:25px"
+				           		   disabled = "true"/>			           		   				           		 
+		           		       	   <p:outputLabel style="width:325px;margin-left:10px"  value = "#{usuarioBean.usuarioLogin.cod_unidade.descricao}"/>	           		  
+			           		   </p:column>
+			           		            		    		  
+          		    		           		    		  		           		   		
+			           		   <p:outputLabel value="Usuario:" for = "idUsu"/>				
+							   <p:selectOneMenu  id="idUsu" value="#{usuario_tipo_docBean.iniciar(usuarioBean.usuarioLogin).id_usuario.id_usuario}" style="width:200px">								
+									
+								   <f:selectItem noSelectionOption="true" itemLabel=" Selecione "/>
+								   <f:selectItems value="#{usuarioBean.listar()}" var="usuario" itemValue="#{usuario.id_usuario}" itemLabel="#{usuario.nome}"/>
+															
+							   </p:selectOneMenu>	
+								
+							   <p:outputLabel value="Tipo Documento:" for = "idtipo"/>				
+							   <p:selectOneMenu  id="idtipo" value="#{usuario_tipo_docBean.iniciar(usuarioBean.usuarioLogin).id_tipo_doc.id_tipo_doc}" style="width:200px">																	
+									<f:selectItem noSelectionOption="true" itemLabel=" Selecione "/>
+									<f:selectItems value="#{tipoDocumentoBean.listarPorCodEmCodFiCodUni(usuarioBean.usuarioLogin)}" var="tipoDoc" itemValue="#{tipoDoc.id_tipo_doc}" itemLabel="#{tipoDoc.descricao}"/>
+									<p:ajax event="change" update="idcodCampo"/>															
+							   </p:selectOneMenu>	
+							   								 
+   							<p:outputLabel value="Cod Campo:" for="idcodCampo"/>
+			           		  	
+   							<p:selectOneMenu style="width:200px" value="#{usuario_tipo_docBean.iniciar(usuarioBean.usuarioLogin).cod_campo}" id = "idcodCampo">
+   								<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+   								<f:selectItems value ="#{layoutBean.listarPortIdTipoDoc(usuario_tipo_docBean.iniciar(usuarioBean.usuarioLogin).id_tipo_doc.id_tipo_doc)}" var="Doc" itemLabel="#{Doc.descricao}" itemValue="#{Doc.descricao}"/>
+   						    </p:selectOneMenu>	 
+			           		               		    		   
+          		    		<p:outputLabel value="Conteúdo:" for="idcont"/>
+							<p:inputText id="idcont" value="#{usuario_tipo_docBean.iniciar(usuarioBean.usuarioLogin).conteudo}"/>
+				           			       		  
+				           		  <p:commandButton action="#{usuario_tipo_docBean.salvar()}" value="Salvar" ajax="false"/>  		              		  
+								
+								  <p:commandButton icon="ui-icon-arrowrefresh-1-w" action="usuario_tipo_documento"  style="width:30px;height:30px"/>			           		   				
+								
+								  <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+									<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+									<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+								  </p:confirmDialog>		
+			           		   	               
+			           		   	  <p:ajaxStatus onstart="PF('dlg').show()" onsuccess="PF('dlg').hide()"/>
+								  	<p:dialog closable="false" draggable="false" header="Processando..." hideEffect="fade" modal="true" resizable="false" responsive="true" widgetVar="dlg">
+								 		<p:graphicImage value = "/imagens/loadingBar-1.gif"/>										
+								  	</p:dialog>
+			           		   				                              	   		
+			           		   </p:panelGrid>
+			           					           									           		
+		           		</div> 
+		           			           		
+		           	</h:form>
+           							
+			</ui:define>
+			
+	</ui:composition>
+	 
+</html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+	<title>Documento</title>	
+		<f:metadata>		
+			<f:viewParam name = "id" value = "#{documentoBean.id_tipo_doc}"/> 	
+			<f:viewParam name = "doc" value = "#{documentoBean.idDocSelecionado}"/> 
+			<f:viewParam name = "idtr" value = "#{transacaoDocumentoBean.id_transacao_documento}"/> 	
+ 		</f:metadata> 
+ 			
+ 		<h:outputStylesheet library="css" name="estilo.css"/>
+ 		
+</h:head>
+
+	<ui:composition template="/template/interna.xhtml">
+	
+		<ui:define name="titulo">Documento</ui:define>
+		
+			<ui:define name = "corpo">
+										
+				<h:form id = "formMessages">			
+					<p:messages id="messages" closable = "true"/>				
+				</h:form>
+												
+						<p:dialog  draggable="false" positionType="fixed" resizable="false" showEffect="fade" hideEffect="fade" widgetVar="dlg"  modal="true" responsive="true" closable="false" header="Processando..." position="fixed center">
+									<p:graphicImage value="/imagens/loadingBar-1.gif" />    
+						</p:dialog>					      
+					    			  											
+					<h:form id = "formCadastro" >
+			
+																					  				
+						<div class = "ui-fluid">
+																								
+							<p:dataTable 
+							value = "#{documentoBean.lazyDocumento(usuarioBean.usuarioLogin)}" 
+							var = "documento"										
+							rules = "rows"				
+							cellpadding ="25"
+							selection = "#{documentoBean.documentoSelecionado}"			
+							selectionMode="single"
+							rowKey="#{documento.id_doc}"
+							reflow="true" 
+							rows="999" 
+							paginatorPosition="bottom"							
+							widgetVar="doctable"									
+							id="tableDoc"
+							scrollable="true"	
+						    scrollWidth="100%"					
+						    scrollHeight="150"
+						    lazy="true">
+						  						    						    		
+								<f:facet name="header">
+											
+								<p:panelGrid columns = "1"  styleClass="ui-panelgrid-blank">
+													
+									<p:row>	
+																			
+									<p:column style="margin:auto">
+										
+										<p:outputLabel value="Tipo:"/>
+										
+										<p:selectOneMenu  value="#{documentoBean.id_tipo_doc}" style="width:349px;margin:auto 0" update = "formCadastro:tableDoc formCadastro:tableTransDoc formCadastro:tableCampAdic">
+											<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+											<f:selectItems value="#{usuario_tipo_docBean.listarPorIdUsuarioCodEmCodFiCodUni(usuarioBean.usuarioLogin)}" var="tipoDoc" itemLabel="#{tipoDoc.id_tipo_doc.cod_campo}" itemValue="#{tipoDoc.id_tipo_doc.id_tipo_doc}"/>
+											<p:ajax event="change"   listener="#{documentoBean.carregarDocTransDocCampAdic(usuarioBean.usuarioLogin)}" update="formCadastro:tableDoc formCadastro:tableTransDoc formCadastro:tableCampAdic" onstart="PF('dlg').show()" onsuccess="PF('dlg').hide()"/>
+										</p:selectOneMenu>
+										
+										<p:commandButton icon="ui-icon-arrowrefresh-1-w" action="#{documentoBean.redirecionaMenu()}"  style="width:24px;height:24px;margin-right:12px" onstart="PF('dlg').show();PF('dlg').initPosition()" />									
+									
+									</p:column>
+						
+									</p:row>		
+												
+								</p:panelGrid>	
+											   																			
+								</f:facet>
+							
+									<p:column headerText="A" width="10" rendered = "#{documentoBean.id_tipo_doc != null}">
+								       <p:graphicImage value="#{documentoBean.verificaArquivoAnexado(documento.nome_arquivo)}"/>
+							        </p:column>	
+							        
+							        <p:columns value="#{documentoBean.columns}" var="column" id="colunas"  filterBy="#{documento[column.property]}">
+								
+									
+									<f:facet name="header" >
+										<p:outputLabel value="#{column.header}"  />
+									</f:facet>
+							
+									<p:outputLabel value="#{documento[column.property]}" />
+														
+					   	    		</p:columns>
+							        																				
+								<p:ajax event="rowSelect"  listener="#{documentoBean.selecionarLinhaDoc}"  update= "formCadastro:tableTransDoc formCadastro:tableCampAdic" onstart="PF('dlg').show();PF('dlg').initPosition()" oncomplete="PF('dlg').hide();"/>
+														   	    																													
+								<f:facet name="footer">
+									
+									<div align="left">
+									
+											<p:commandButton  disabled="#{documentoBean.id_tipo_doc == null || usuarioBean.permissaoAcoesUsuario(usuarioBean.usuarioLogin.iniciar_documento)}"    icon="ui-icon-document" style="width:30px;height:30px" action="#{documentoBean.novo()}" onstart="PF('dlg').show();PF('dlg').initPosition()" immediate="true"/>
+											
+											<p:commandButton  disabled="#{documentoBean.id_tipo_doc == null || usuarioBean.permissaoAcoesUsuario(usuarioBean.usuarioLogin.alt_documento)}"  icon="ui-icon-pencil"  action="#{documentoBean.alterar()}"  style="width:30px;height:30px;margin-left:10px" onstart="PF('dlg').show();PF('dlg').initPosition()" oncomplete="PF('dlg').hide();" immediate="true"/>
+																																										
+											<p:commandButton  disabled="#{documentoBean.id_tipo_doc == null || usuarioBean.permissaoAcoesUsuario(usuarioBean.usuarioLogin.exc_documento)}"  icon="ui-icon-trash" action="#{documentoBean.excluir()}" 
+											 style="width:30px;
+											 height:30px;
+											 margin-left:10px"
+											 update="formCadastro:tableDoc formCadastro:tableTransDoc formCadastro:tableCampAdic" onstart="PF('dlg').show()" onsuccess="PF('dlg').hide()">
+											 
+											 	<p:confirm header="Confirmation" message="Confirmar exclusão?" icon="ui-icon-alert"/>
+											 
+											 </p:commandButton>
+											 
+									</div>
+																						 					
+								</f:facet>	
+											
+							</p:dataTable><br/>	
+				
+					
+					<p:dataTable value = "#{transacaoDocumentoBean.listarPorIdDoc(usuarioBean.usuarioLogin,documentoBean.idDocSelecionado,documentoBean.id_doc)}"
+						var = "transacaoDocumento"									
+						rules = "rows"				
+						cellpadding ="20"								
+						selectionMode="single"	
+						selection="#{transacaoDocumentoBean.transacao_documentoSelecionada}"															
+						rows="5" 				
+						paginator="true"
+						paginatorPosition="bottom"							
+						rowKey="#{transacaoDocumento.id_transacao_doc}"
+						id="tableTransDoc"
+						sortBy="#{transacaoDocumento.id_transacao.id_transacao}"
+>                    	
+                    	<f:facet name="header">Transação Documento</f:facet>      						
+						
+						<p:ajax event="rowSelect" listener="#{transacaoDocumentoBean.selecionarLinhaTransDoc}" update="formCadastro:tableDoc formCadastro:tableCampAdic" onstart="PF('dlg').show();PF('dlg').initPosition" oncomplete="PF('dlg').hide();"/>	
+																		
+							<p:column headerText="A" width="10">
+								<p:graphicImage value="#{transacaoDocumentoBean.verificaArquivoAnexado(transacaoDocumento.nome_arquivo)}"/>
+							</p:column>											
+																										
+							<p:column width = "80" headerText="Codigo" >														
+								#{transacaoDocumento.id_transacao.id_transacao}															
+							</p:column>
+							
+							<p:column width = "150" headerText="Descrição">														
+								#{transacaoDocumento.id_transacao.descricao}															
+							</p:column>
+							
+							<p:column width="80"  headerText="Estado">															
+								#{transacaoDocumento.estado}							
+							</p:column>
+																							
+							<p:column width="160" headerText="Data.Ini">													
+								#{transacaoDocumento.data_ini}							
+							</p:column>
+							
+							<p:column width="160" headerText="Data.Fim">															
+								#{transacaoDocumento.data_fim}						
+							</p:column>
+																		
+							<p:column width="100" headerText="Hor.Ini">														
+								#{transacaoDocumento.horario_ini}						
+							</p:column>
+																														
+							<p:column width="100" headerText="Hor.Fim">								
+								#{transacaoDocumento.horario_fim}						
+							</p:column>					
+																									
+							<p:column width = "55" headerText="Un.Temp">														
+								#{transacaoDocumento.unidadeTempo}							
+							</p:column>
+
+							<p:column headerText="Tempo">														
+								#{transacaoDocumento.tempo_previsto} 							
+							</p:column>
+
+					<f:facet name="footer">
+									
+									<div align="left">
+									
+											<p:commandButton disabled="#{documentoBean.id_tipo_doc == null ||  usuarioBean.permissaoAcoesUsuario(usuarioBean.usuarioLogin.iniciar_transacao)}"   icon="ui-icon-document" style="width:30px;height:30px" action="#{transacaoDocumentoBean.novo(documentoBean.id_tipo_doc,documentoBean.idDocSelecionado)}" onstart="PF('dlg').show();PF('dlg').initPosition()"/>
+																					
+											<p:commandButton disabled="#{documentoBean.id_tipo_doc == null || usuarioBean.permissaoAcoesUsuario(usuarioBean.usuarioLogin.alt_transacao)}"    icon="ui-icon-pencil" action="#{transacaoDocumentoBean.alterar(documentoBean.id_tipo_doc)}"  style="width:30px;height:30px;margin-left:10px" onstart="PF('dlg').show();PF('dlg').initPosition()" oncomplete="PF('dlg').hide()"/>
+																																						
+											 <p:commandButton disabled="#{documentoBean.id_tipo_doc == null || usuarioBean.permissaoAcoesUsuario(usuarioBean.usuarioLogin.exc_transacao)}"   icon="ui-icon-trash"  action="#{transacaoDocumentoBean.excluir()}" 
+											 style="width:30px;
+											 height:30px;
+											 margin-left:10px"
+											 update="formCadastro:tableDoc formCadastro:tableTransDoc formCadastro:tableCampAdic" >
+											 
+												<p:confirm header="Confirmation" message="Confirmar exclusão?" icon="ui-icon-alert"/>
+											 										 
+											 </p:commandButton>																					 										 							    								   						
+									</div>
+																						 					
+							</f:facet>				
+													
+						</p:dataTable><br/>
+					
+						<p:dataTable 
+								
+								value = "#{valCampBean.listarPorIdTrans(transacaoDocumentoBean.id_trans_doc,usuarioBean.usuarioLogin)}" 
+								var = "valcamp"									
+								rules = "rows"				
+								cellpadding ="20"
+								selection = "#{valCampBean.val_Campos_Trans_DocSelecionado}"			
+								selectionMode="single"
+								rowKey="#{valcamp.id_val_camp_trans_doc}"														
+								rows="5" 															
+								paginator="true"
+								paginatorPosition="bottom"								
+								reflow="true"
+								id="tableCampAdic">
+								
+								
+								<f:facet name="header">Campo Adicional</f:facet>
+								
+									<p:column headerText="A" width="10">
+										<p:graphicImage value="#{valCampBean.verificaArquivoAnexado(valcamp.nome_arquivo)}"/>
+									</p:column>	
+								
+									<p:column width = "80" headerText="Codigo">
+										#{valcamp.id_camp_adic.id_camp_adic}
+									</p:column>
+																																	        																													
+									<p:column width="150" headerText="Descrição">
+										#{valcamp.id_camp_adic.descricao}						
+									</p:column>
+									
+									<p:column headerText="Valor Possível">
+										#{valcamp.resultado}						
+									</p:column>
+															   						 		
+								<f:facet name="footer">	
+									
+										<div align="left">	
+													
+											<p:commandButton disabled="#{documentoBean.id_tipo_doc == null || usuarioBean.permissaoAcoesUsuario(usuarioBean.usuarioLogin.alt_camp_ad)}"  icon="ui-icon-pencil"  style="width:30px;height:30px;" action="#{valCampBean.alterar()}" onstart="PF('dlg').show();PF('dlg').initPosition()" oncomplete="PF('dlg').hide()"/>
+									   										
+										</div>
+										
+								</f:facet>	
+																																												
+    					</p:dataTable >													
+					</div>	
+					
+					 <p:confirmDialog  global="true"  showEffect="fade" hideEffect="fade">
+										        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+										        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					 </p:confirmDialog>
+					
+					
+				</h:form>
+						
+			</ui:define>
+			
+	</ui:composition>
+</html>

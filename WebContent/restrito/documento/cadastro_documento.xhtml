@@ -1,0 +1,1148 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+      
+	 <h:head>    
+	 
+	    <title>Cadastro Documento</title>	
+		<f:metadata>
+			<f:viewParam name="doc" value="#{documentoBean.id}"/>
+			<f:viewParam name="id" value="#{documentoBean.id_tipo_doc}"/>
+		</f:metadata>
+				
+	</h:head>      
+
+	<body>
+
+		<ui:composition template="/template/interna.xhtml">
+			
+			<ui:define name="titulo">Cadastro Documento</ui:define>
+				
+				<ui:define name="corpo">
+						
+					<h:form id = "formCadastroDoc" enctype="multipart/form-data" >	
+																													
+							<p:messages showDetail="true" closable="true" id="messages"/>							
+						
+								  	<p:dialog closable="false" draggable="false" header="Processando..." hideEffect="fade" modal="true" resizable="false" responsive="true" widgetVar="dlg">
+								 		<p:graphicImage value = "/imagens/loadingBar-1.gif"/>										
+								  	</p:dialog>
+									
+							<h:inputHidden value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).id}"/>															
+							
+							<div class = "ui-fluid">	
+												
+									<br/>
+									
+									<p:panel id="panelCadastro" style="height:80px">
+									
+										<p:panelGrid styleClass="ui-panelgrid-blank">
+																															 
+										    <p:row>
+										    			
+										    	 <p:column>										       																				
+													<p:outputLabel value = "Tipo Documento:"/>							
+														<p:column>
+															<p:inputText  value="#{tipoDocumentoBean.descricaoTipoDoc(documentoBean.id_tipo_doc).cod_campo}" disabled ="true"/>															
+														</p:column>						        
+										       	 </p:column>	
+										       	 	 											    											    	
+										    	<p:column>
+										    	<p:outputLabel value="Arquivo:"/>
+										    		<p:column>										    									    	
+										    				<p:fileUpload label="#{documentoBean.tamanhoNomeArquivo(documentoBean.iniciar(usuarioBean.usuarioLogin).nome_arquivo)}" skinSimple="true"  allowTypes="pdf,xlsx,doc,txt,html,jpeg,png,bmp,zip,rar"  mode="simple" value="#{documentoBean.arquivoDoc}"  style = "width:155px;margin-top:15px;" />						    			
+										    				
+										    		</p:column>
+										    	</p:column>	
+										    					
+												<p:column>			
+													<p:commandButton  action="#{documentoBean.salvar()}" value="Salvar" ajax="false" onclick="PF('dlg').show()" style="height:24px"/>	
+												</p:column>
+													
+													<p:column>																																																						
+											    	<p:commandButton  icon="ui-icon-arrowrefresh-1-w"  action="#{documentoBean.redirecionaCadastro()}"  style="width:24px;height:24px;" onclick="PF('dlg').show()" />			           				
+												
+													<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" closable="false">
+														<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" onclick="PF('dlg').show()"/>
+														<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+													</p:confirmDialog>	
+																								
+										   	   		</p:column>			
+										    										    									     															        									 
+										    </p:row>
+										    
+										  
+									</p:panelGrid>									
+    							</p:panel>
+    							   							
+    								<p:panel style="border:none" id="panelCampos">									
+										<p:panelGrid  styleClass="ui-panelgrid-blank"> 						
+ 									<p:row>	
+									
+									<p:column>
+									<p:outputLabel for = "idCh1" value = "#{documentoBean.descricaoColunas('char_001',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('char_001')}"/>
+									<p:column>
+																	
+									<p:inputTextarea 
+									id="idCh1"	
+									rows="1"						
+									maxlength="255" 									 
+									rendered="#{documentoBean.filtro2('char_001')  and documentoBean.verificaValorPos('char_001').size() == null}"
+									value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_001}"
+									style="width:150px"/>
+																
+									<p:selectOneMenu style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_001}" rendered="#{documentoBean.verificaValorPos('char_001').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('char_001')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu>
+										</p:column>
+									</p:column>
+													
+									
+										 <p:column >																			
+											<p:outputLabel for = "idint001" value = "#{documentoBean.descricaoColunas('int_001',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('int_001')}"/>
+												<p:column>
+												<p:inputText id = "idint001"								
+												maxlength="40"  
+												rendered="#{documentoBean.filtro2('int_001')  and documentoBean.verificaValorPos('int_001').size() == null}"
+												value = "#{documentoBean.documento.int_001}"
+												style="width:150px"
+												disabled="#{documentoBean.desabilitaCampoIncremental('int_001',documentoBean.documento)}"	
+												>
+												
+												</p:inputText>
+												
+												<p:selectOneMenu disabled="#{documentoBean.desabilitaCampoIncremental('int_001',usuarioBean.usuarioLogin)}" style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).int_001}" rendered="#{documentoBean.verificaValorPos('int_001').size() != null}">
+						   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+						   							<f:selectItems value ="#{documentoBean.verificaValorPos('int_001')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+						   						</p:selectOneMenu>	  
+			   								</p:column>
+										</p:column>									
+									
+										
+									<p:column >																			
+													   						
+			   						<p:outputLabel for = "iddec1" value = "#{documentoBean.descricaoColunas('dec_001',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('dec_001')}"/>
+									<p:column>
+									<p:inputText id = "iddec1"								
+									maxlength="40"  
+									rendered="#{documentoBean.filtro2('dec_001')  and documentoBean.verificaValorPos('dec_001').size() == null}"
+									value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).dec_001}"
+									style="width:150px"/>
+								
+										  <p:selectOneMenu style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).dec_001}" rendered="#{documentoBean.verificaValorPos('dec_001').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('dec_001')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu>	
+									</p:column>
+									</p:column>
+										
+									<p:column >																			
+										<p:outputLabel for = "iddt1" value = "#{documentoBean.descricaoColunas('data_001',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('data_001')}"/>
+										
+										<p:column>
+																				
+											<p:calendar rendered="#{documentoBean.filtro2('data_001')  and documentoBean.verificaValorPos('data_001').size() == null}" id="iddt1"  pattern = "yyyy-MM-dd" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).data_001}"/>
+																				
+										<p:selectOneMenu style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).data_001}" rendered="#{documentoBean.verificaValorPos('data_001').size() != null}">
+					   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+					   							<f:selectItems value ="#{documentoBean.verificaValorPos('data_001')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+					   							<f:convertDateTime pattern="yyyy-MM-dd" type="data"/>					   							
+					   						</p:selectOneMenu>
+			   							</p:column>
+			   						</p:column>	
+			   						 
+			   						</p:row>	
+			   						  								
+								<p:row>	
+									
+									<p:column>
+									
+									<p:outputLabel for = "idCh2" value = "#{documentoBean.descricaoColunas('char_002',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('char_002')}"/>
+									<p:column>
+									
+									<p:inputTextarea 
+									id="idCh2"	
+									rows="1"						
+									maxlength="255" 									 
+									rendered="#{documentoBean.filtro2('char_002')  and documentoBean.verificaValorPos('char_002').size() == null}"
+									value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_002}"
+									style="width:150px"/>
+								
+										<p:selectOneMenu style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_002}" rendered="#{documentoBean.verificaValorPos('char_002').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('char_002')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu>
+									</p:column>																
+									</p:column>
+																		
+								
+									<p:column >																			
+										
+			   						<p:outputLabel disabled="#{documentoBean.desabilitaCampoFlag('int_002')}" for = "idint002" value = "#{documentoBean.descricaoColunas('int_002',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('int_002')}"/>
+									<p:column>
+									
+									<p:inputText 
+																	
+									id = "idint002"
+									disabled="#{documentoBean.desabilitaCampoIncremental('int_002',documentoBean.documento)}"								
+									maxlength="40"  
+									rendered="#{documentoBean.filtro2('int_002') and documentoBean.verificaValorPos('int_002').size() == null}"
+									value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).int_002}"
+									style="width:150px">
+																		
+									</p:inputText>
+								
+									<p:selectOneMenu disabled="#{documentoBean.desabilitaCampoIncremental('int_002',usuarioBean.usuarioLogin)}" style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).int_002}" rendered="#{documentoBean.verificaValorPos('int_002').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('int_002')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu>
+			   						</p:column>	
+									</p:column>	
+																		
+									<p:column>	
+																	
+									<p:outputLabel for = "iddec2" value = "#{documentoBean.descricaoColunas('dec_002',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('dec_002')}"/>
+									
+									<p:column>
+									<p:inputText id = "iddec2"								
+									maxlength="40"  
+									rendered="#{documentoBean.filtro2('dec_002') and documentoBean.verificaValorPos('dec_002').size() == null}"
+									value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).dec_002}"
+									style="width:150px"/>
+								
+								
+										<p:selectOneMenu style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).dec_003}" rendered="#{documentoBean.verificaValorPos('dec_003').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('dec_002')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu>
+									</p:column>	
+																				
+									</p:column>	
+									
+										
+									<p:column >																			
+									<p:outputLabel for = "iddt2" value = "#{documentoBean.descricaoColunas('data_002',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('data_002')}"/>
+									<p:column>
+									<p:calendar rendered="#{documentoBean.filtro2('data_002') and documentoBean.verificaValorPos('data_002').size() == null}" id="iddt2"  pattern = "yyyy-MM-dd" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).data_002}"/>
+								
+									
+									<p:selectOneMenu style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).data_002}" rendered="#{documentoBean.verificaValorPos('data_002').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('data_002')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu>	
+									</p:column>	
+									</p:column>	
+												   	 					
+			   						</p:row>		   
+			   									   							
+									<p:row>	
+								
+									<p:column >																			
+										
+									<p:outputLabel for = "idCh3" value = "#{documentoBean.descricaoColunas('char_003',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('char_003')}"/>
+									
+									<p:column>
+									
+									
+									<p:inputTextarea 	
+									id="idCh3"
+									autoResize="true"
+									rows="1"							
+									maxlength="255"  
+									rendered="#{documentoBean.filtro2('char_003')  and documentoBean.verificaValorPos('char_003').size() == null }"
+									value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_003}"
+									style="width:150px;"/>
+									
+									<p:selectOneMenu style="width:120px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_003}" rendered="#{documentoBean.verificaValorPos('char_003').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('char_003')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu>
+			   						</p:column>
+									</p:column>	
+									
+									
+									<p:column >																			
+										<p:outputLabel disabled="#{documentoBean.desabilitaCampoFlag('int_003')}" for = "idint003" value = "#{documentoBean.descricaoColunas('int_003',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('int_003')}"/>
+									<p:column>
+									<p:inputText id = "idint003"
+									disabled="#{documentoBean.desabilitaCampoIncremental('int_003',usuarioBean.usuarioLogin)}"								
+									maxlength="40"  
+									rendered="#{documentoBean.filtro2('int_003') and documentoBean.verificaValorPos('int_003').size() == null}"
+									value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).int_003}"
+									style="width:150px"/>
+								
+									
+									<p:selectOneMenu disabled="#{documentoBean.desabilitaCampoIncremental('int_003',usuarioBean.usuarioLogin)}" style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).int_003}" rendered="#{documentoBean.verificaValorPos('int_003').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('int_003')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu>	
+									</p:column>	
+										
+									</p:column>	
+																			
+									<p:column>																			
+										
+									<p:outputLabel for = "iddec3" value = "#{documentoBean.descricaoColunas('dec_003',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('dec_003')}"/>
+									<p:column>
+									<p:inputText id = "iddec3"								
+									maxlength="40"  
+									rendered="#{documentoBean.filtro2('dec_003') and documentoBean.verificaValorPos('dec_003').size() == null}"
+									value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).dec_003}"
+									style="width:150px"/>
+								
+									  <p:selectOneMenu style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).dec_003}" rendered="#{documentoBean.verificaValorPos('dec_003').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('dec_003')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu>
+									</p:column>		
+										
+									</p:column>	
+									
+										
+									<p:column >																			
+										
+									
+									<p:outputLabel for = "iddt3" value = "#{documentoBean.descricaoColunas('data_003',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('data_003')}"/>
+									<p:column>
+									
+									<p:calendar rendered="#{documentoBean.filtro2('data_003') and documentoBean.verificaValorPos('data_003').size() == null}" id="iddt3"  pattern = "yyyy-MM-dd" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).data_003}"/>
+									
+									<p:selectOneMenu style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).data_003}" rendered="#{documentoBean.verificaValorPos('data_003').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('data_003')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu>
+									</p:column>	
+										
+									</p:column>	
+									
+			   					
+			   						</p:row>		   
+			   						
+			   							
+									<p:row>	
+																								
+										
+									<p:column >																			
+									<p:outputLabel for = "idCh4" value = "#{documentoBean.descricaoColunas('char_004',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('char_004')}"/>
+									<p:column>
+								
+									
+									<p:inputTextarea
+									id = "idCh4" 	
+									autoResize="true"
+									rows="1"							
+									maxlength="255"  
+									rendered="#{documentoBean.filtro2('char_004')  and documentoBean.verificaValorPos('char_004').size() == null}"
+									value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_004}"
+									style="width:150px;"/>
+								
+									
+									<p:selectOneMenu style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_004}" rendered="#{documentoBean.verificaValorPos('char_004').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('char_004')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu>
+			   						</p:column>
+									</p:column>	
+									
+									
+									 <p:column>																			
+										<p:outputLabel disabled="#{documentoBean.desabilitaCampoFlag('int_004')}" for = "idint004" value = "#{documentoBean.descricaoColunas('int_004',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('int_004')}"/>
+										
+										<p:column>
+										<p:inputText id = "idint004"
+										disabled="#{documentoBean.desabilitaCampoIncremental('int_004',usuarioBean.usuarioLogin)}"								
+										maxlength="40"  
+										rendered="#{documentoBean.filtro2('int_004') and documentoBean.verificaValorPos('int_004').size() == null}"
+										value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).int_004}"
+										style="width:150px"/>
+									
+									
+										<p:selectOneMenu disabled="#{documentoBean.desabilitaCampoIncremental('int_004',usuarioBean.usuarioLogin)}" style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).int_004}" rendered="#{documentoBean.verificaValorPos('int_004').size() != null}">
+				   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+				   							<f:selectItems value ="#{documentoBean.verificaValorPos('int_004')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+				   						</p:selectOneMenu>
+			   							</p:column>
+			   						
+									</p:column>	
+									
+										
+									<p:column>																			
+										<p:outputLabel for = "iddec4" value = "#{documentoBean.descricaoColunas('dec_004',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('dec_004')}"/>
+									<p:column>
+									<p:inputText id = "iddec4"								
+									maxlength="40"  
+									rendered="#{documentoBean.filtro2('dec_004') and documentoBean.verificaValorPos('dec_004').size() == null}"
+									value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).dec_004}"
+									style="width:150px"/>
+								
+									
+										<p:selectOneMenu style="width:120px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).dec_004}" rendered="#{documentoBean.verificaValorPos('dec_004').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('dec_004')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu>
+			   						</p:column>
+									</p:column>	
+									
+										
+									<p:column >																			
+										
+									<p:outputLabel for = "iddt4" value = "#{documentoBean.descricaoColunas('data_004',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('data_004')}"/>
+									<p:column>
+										<p:calendar rendered="#{documentoBean.filtro2('data_004') and documentoBean.verificaValorPos('data_004').size() == null}" id="iddt4"  pattern = "yyyy-MM-dd" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).data_004}"/>
+								
+										<p:selectOneMenu style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).data_004}" rendered="#{documentoBean.verificaValorPos('data_004').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('data_004')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu>
+									</p:column>	
+									</p:column>
+						
+			   						</p:row>		   
+			   								   							
+									<p:row>	
+								
+									<p:column >																			
+										
+			   						<p:outputLabel for = "idCh5" value = "#{documentoBean.descricaoColunas('char_005',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('char_005')}"/>
+									<p:column>
+									
+								
+									<p:inputTextarea
+									id= "idCh5" 
+									rows="1"	
+									autoResize="true"							
+									maxlength="255"  
+									rendered="#{documentoBean.filtro2('char_005')  and documentoBean.verificaValorPos('char_005').size() == null }"
+									value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_005}"
+									style="width:150px;"/>
+								
+								     <p:selectOneMenu style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_005}" rendered="#{documentoBean.verificaValorPos('char_005').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('char_005')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu> 
+			   						</p:column>
+									</p:column>	
+											 
+								    <p:column>
+									
+			   						<p:outputLabel 
+			   						for = "idint005" value = "#{documentoBean.descricaoColunas('int_005',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('int_005')}"/>
+									<p:column>
+									<p:inputText id = "idint005"	
+									disabled="#{documentoBean.desabilitaCampoIncremental('int_005',usuarioBean.usuarioLogin)}" 							
+									maxlength="40"  
+									rendered="#{documentoBean.filtro2('int_005') and documentoBean.verificaValorPos('int_005').size() == null}"
+									value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).int_005}"
+									style="width:150px"/>
+								
+									<p:selectOneMenu disabled="#{documentoBean.desabilitaCampoIncremental('int_006',usuarioBean.usuarioLogin)}" style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).int_005}" rendered="#{documentoBean.verificaValorPos('int_005').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('int_005')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu>	
+									
+									</p:column> 
+									</p:column>
+									
+									<p:column >
+									
+									<p:outputLabel for = "iddec5" value = "#{documentoBean.descricaoColunas('dec_005',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('dec_005')}"/>
+									<p:column>
+									<p:inputText id = "iddec5"								
+									maxlength="40"  
+									rendered="#{documentoBean.filtro2('dec_005') and documentoBean.verificaValorPos('dec_005').size() == null}"
+									value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).dec_005}"
+									style="width:150px"/>
+								
+									<p:selectOneMenu style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).dec_005}" rendered="#{documentoBean.verificaValorPos('dec_005').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('dec_005')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu> 
+									</p:column>
+																		
+									</p:column>
+									
+									<p:column >
+																		
+									<p:outputLabel for = "iddt5" value = "#{documentoBean.descricaoColunas('data_005')}" rendered="#{documentoBean.filtro2('data_005')}"/>
+									<p:column>
+										<p:calendar rendered="#{documentoBean.filtro2('data_005') and documentoBean.verificaValorPos('data_005').size() == null}" id="iddt5"  pattern = "yyyy-MM-dd" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).data_005}"/>
+								
+									 <p:selectOneMenu style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).data_005}" rendered="#{documentoBean.verificaValorPos('data_005').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('data_005')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu> 
+									</p:column>
+									
+									</p:column>
+									
+									
+												   							
+			   						</p:row> 
+			   					
+									<p:row>	
+								
+									<p:column >																			
+													   						
+			   						<p:outputLabel for = "idCh6" value = "#{documentoBean.descricaoColunas('char_006',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('char_006')}"/>
+									<p:column>
+							
+									
+									<p:inputTextarea 	
+									autoResize="true"
+									rows="1"
+									id = "idCh6"							
+									maxlength="255"  
+									rendered="#{documentoBean.filtro2('char_006')  and documentoBean.verificaValorPos('char_006').size() == null}"
+									value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_006}"
+									style="width:150px;"/>
+								
+									<p:selectOneMenu style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_006}" rendered="#{documentoBean.verificaValorPos('char_006').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('char_006')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu>
+									</p:column>	
+									</p:column>
+									
+									<p:column>
+									
+									<p:outputLabel  for = "idint006" value = "#{documentoBean.descricaoColunas('int_006',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('int_006')}"/>
+									
+									<p:column>
+									<p:inputText id = "idint006"
+									disabled="#{documentoBean.desabilitaCampoIncremental('int_006',usuarioBean.usuarioLogin)}" 								
+									maxlength="40"  
+									rendered="#{documentoBean.filtro2('int_006') and documentoBean.verificaValorPos('int_006').size() == null}"
+									value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).int_006}"
+									style="width:150px"/>
+								
+									 <p:selectOneMenu disabled="#{documentoBean.desabilitaCampoIncremental('int_006',usuarioBean.usuarioLogin)}" style="width:120px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).int_006}" rendered="#{documentoBean.verificaValorPos('int_006').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('int_006')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu>	  
+									</p:column>
+									</p:column>
+									
+									<p:column >
+									
+									<p:outputLabel for = "iddec6" value = "#{documentoBean.descricaoColunas('dec_006',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('dec_006')}"/>
+									<p:column>
+									<p:inputText id = "iddec6"								
+									maxlength="40"  
+									rendered="#{documentoBean.filtro2('dec_006')  and documentoBean.verificaValorPos('dec_006').size() == null}"
+									value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).dec_006}"
+									style="width:150px"/>
+								
+									 <p:selectOneMenu style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).dec_006}" rendered="#{documentoBean.verificaValorPos('dec_006').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('dec_006')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu> 
+			   						</p:column>	
+									</p:column>
+									
+									<p:column>
+																		
+									<p:outputLabel for = "iddt6" value = "#{documentoBean.descricaoColunas('data_006',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('data_006')}"/>
+									<p:column>
+									<p:calendar rendered="#{documentoBean.filtro2('data_006') and documentoBean.verificaValorPos('data_006').size() == null}" id="iddt6"  pattern = "yyyy-MM-dd" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).data_006}"/>
+								
+								
+								
+									<p:selectOneMenu style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).data_006}" rendered="#{documentoBean.verificaValorPos('data_006').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('data_006')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu>
+								
+									</p:column>
+									
+									</p:column>						
+								
+									</p:row>
+									
+									  
+									<p:row>
+									
+									<p:column >
+			   						<p:outputLabel for = "idCh7" value = "#{documentoBean.descricaoColunas('char_007',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('char_007')}"/>
+									<p:column>
+								
+									<p:inputTextarea 	
+									autoResize="true"
+									rows="1"
+									id="idCh7"							
+									maxlength="255"  
+									rendered="#{documentoBean.filtro2('char_007')  and documentoBean.verificaValorPos('char_007').size() == null}"
+									value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_007}"
+									style="width:150px;"/>
+									
+									
+								     <p:selectOneMenu style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_007}" rendered="#{documentoBean.verificaValorPos('char_007').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('char_007')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu> 
+									
+			   						</p:column>
+			   						
+									</p:column>
+									
+									<p:column>
+									<p:outputLabel for = "idint007" value = "#{documentoBean.descricaoColunas('int_007',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('int_007')}"/>
+									<p:column>
+									<p:inputText id = "idint007"								
+									maxlength="40"  
+									rendered="#{documentoBean.filtro2('int_007') and documentoBean.verificaValorPos('int_007').size() == null}"
+									disabled="#{documentoBean.desabilitaCampoIncremental('int_007',usuarioBean.usuarioLogin)}" 
+									value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).int_007}"
+									style="width:150px"/>
+									
+									
+									<p:selectOneMenu disabled="#{documentoBean.desabilitaCampoIncremental('int_007',usuarioBean.usuarioLogin)}" style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).int_007}" rendered="#{documentoBean.verificaValorPos('int_007').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('int_007')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu>
+								
+									
+									 </p:column>
+									</p:column>
+									
+									<p:column >
+									<p:outputLabel for = "iddec7" value = "#{documentoBean.descricaoColunas('dec_007',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('dec_007')}"/>
+									<p:column>
+									<p:inputText id = "iddec7"								
+									maxlength="40"  
+									rendered="#{documentoBean.filtro2('dec_007') and documentoBean.verificaValorPos('dec_007').size() == null}"
+									value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).dec_007}"
+									style="width:150px"/>
+								
+									</p:column>
+									</p:column>
+									
+									<p:column >
+																		
+									<p:outputLabel for = "iddt7" value = "#{documentoBean.descricaoColunas('data_007')}" rendered="#{documentoBean.filtro2('data_007')}"/>
+									<p:column>
+										<p:calendar rendered="#{documentoBean.filtro2('data_007')  and documentoBean.verificaValorPos('data_007').size() == null}" id="iddt7"  pattern = "yyyy-MM-dd" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).data_007}"/>
+								
+									
+									<p:selectOneMenu style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).data_007}" rendered="#{documentoBean.verificaValorPos('data_007').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('data_007')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu>
+									
+									</p:column>
+									
+									</p:column>
+										
+									</p:row>
+								
+									
+									<p:row>
+									<p:column>
+									
+									<p:outputLabel for = "idCh8" value = "#{documentoBean.descricaoColunas('char_008',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('char_008')}"/>
+									
+									<p:column>
+								
+									
+									<p:inputTextarea 
+									rows="1"
+									id="idCh8"	
+									autoResize="true"							
+									maxlength="255"  
+									rendered="#{documentoBean.filtro2('char_008')  and documentoBean.verificaValorPos('char_008').size() == null }"
+									value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_008}"
+									style="width:150px;"/>
+								
+									  <p:selectOneMenu style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_008}" rendered="#{documentoBean.verificaValorPos('char_008').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('char_008')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu>  
+									</p:column>
+									</p:column>
+								
+									 <p:column >
+									
+									
+			   						<p:outputLabel disabled="#{documentoBean.desabilitaCampoIncremental('int_008',usuarioBean.usuarioLogin)}" for = "idint008" value = "#{documentoBean.descricaoColunas('int_008',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('int_008')}"/>
+									<p:column>
+									<p:inputText id = "idint008"
+									disabled="#{documentoBean.desabilitaCampoIncremental('int_008',usuarioBean.usuarioLogin)}"							
+									rendered="#{documentoBean.filtro2('int_008') and documentoBean.verificaValorPos('int_008').size() == null}"
+									value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).int_008}"
+									style="width:150px;height:50px"/>
+									
+									
+									<p:selectOneMenu disabled="#{documentoBean.desabilitaCampoFlag('int_001')}" style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).int_008}" rendered="#{documentoBean.verificaValorPos('int_008').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('int_008')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu>
+								
+								
+									</p:column>
+									
+									</p:column>
+									
+									
+									<p:column >
+									
+									<p:outputLabel for = "iddec8" value = "#{documentoBean.descricaoColunas('dec_008',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('dec_008')}"/>
+									
+									<p:column>
+									
+									<p:inputText id = "iddec8"								
+									maxlength="40"  
+									rendered="#{documentoBean.filtro2('dec_008')  and documentoBean.verificaValorPos('dec_008').size() == null}"
+									value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).dec_008}"
+									style="width:150px"/>
+									
+									
+									<p:selectOneMenu style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).dec_008}" rendered="#{documentoBean.verificaValorPos('dec_008').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('dec_008')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu>
+								
+									
+									</p:column>
+									</p:column>
+									
+									<p:column >
+																		
+									<p:outputLabel for = "iddt8" value = "#{documentoBean.descricaoColunas('data_008',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('data_008')}"/>
+									<p:column>
+										<p:calendar rendered="#{documentoBean.filtro2('data_008')  and documentoBean.verificaValorPos('data_008').size() == null}" id="iddt8"  pattern = "yyyy-MM-dd" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).data_008}"/>
+								
+								
+									<p:selectOneMenu style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).data_008}" rendered="#{documentoBean.verificaValorPos('data_014').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('data_008')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu>
+									</p:column>
+									
+									</p:column>
+								
+									</p:row>
+									
+										
+									<p:row>
+									<p:column >
+										<p:outputLabel for = "idCh9" value = "#{documentoBean.descricaoColunas('char_009',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('char_009')}"/>
+									<p:column>
+									
+									<p:inputTextarea
+									rows="1"
+									id="idCh9" 	
+									autoResize="true"							
+									maxlength="255"  
+									rendered="#{documentoBean.filtro2('char_009')  and documentoBean.verificaValorPos('char_009').size() == null}"
+									value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_009}"
+									style="width:150px;"/>
+								
+								
+									<p:selectOneMenu style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_009}" rendered="#{documentoBean.verificaValorPos('char_009').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('char_009')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu>
+									
+									</p:column> 
+									</p:column>
+									
+									<p:column >
+									<p:outputLabel  for = "idint009" value = "#{documentoBean.descricaoColunas('int_009',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('int_009')}"/>
+									<p:column>
+									<p:inputText id = "idint009"	
+									ddisabled="#{documentoBean.desabilitaCampoIncremental('int_009',usuarioBean.usuarioLogin)}"							
+									maxlength="40"  
+									rendered="#{documentoBean.filtro2('int_009') and documentoBean.verificaValorPos('int_009').size() == null}"
+									value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).int_009}"
+									style="width:150px"/>
+								
+								
+									<p:selectOneMenu disabled="#{documentoBean.desabilitaCampoIncremental('int_009',usuarioBean.usuarioLogin)}" style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).int_009}" rendered="#{documentoBean.verificaValorPos('int_009').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('int_009')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu>
+								
+									</p:column>
+									</p:column>
+									
+									<p:column >
+									<p:outputLabel for = "iddec9" value = "#{documentoBean.descricaoColunas('dec_009',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('dec_009')}"/>
+									
+									<p:column>
+									<p:inputText id = "iddec9"								
+									maxlength="40"  
+									rendered="#{documentoBean.filtro2('dec_009') and documentoBean.verificaValorPos('dec_009').size() == null}"
+									value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).dec_009}"
+									style="width:150px"/>
+								
+								
+									<p:selectOneMenu style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).dec_009}" rendered="#{documentoBean.verificaValorPos('dec_009').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('dec_009')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu>
+									
+									</p:column>
+									</p:column>
+									
+									<p:column >
+																		
+									<p:outputLabel for = "iddt9" value = "#{documentoBean.descricaoColunas('data_009',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('data_009')}"/>
+									<p:column>
+										<p:calendar rendered="#{documentoBean.filtro2('data_009') and documentoBean.verificaValorPos('data_009').size() == null}" id="iddt9"  pattern = "yyyy-MM-dd" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).data_009}"/>
+								
+								
+									<p:selectOneMenu style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).data_009}" rendered="#{documentoBean.verificaValorPos('data_009').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('data_009')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu>
+									
+									</p:column>
+									
+									</p:column>
+							
+									
+									</p:row>
+									
+									
+										
+									<p:row>
+									<p:column >
+									<p:outputLabel for = "idCh10" value = "#{documentoBean.descricaoColunas('char_010',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('char_010')}"/>
+									<p:column>
+								
+									
+									<p:inputTextarea 
+									id="idCh10"	
+									rows="1"
+									autoResize="true"							
+									maxlength="255"  
+									rendered="#{documentoBean.filtro2('char_010')  and documentoBean.verificaValorPos('char_010').size() == null }"
+									value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_010}"
+									style="width:150px;"/>
+								
+									<p:selectOneMenu style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_010}" rendered="#{documentoBean.verificaValorPos('char_010').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('char_010')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu> 
+									</p:column>
+									</p:column>
+									
+									<p:column >
+									
+									<p:outputLabel for = "idint10" value = "#{documentoBean.descricaoColunas('int_010',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('int_010')}"/>
+									<p:column>
+									<p:inputText id = "idint10"	
+									disabled="#{documentoBean.desabilitaCampoIncremental('int_010',usuarioBean.usuarioLogin)}" 							
+									maxlength="40"  
+									rendered="#{documentoBean.filtro2('int_010') and documentoBean.verificaValorPos('int_010').size() == null}"
+									value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).int_010}"
+									style="width:150px"/>
+								
+								
+									<p:selectOneMenu disabled="#{documentoBean.desabilitaCampoIncremental('int_010',usuarioBean.usuarioLogin)}" style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).int_010}" rendered="#{documentoBean.verificaValorPos('int_010').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('int_010')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu>
+								
+									</p:column>
+									</p:column>	
+									
+									<p:column>
+									
+									
+									<p:outputLabel for = "iddec10" value = "#{documentoBean.descricaoColunas('dec_010',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('dec_010')}"/>
+									
+									<p:column>
+									<p:inputText id = "iddec10"								
+									maxlength="40"  
+									rendered="#{documentoBean.filtro2('dec_010')  and documentoBean.verificaValorPos('dec_010').size() == null}"
+									value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).dec_010}"
+									style="width:150px"/>
+								
+								
+									<p:selectOneMenu style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).dec_010}" rendered="#{documentoBean.verificaValorPos('dec_010').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('dec_010')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu>
+									
+									</p:column>
+									</p:column>
+									
+									<p:column >
+																		
+									<p:outputLabel for = "iddt10" value = "#{documentoBean.descricaoColunas('data_010',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('data_010')}"/>
+									<p:column>
+										<p:calendar rendered="#{documentoBean.filtro2('data_010')  and documentoBean.verificaValorPos('data_010').size() == null}" id="iddt10"  pattern = "yyyy-MM-dd" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).data_010}"/>
+								
+								
+									<p:selectOneMenu style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).data_010}" rendered="#{documentoBean.verificaValorPos('data_010').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('data_010')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu>
+									
+									</p:column>									
+									</p:column>
+															
+									</p:row>
+									
+									<p:row>
+									
+										<p:column >
+										
+			   							<p:outputLabel for = "idCh11" value = "#{documentoBean.descricaoColunas('char_011',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('char_011')}"/>
+									
+										<p:column>
+											
+												<p:inputTextarea 
+												rows="1"
+												id = "idCh11"	
+												autoResize="true"							
+												maxlength="255"  
+												rendered="#{documentoBean.filtro2('char_011')  and documentoBean.verificaValorPos('char_011').size() == null }"
+												value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_011}"
+												style="width:150px;"/>
+										
+											 <p:selectOneMenu style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_011}" rendered="#{documentoBean.verificaValorPos('char_011').size() != null}">
+					   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+					   							<f:selectItems value ="#{documentoBean.verificaValorPos('char_011')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+					   						</p:selectOneMenu>	   
+			   							</p:column>
+										
+										</p:column>
+									 
+									</p:row>
+									
+									<p:row>
+									
+										<p:column>
+										
+			   						<p:outputLabel for = "idCh12" value = "#{documentoBean.descricaoColunas('char_012',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('char_012')}"/>
+									<p:column>
+									
+									
+									<p:inputTextarea
+									rows="1"
+									id="idCh12" 	
+									autoResize="true"							
+									maxlength="255"  
+									rendered="#{documentoBean.filtro2('char_012')  and documentoBean.verificaValorPos('char_012').size() == null }"
+									value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_012}"
+									style="width:150px;"/>
+								
+									<p:selectOneMenu style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_012}" rendered="#{documentoBean.verificaValorPos('char_012').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('char_012')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu>
+										</p:column>
+									</p:column>
+									</p:row>
+									
+									<p:row>
+									<p:column>
+									<p:outputLabel for = "idCh13" value = "#{documentoBean.descricaoColunas('char_013',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('char_013')}"/>
+									<p:column>
+								
+									<p:inputTextarea 
+									rows="1"
+									id="idCh13"	
+									autoResize="true"							
+									maxlength="255"  
+									rendered="#{documentoBean.filtro2('char_013')  and documentoBean.verificaValorPos('char_013').size() == null }"
+									value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_013}"
+									style="width:150px;"/>
+									
+									
+									<p:selectOneMenu style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_013}" rendered="#{documentoBean.verificaValorPos('char_013').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('char_013')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu>
+									
+								
+									</p:column>
+									</p:column>									
+									</p:row>
+									
+									<p:row>
+									<p:column >
+									<p:outputLabel for = "idCh14" value = "#{documentoBean.descricaoColunas('char_014',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('char_014')}"/>
+									<p:column>
+								
+									
+									<p:inputTextarea 
+									id="idCh14"
+									rows="1"	
+									autoResize="true"							
+									maxlength="255"  
+									rendered="#{documentoBean.filtro2('char_014')  and documentoBean.verificaValorPos('char_014').size() == null}"
+									value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_014}"
+									style="width:150px;"/>
+								
+									<p:selectOneMenu style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_014}" rendered="#{documentoBean.verificaValorPos('char_014').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('char_014')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu>
+									</p:column>	
+									</p:column>								
+									</p:row>									
+						   	   					
+						   	   					
+						   	   		<p:row>
+									<p:column>
+									<p:outputLabel for = "idCh15" value = "#{documentoBean.descricaoColunas('char_015',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('char_015')}"/>
+									<p:column>
+								
+									
+									<p:inputTextarea 	
+									autoResize="true"
+									id="idCh15"	
+									rows="1"						
+									maxlength="255"  
+									rendered="#{documentoBean.filtro2('char_015')  and documentoBean.verificaValorPos('char_015').size() == null}"
+									value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_015}"
+									style="width:150px;"/>
+								
+									<p:selectOneMenu style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_015}" rendered="#{documentoBean.verificaValorPos('char_015').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('char_015')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu>	
+									</p:column>	
+									</p:column>								
+									</p:row>
+									
+									<p:row>
+									<p:column >
+									<p:outputLabel for = "idCh16" value = "#{documentoBean.descricaoColunas('char_016',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('char_016')}"/>
+									<p:column>
+								
+									<p:inputTextarea
+									id="idCh16" 	
+									rows="1"
+									autoResize="true"							
+									maxlength="255"  
+									rendered="#{documentoBean.filtro2('char_016')  and documentoBean.verificaValorPos('char_016').size() == null}"
+									value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_016}"
+									style="width:150px;"/>
+								
+									<p:selectOneMenu style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_016}" rendered="#{documentoBean.verificaValorPos('char_016').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('char_016')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu>
+									</p:column>	
+									</p:column>								
+									</p:row>									
+						   	   					
+						   	   		<p:row>
+									<p:column>
+									
+									<p:outputLabel for = "idCh17" value = "#{documentoBean.descricaoColunas('char_017',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('char_017')}"/>
+									<p:column>
+								
+									<p:inputTextarea
+									rows="1"	
+									id="idCh17"
+									autoResize="true"							
+									maxlength="255"  
+									rendered="#{documentoBean.filtro2('char_017')  and documentoBean.verificaValorPos('char_017').size() == null }"
+									value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_017}"
+									style="width:150px;"/>
+								
+									<p:selectOneMenu style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_017}" rendered="#{documentoBean.verificaValorPos('char_017').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('char_017')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu>	
+			   						</p:column>
+									</p:column>									
+									</p:row>									
+						   	   		
+						   	   		<p:row>
+									<p:column >
+									
+									<p:outputLabel for = "idCh18" value = "#{documentoBean.descricaoColunas('char_018',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('char_018')}"/>
+									<p:column>
+								
+									
+									<p:inputTextarea
+									rows="1"
+									id="idCh18"
+									autoResize="true"							
+									maxlength="255"  
+									rendered="#{documentoBean.filtro2('char_018')  and documentoBean.verificaValorPos('char_018').size() == null }"
+									value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_018}"
+									style="width:150px;"/>
+								
+									<p:selectOneMenu style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_018}" rendered="#{documentoBean.verificaValorPos('char_018').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('char_018')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu>
+									</p:column>
+									 </p:column>									
+									</p:row>									
+						   	   					
+						   	   		<p:row>
+									<p:column >
+									<p:outputLabel for = "idCh19" value = "#{documentoBean.descricaoColunas('char_019',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('char_019')}"/>
+									<p:column>
+								
+									
+									<p:inputTextarea
+									id="idCh19" 	
+									rows="1"
+									autoResize="true"							
+									maxlength="255"  
+									rendered="#{documentoBean.filtro2('char_019')  and documentoBean.verificaValorPos('char_019').size() == null}"
+									value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_019}"
+									style="width:150px;"/>
+								
+									<p:selectOneMenu style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_019}" rendered="#{documentoBean.verificaValorPos('char_019').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('char_019')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu>
+									</p:column>	
+									</p:column>								
+									</p:row>									
+						   	   					
+						   	   		<p:row>
+									<p:column>
+									
+			   						<p:outputLabel for = "idCh20" value = "#{documentoBean.descricaoColunas('char_020',usuarioBean.usuarioLogin)}" rendered="#{documentoBean.filtro2('char_020')}"/>
+									<p:column>
+									
+									
+									<p:inputTextarea 	
+									rows="1"
+									id="idCh20"
+									autoResize="true"							
+									maxlength="255"  
+									rendered="#{documentoBean.filtro2('char_020')  and documentoBean.verificaValorPos('char_020').size() == null}"
+									value = "#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_020}"
+									style="width:150px;"/>
+								
+									<p:selectOneMenu style="width:200px" value="#{documentoBean.iniciar(usuarioBean.usuarioLogin).char_020}" rendered="#{documentoBean.verificaValorPos('char_020').size() != null}">
+			   							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>   								
+			   							<f:selectItems value ="#{documentoBean.verificaValorPos('char_020')}" var="valpos" itemLabel="#{valpos.valor_possivel}" itemValue="#{valpos.valor_possivel}"/>
+			   						</p:selectOneMenu>	
+									</p:column>	
+									</p:column>								
+									</p:row>									
+						   	   																								
+						   	   							   	   						
+						   	   		<p:row>  						   	   								   	   			
+    								
+						   	   		</p:row>					   	   			
+									</p:panelGrid>									
+    							</p:panel>
+    							   								
+    									  																																						
+							</div>
+																		
+						</h:form>	
+															
+				</ui:define>
+									
+		</ui:composition>	
+		</body>
+</html>
