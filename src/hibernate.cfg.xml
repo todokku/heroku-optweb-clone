@@ -38,8 +38,7 @@
 		  <mapping class ="br.com.OPT_WEB_002.val_campos_trans_doc.Val_Campos_Trans_Doc"/>			
 		  <mapping class ="br.com.OPT_WEB_002.grupo_valores.Grupo_Valores"/>
 		  <mapping class ="br.com.OPT_WEB_002.grupo_valores_possiveis_doc.Grupo_Valores_Possiveis_Doc"/>
-		  <mapping class ="br.com.OPT_WEB_002.situacao_tipo_documento.Situacao_Tipo_Documento"/>
-		  <mapping class ="br.com.OPT_WEB_002.cliente.Cliente"/>
+		  <mapping class ="br.com.OPT_WEB_002.situacao_tipo_documento.Situacao_Tipo_Documento"/>		 
 		  <mapping class ="br.com.OPT_WEB_002.usuario_tipo_documento.Usuario_Tipo_Documento"/>
 	
 	</session-factory>
