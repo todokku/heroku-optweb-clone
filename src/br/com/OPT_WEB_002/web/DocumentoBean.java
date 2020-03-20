@@ -75,13 +75,11 @@ public class DocumentoBean implements Serializable {
 		lazymodel = new LazyDocumento(listarPorIdTipoDocCodEmpCodFiCodUni(usuario));	
 		
 		/**método que cria colunas a partir de sua ordem cadastrada na tabela layout_empresa**/
-		if(listarPorIdTipoDocCodEmpCodFiCodUni(usuario).size() != 0){
-		
-			criarColunasDinamicas();
-			/**objeto com valor adicionado para true para carregar dados da datatable de documento e de transacao documento**/
-			linhaSelecionada = true;	    		   	
-   
-		}
+				
+		criarColunasDinamicas();
+
+		/**objeto com valor adicionado para true para carregar dados da datatable de documento e de transacao documento**/
+		linhaSelecionada = true;
 		
 	return lazymodel;
 	}
