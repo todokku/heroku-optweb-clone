@@ -1457,7 +1457,7 @@ public class DocumentoBean implements Serializable {
 				}
 				
 				if(listaDocPorTipoUsuario.size() == 0) {
-					
+					criarColunasDinamicas();
 					return documentoRN.listarPorIdTipoDoc(id_tipo_doc);
 				}else {
 					
