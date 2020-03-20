@@ -72,10 +72,14 @@ public class DocumentoBean implements Serializable {
 	public LazyDataModel<Documento> lazyDocumento(Usuario usuario) {
 		
 try{
+System.out.println("msg1");
 		/**objeto da classe LazyDocumento recebe uma lista de valores pelo campo id_tipo_doc**/
 		lazymodel = new LazyDocumento(listarPorIdTipoDocCodEmpCodFiCodUni(usuario));	
+System.out.println("msg2");
 }catch(Exception e){
-e.getCause().getMessage();
+System.out.println("msg3");
+System.out.println(e.getCause().getMessage());
+;
 }		
 		/**método que cria colunas a partir de sua ordem cadastrada na tabela layout_empresa**/
 				
