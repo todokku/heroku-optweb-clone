@@ -38,7 +38,7 @@
 						<div class = "ui-fluid">
 																								
 							<p:dataTable 
-							value = "#{documentoBean.listarPorIdTipoDocCodEmpCodFiCodUni(usuarioBean.usuarioLogin)}" 
+							value = "#{documentoBean.lazyDocumento(usuarioBean.usuarioLogin)}" 
 							var = "documento"										
 							rules = "rows"				
 							cellpadding ="25"
@@ -53,6 +53,7 @@
 							scrollable="true"	
 						    scrollWidth="100%"					
 						    scrollHeight="150"
+						    lazy = "true"
 						    >
 						  						    						    		
 								<f:facet name="header">

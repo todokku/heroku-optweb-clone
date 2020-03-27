@@ -114,7 +114,7 @@ public class Usuario_Tipo_DocumentoBean implements Serializable {
 	public List<Usuario_Tipo_Documento> listarPorIdUsuarioCodEmCodFiCodUni(Usuario usuario) {
 		
 		usuario_Tipo_DocumentoRN = new Usuario_Tipo_DocumentoRN();
-		
+		System.out.println(usuario.getId_usuario());
 		return usuario_Tipo_DocumentoRN.listarPorIdUsuarioCodEmCodFiCodUni(usuario.getId_usuario(),usuario.getCod_empresa().getCod_empresa(),usuario.getCod_filial().getCod_filial(),usuario.getCod_unidade().getCod_unidade());
 		 		
 	}

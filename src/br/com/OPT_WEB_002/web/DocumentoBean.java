@@ -71,16 +71,12 @@ public class DocumentoBean implements Serializable {
 	/**Lista objetos com carregamento lazy**/
 	public LazyDataModel<Documento> lazyDocumento(Usuario usuario) {
 		
-try{
+
 System.out.println("msg1");
 		/**objeto da classe LazyDocumento recebe uma lista de valores pelo campo id_tipo_doc**/
 		lazymodel = new LazyDocumento(listarPorIdTipoDocCodEmpCodFiCodUni(usuario));	
 System.out.println("msg2");
-}catch(Exception e){
-System.out.println("msg3");
-System.out.println(e.getCause().getMessage());
-;
-}		
+
 		/**método que cria colunas a partir de sua ordem cadastrada na tabela layout_empresa**/
 				
 		criarColunasDinamicas();
@@ -658,7 +654,7 @@ System.out.println(e.getCause().getMessage());
 
 	
 	public BigInteger carregarDocTransDocCampAdic(Usuario usuario) {
-
+		System.out.println("carregarDocTransDocCampAdic");
 		DocumentoRN documentoRN = new DocumentoRN();
 		
 		/**variavel recebe o valor false para nao carregar colunas dinamicas**/
@@ -1395,18 +1391,21 @@ System.out.println(e.getCause().getMessage());
 		List<Documento> listaDocPorTipoUsuario = new ArrayList<Documento>();
 		Usuario_Tipo_DocumentoRN usuario_Tipo_DocumentoRN = new Usuario_Tipo_DocumentoRN();
 		Field field;
-
+        
+		System.out.println("msg1");
 		retornaLogin(usuario);		
-
+		System.out.println("msg2");
 		if (usuario != null) {
-
+			System.out.println("msg3");
+			System.out.println(id_tipo_doc);
 			tipo_Documento = tipo_DocumentoRN.carregarPorIdTiDocCoDEmCodFiCodUni(id_tipo_doc,
 					usuario.getCod_empresa().getCod_empresa(), 
 					usuario.getCod_filial().getCod_filial(),
 					usuario.getCod_unidade().getCod_unidade());
-
+			System.out.println("msg3");
+			System.out.println(id_tipo_doc);
 			if (id_tipo_doc != null) {
-
+				System.out.println("msg4");
 				try {
 
 					if (isLinhaSelecionada()) {
@@ -1426,20 +1425,20 @@ System.out.println(e.getCause().getMessage());
 					this.id_doc = null;
 					e.printStackTrace();
 				}
-			
+				System.out.println("msg5");
 				for(Documento documento : documentoRN.listarPorCodEmCodFiCodUni(usuario.getCod_empresa().getCod_empresa(),usuario.getCod_filial().getCod_filial(),usuario.getCod_unidade().getCod_unidade())) {
-																
+					System.out.println("msg6");						
 						for(Usuario_Tipo_Documento usuario_Tipo_Documento : usuario_Tipo_DocumentoRN.listarPorIdUsuarioCodEmCodFiCodUni(usuario.getId_usuario(),usuario.getCod_empresa().getCod_empresa(),usuario.getCod_filial().getCod_filial(),usuario.getCod_unidade().getCod_unidade())) {
-												
+							System.out.println("msg7");
 							for(Layout_Empresa layout_Empresa : layout_EmpresaRN.listarPor_tipoDocumento(usuario_Tipo_Documento.getId_tipo_doc().getId_tipo_doc())) {
-														
+								System.out.println("msg8");		
 							try {
-								
+								System.out.println("msg9");
 								field = documento.getClass().getDeclaredField(layout_Empresa.getCod_campo());
 								field.setAccessible(true);
-							
+								System.out.println("msg10");
 								if(layout_Empresa.getDescricao().equals(usuario_Tipo_Documento.getCod_campo()) && usuario_Tipo_Documento.getConteudo().equals(field.get(documento))) {
-									
+									System.out.println("msg11");
 									listaDocPorTipoUsuario.add(documento);
 								}
 																
@@ -1462,12 +1461,12 @@ System.out.println(e.getCause().getMessage());
 					}
 					
 				}
-				
+				System.out.println("msg12");
 				if(listaDocPorTipoUsuario.size() == 0) {
-					criarColunasDinamicas();
+					System.out.println("msg13");
 					return documentoRN.listarPorIdTipoDoc(id_tipo_doc);
 				}else {
-					
+					System.out.println("msg14");
 					return listaDocPorTipoUsuario;
 				}
 							
