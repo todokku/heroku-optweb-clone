@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.List;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
@@ -13,7 +14,7 @@ import br.com.OPT_WEB_002.usuario_tipo_documento.*;
 
 
 @javax.faces.bean.ManagedBean(name = "usuario_tipo_docBean")
-@ViewScoped
+@SessionScoped
 public class Usuario_Tipo_DocumentoBean implements Serializable {
 	
 	/**
@@ -113,8 +114,9 @@ public class Usuario_Tipo_DocumentoBean implements Serializable {
 	
 	public List<Usuario_Tipo_Documento> listarPorIdUsuarioCodEmCodFiCodUni(Usuario usuario) {
 		
-		usuario_Tipo_DocumentoRN = new Usuario_Tipo_DocumentoRN();
-		System.out.println(usuario.getId_usuario());
+		 System.out.println("teste");
+		 usuario_Tipo_DocumentoRN = new Usuario_Tipo_DocumentoRN();
+		
 		return usuario_Tipo_DocumentoRN.listarPorIdUsuarioCodEmCodFiCodUni(usuario.getId_usuario(),usuario.getCod_empresa().getCod_empresa(),usuario.getCod_filial().getCod_filial(),usuario.getCod_unidade().getCod_unidade());
 		 		
 	}
