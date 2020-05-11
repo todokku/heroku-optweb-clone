@@ -24,7 +24,7 @@ public class LazyDocumento extends LazyDataModel<Documento> {
 	public LazyDocumento(List<Documento> lista) {
 		
         this.lista2 = new ArrayList<Documento>();
-        System.out.println(lista.size());
+       
 		this.lista2 = lista;		
 		
 	}

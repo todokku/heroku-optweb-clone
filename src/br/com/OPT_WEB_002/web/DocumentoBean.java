@@ -70,17 +70,14 @@ public class DocumentoBean implements Serializable {
 
 	/**Lista objetos com carregamento lazy**/
 	public LazyDataModel<Documento> lazyDocumento(Usuario usuario) {
-		
 
-System.out.println("msg1");
 		/**objeto da classe LazyDocumento recebe uma lista de valores pelo campo id_tipo_doc**/
 		lazymodel = new LazyDocumento(listarPorIdTipoDocCodEmpCodFiCodUni(usuario));	
-System.out.println("msg2");
-
+        System.out.println("teste222");
 		/**método que cria colunas a partir de sua ordem cadastrada na tabela layout_empresa**/
-				
+        System.out.println("teste333");		
 		criarColunasDinamicas();
-		System.out.println("msg3");
+		  System.out.println("teste444");
 		/**objeto com valor adicionado para true para carregar dados da datatable de documento e de transacao documento**/
 		linhaSelecionada = true;
 		
@@ -930,13 +927,14 @@ System.out.println("msg2");
 		   	
 		    modeloColuna coluna50  = new modeloColuna(null,null);;	        		   	
 		   	coluna50.setHeader(descricaoColunas("data_010", usuario));
-		  
+		   	System.out.println("teste1"); 
 		   	/**condição para carregar colunas dinamicas**/  	
 		   	if(id_tipo_doc != null){
-    		     		    		 
+    		     		System.out.println("teste2");    		 
 	    		 /**bloco para listar todos os objetos da tabela layout que estejam com o campo flag com valor true**/
 	    		 for(Layout_Empresa layout_Empresa : layout_EmpresaRN.listarCamposFlag(id_tipo_doc,usuario.getCod_empresa().getCod_empresa(),usuario.getCod_filial().getCod_filial(),usuario.getCod_unidade().getCod_unidade())){
 	    			 /**objeto array para adicionar todos os campos sequencia do bloco **/
+	    			 System.out.println("teste3");
 	    			 listaId.add(layout_Empresa.getSequencia());
 	    		 }	   			
     		
@@ -945,7 +943,7 @@ System.out.println("msg2");
     		     		
 	    		 /**bloco para listar todos os objetos da listaId**/
 	    		 for(Integer id : listaId){
-    			
+	    			 System.out.println("teste4"); 
 	    			 try{
 	    				 	    					    				 
 		 		    	if(comparaFlagCampo(id_tipo_doc,"char_001",usuario,id)){	  
@@ -1253,13 +1251,13 @@ System.out.println("msg2");
 		 			   	} 
 		    			 
     			 }catch(NullPointerException e){
-    				 
+    				 System.out.println("nulo"); 
     				 return null;
     			 }   	
  		    	 		    	
     		}
 	    			    		
-	    	    		
+	    		 System.out.println("teste5"); 
         		return columns;
          }
 	  }
@@ -1391,7 +1389,7 @@ System.out.println("msg2");
 		List<Documento> listaDocPorTipoUsuario = new ArrayList<Documento>();
 		Usuario_Tipo_DocumentoRN usuario_Tipo_DocumentoRN = new Usuario_Tipo_DocumentoRN();
 		Field field;
-        
+
 		System.out.println("msg1");
 		retornaLogin(usuario);		
 		System.out.println("msg2");
@@ -1437,23 +1435,34 @@ System.out.println("msg2");
 								field = documento.getClass().getDeclaredField(layout_Empresa.getCod_campo());
 								field.setAccessible(true);
 								System.out.println("msg10");
+								System.out.println(usuario_Tipo_Documento.getConteudo());
+								System.out.println(field.get(documento));
+								System.out.println(listaDocPorTipoUsuario.size());
 								if(layout_Empresa.getDescricao().equals(usuario_Tipo_Documento.getCod_campo()) && usuario_Tipo_Documento.getConteudo().equals(field.get(documento))) {
 									System.out.println("msg11");
+								
 									listaDocPorTipoUsuario.add(documento);
+								}else {
+									System.out.println("msg12");
+									System.out.println(documentoRN.listarPorIdTipoDoc(id_tipo_doc).size());
+									return documentoRN.listarPorIdTipoDoc(id_tipo_doc);
 								}
 																
 							} catch (NoSuchFieldException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
+								System.out.println("msg13");
 							} catch (SecurityException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
+								System.out.println("msg14");
 							} catch (IllegalArgumentException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							} catch (IllegalAccessException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
+								System.out.println("msg15");
 							}
 						
 						}
@@ -1461,19 +1470,18 @@ System.out.println("msg2");
 					}
 					
 				}
-				System.out.println("msg12");
-				if(listaDocPorTipoUsuario.size() == 0) {
-					System.out.println("msg13");
-					return documentoRN.listarPorIdTipoDoc(id_tipo_doc);
-				}else {
-					System.out.println("msg14");
+			
+				
 					return listaDocPorTipoUsuario;
-				}
+					
+				
 							
 		}else {
+			System.out.println("msg16");
 			return null;
 		}
 		}
+		System.out.println("msg17");
 		return null;
 	}
 
