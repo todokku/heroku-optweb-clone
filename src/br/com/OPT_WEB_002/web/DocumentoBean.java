@@ -31,7 +31,7 @@ import br.com.OPT_WEB_002.val_campos_trans_doc.*;
 import net.sf.jasperreports.engine.JRException;
 
 @ManagedBean(name = "documentoBean")
-@SessionScoped
+@ViewScoped
 public class DocumentoBean implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -1516,7 +1516,7 @@ public class DocumentoBean implements Serializable {
 	}
 
 	public String novo() {
-
+        
 		return "/restrito/documento/cadastro_documento.xhtml?id=" + id_tipo_doc + " faces-redirect=true";
 	}
 
