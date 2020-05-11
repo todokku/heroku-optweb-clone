@@ -1448,7 +1448,7 @@ public class DocumentoBean implements Serializable {
 								}else {
 									System.out.println("msg12");
 									System.out.println(documentoRN.listarPorIdTipoDoc(id_tipo_doc).size());
-									return documentoRN.listarPorIdTipoDoc(id_tipo_doc);
+									return documentoRN.listarPorIdTipoDocCodEmpCodFiCodUni(id_tipo_doc,usuario.getCod_empresa().getCod_empresa(),usuario.getCod_filial().getCod_filial(),usuario.getCod_unidade().getCod_unidade());
 								}
 																
 							} catch (NoSuchFieldException e) {

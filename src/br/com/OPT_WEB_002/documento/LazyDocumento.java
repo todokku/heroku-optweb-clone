@@ -23,8 +23,7 @@ public class LazyDocumento extends LazyDataModel<Documento> {
  
 	public LazyDocumento(List<Documento> lista) {
 		
-        this.lista2 = new ArrayList<Documento>();
-       
+        this.lista2 = new ArrayList<Documento>();       
 		this.lista2 = lista;		
 		
 	}
@@ -97,11 +96,11 @@ public class LazyDocumento extends LazyDataModel<Documento> {
                     	String filterProperty = it.next();    
                     	Object filterValue = filters.get(filterProperty); 
                     	String fieldValue = null;
-                    	
+                    	System.out.println("teste1");
                     	for(Layout_Empresa layout_Empresa : layout_EmpresaRN.listarPorFlagFiltro(documento.getCod_empresa().getCod_empresa(),documento.getCod_filial().getCod_filial(),documento.getCod_unidade().getCod_unidade())){
-                    								
+                    		System.out.println("teste2");		
 	                    	if(filterProperty.equals(layout_Empresa.getCod_campo())){
-	                    			
+	                    		System.out.println("teste3");
 								Field campo =	documento.getClass().getDeclaredField(layout_Empresa.getCod_campo());
 								campo.setAccessible(true);								              		
 	                    		fieldValue = String.valueOf(campo.get(documento));		                    		
