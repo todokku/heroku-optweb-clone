@@ -80,7 +80,7 @@ System.out.println("msg2");
 		/**método que cria colunas a partir de sua ordem cadastrada na tabela layout_empresa**/
 				
 		criarColunasDinamicas();
-
+		System.out.println("msg3");
 		/**objeto com valor adicionado para true para carregar dados da datatable de documento e de transacao documento**/
 		linhaSelecionada = true;
 		
