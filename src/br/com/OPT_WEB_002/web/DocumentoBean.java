@@ -1910,8 +1910,7 @@ public class DocumentoBean implements Serializable {
 				
 				documentoRN.salvar(this.documento);					
 				this.documentoSelecionado = new Documento();
-				id_tipo_doc = null;
-				id = null;
+				id_tipo_doc = null;				
 				this.documento = new Documento();
 								
 				return "/restrito/documento/documento.xhtml?id=" + this.documento.getId_tipo_doc().getId_tipo_doc() + "faces-redirect=true";
