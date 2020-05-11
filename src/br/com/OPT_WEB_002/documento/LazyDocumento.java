@@ -57,7 +57,7 @@ public class LazyDocumento extends LazyDataModel<Documento> {
     public List<Documento> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,Object> filters) {
       	
     	List<Documento> data2 = new ArrayList<Documento>();
-    	System.out.println(lista2.size());    	      	
+    	   	      	
        for(Documento documento : lista2) {
       
         	/**	try {

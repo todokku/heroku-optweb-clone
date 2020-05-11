@@ -70,18 +70,21 @@ public class DocumentoBean implements Serializable {
 
 	/**Lista objetos com carregamento lazy**/
 	public LazyDataModel<Documento> lazyDocumento(Usuario usuario) {
-
+           
+		if(id_tipo_doc != null) {
 		/**objeto da classe LazyDocumento recebe uma lista de valores pelo campo id_tipo_doc**/
 		lazymodel = new LazyDocumento(listarPorIdTipoDocCodEmpCodFiCodUni(usuario));	
-        System.out.println("teste222");
-		/**método que cria colunas a partir de sua ordem cadastrada na tabela layout_empresa**/
-        System.out.println("teste333");		
+		
 		criarColunasDinamicas();
-		  System.out.println("teste444");
+		  
 		/**objeto com valor adicionado para true para carregar dados da datatable de documento e de transacao documento**/
 		linhaSelecionada = true;
 		
-	return lazymodel;
+		return lazymodel;
+		}
+		/**método que cria colunas a partir de sua ordem cadastrada na tabela layout_empresa**/
+       	
+	return null;
 	}
 	
 	/**Lista objetos com carregamento lazy**/
@@ -927,7 +930,7 @@ public class DocumentoBean implements Serializable {
 		   	
 		    modeloColuna coluna50  = new modeloColuna(null,null);;	        		   	
 		   	coluna50.setHeader(descricaoColunas("data_010", usuario));
-		   	System.out.println("teste1"); 
+		   	System.out.println("teste1111"); 
 		   	/**condição para carregar colunas dinamicas**/  	
 		   	if(id_tipo_doc != null){
     		     		System.out.println("teste2");    		 
