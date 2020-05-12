@@ -1430,25 +1430,27 @@ public class DocumentoBean implements Serializable {
 				for(Documento documento : documentoRN.listarPorCodEmCodFiCodUni(usuario.getCod_empresa().getCod_empresa(),usuario.getCod_filial().getCod_filial(),usuario.getCod_unidade().getCod_unidade())) {
 					System.out.println("msg6");						
 						for(Usuario_Tipo_Documento usuario_Tipo_Documento : usuario_Tipo_DocumentoRN.listarPorIdUsuarioCodEmCodFiCodUni(usuario.getId_usuario(),usuario.getCod_empresa().getCod_empresa(),usuario.getCod_filial().getCod_filial(),usuario.getCod_unidade().getCod_unidade())) {
-							System.out.println("msg7");
+							System.out.println(usuario_Tipo_Documento.getId_usuario().getId_usuario());
 							for(Layout_Empresa layout_Empresa : layout_EmpresaRN.listarPor_tipoDocumento(usuario_Tipo_Documento.getId_tipo_doc().getId_tipo_doc())) {
-								System.out.println("msg8");		
+								System.out.println("msg8" + layout_Empresa.getCod_campo());		
 							try {
 								System.out.println("msg9");
 								field = documento.getClass().getDeclaredField(layout_Empresa.getCod_campo());
 								field.setAccessible(true);
-								System.out.println("msg10");
-								System.out.println(usuario_Tipo_Documento.getConteudo());
-								System.out.println(field.get(documento));
-								System.out.println(listaDocPorTipoUsuario.size());
+							    							
+								if(usuario_Tipo_Documento.getConteudo().equals("")) {
+									 return documentoRN.listarPorIdTipoDocCodEmpCodFiCodUni(id_tipo_doc,usuario.getCod_empresa().getCod_empresa(),usuario.getCod_filial().getCod_filial(),usuario.getCod_unidade().getCod_unidade());									
+								}
+								
 								if(layout_Empresa.getDescricao().equals(usuario_Tipo_Documento.getCod_campo()) && usuario_Tipo_Documento.getConteudo().equals(field.get(documento))) {
+									
+									System.out.println("msg10");
+									System.out.println("1" + usuario_Tipo_Documento.getConteudo());
+									System.out.println("2" +field.get(documento));
+									System.out.println("3" +listaDocPorTipoUsuario.size());
 									System.out.println("msg11");
 								
 									listaDocPorTipoUsuario.add(documento);
-								}else {
-									System.out.println("msg12");
-									System.out.println(documentoRN.listarPorIdTipoDoc(id_tipo_doc).size());
-									return documentoRN.listarPorIdTipoDocCodEmpCodFiCodUni(id_tipo_doc,usuario.getCod_empresa().getCod_empresa(),usuario.getCod_filial().getCod_filial(),usuario.getCod_unidade().getCod_unidade());
 								}
 																
 							} catch (NoSuchFieldException e) {
@@ -1474,8 +1476,13 @@ public class DocumentoBean implements Serializable {
 					
 				}
 			
-				
+				if(listaDocPorTipoUsuario.isEmpty()) {
+				 return documentoRN.listarPorIdTipoDocCodEmpCodFiCodUni(id_tipo_doc,usuario.getCod_empresa().getCod_empresa(),usuario.getCod_filial().getCod_filial(),usuario.getCod_unidade().getCod_unidade());
+				}else {
 					return listaDocPorTipoUsuario;
+				}
+				
+					
 					
 				
 							
