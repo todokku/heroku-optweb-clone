@@ -94,6 +94,7 @@
 										<p:outputLabel value="Tipo:"/>
 										
 										<p:selectOneMenu  value="#{documentoBean.id_tipo_doc}" style="width:349px;margin:auto 0">											
+											<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
 											<f:selectItems value="#{usuario_tipo_docBean.listarPorIdUsuarioCodEmCodFiCodUni(usuarioBean.usuarioLogin,documentoBean.id_tipo_doc)}" var="tipoDoc" itemLabel="#{tipoDoc.id_tipo_doc.descricao}" itemValue="#{tipoDoc.id_tipo_doc.id_tipo_doc}" />
 											<p:ajax event="change"   listener="#{documentoBean.carregarDocTransDocCampAdic(usuarioBean.usuarioLogin)}" update="formCadastro:tableDoc"/>
 										</p:selectOneMenu>
