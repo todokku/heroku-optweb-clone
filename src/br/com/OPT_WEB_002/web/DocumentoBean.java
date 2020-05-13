@@ -68,9 +68,15 @@ public class DocumentoBean implements Serializable {
 		return this.usuario;
 	 }
 
+	public void recebeIdtipoDocLista(String id_tipo) {
+		
+		id_tipo_doc = BigInteger.valueOf(Long.valueOf(id_tipo));
+	}
+	
+	
 	/**Lista objetos com carregamento lazy**/
 	public LazyDataModel<Documento> lazyDocumento(Usuario usuario) {
-           
+     
 		if(id_tipo_doc != null) {
 		/**objeto da classe LazyDocumento recebe uma lista de valores pelo campo id_tipo_doc**/
 		lazymodel = new LazyDocumento(listarPorIdTipoDocCodEmpCodFiCodUni(usuario));	
@@ -654,7 +660,7 @@ public class DocumentoBean implements Serializable {
 
 	
 	public BigInteger carregarDocTransDocCampAdic(Usuario usuario) {
-		System.out.println("carregarDocTransDocCampAdic");
+				
 		DocumentoRN documentoRN = new DocumentoRN();
 		
 		/**variavel recebe o valor false para nao carregar colunas dinamicas**/
@@ -930,14 +936,14 @@ public class DocumentoBean implements Serializable {
 		   	
 		    modeloColuna coluna50  = new modeloColuna(null,null);;	        		   	
 		   	coluna50.setHeader(descricaoColunas("data_010", usuario));
-		   	System.out.println("teste1111"); 
+		
 		   	/**condição para carregar colunas dinamicas**/  	
 		   	if(id_tipo_doc != null){
-    		     		System.out.println("teste2");    		 
+    		     	 		 
 	    		 /**bloco para listar todos os objetos da tabela layout que estejam com o campo flag com valor true**/
 	    		 for(Layout_Empresa layout_Empresa : layout_EmpresaRN.listarCamposFlag(id_tipo_doc,usuario.getCod_empresa().getCod_empresa(),usuario.getCod_filial().getCod_filial(),usuario.getCod_unidade().getCod_unidade())){
 	    			 /**objeto array para adicionar todos os campos sequencia do bloco **/
-	    			 System.out.println("teste3");
+	    		
 	    			 listaId.add(layout_Empresa.getSequencia());
 	    		 }	   			
     		
@@ -946,7 +952,7 @@ public class DocumentoBean implements Serializable {
     		     		
 	    		 /**bloco para listar todos os objetos da listaId**/
 	    		 for(Integer id : listaId){
-	    			 System.out.println("teste4"); 
+	    				    			 
 	    			 try{
 	    				 	    					    				 
 		 		    	if(comparaFlagCampo(id_tipo_doc,"char_001",usuario,id)){	  
@@ -1254,13 +1260,12 @@ public class DocumentoBean implements Serializable {
 		 			   	} 
 		    			 
     			 }catch(NullPointerException e){
-    				 System.out.println("nulo"); 
+    				
     				 return null;
     			 }   	
  		    	 		    	
     		}
-	    			    		
-	    		 System.out.println("teste5"); 
+	   
         		return columns;
          }
 	  }
@@ -1392,21 +1397,18 @@ public class DocumentoBean implements Serializable {
 		List<Documento> listaDocPorTipoUsuario = new ArrayList<Documento>();
 		Usuario_Tipo_DocumentoRN usuario_Tipo_DocumentoRN = new Usuario_Tipo_DocumentoRN();
 		Field field;
-
-		System.out.println("msg1");
+	
 		retornaLogin(usuario);		
-		System.out.println("msg2");
+	
 		if (usuario != null) {
-			System.out.println("msg3");
-			System.out.println(id_tipo_doc);
+					
 			tipo_Documento = tipo_DocumentoRN.carregarPorIdTiDocCoDEmCodFiCodUni(id_tipo_doc,
 					usuario.getCod_empresa().getCod_empresa(), 
 					usuario.getCod_filial().getCod_filial(),
 					usuario.getCod_unidade().getCod_unidade());
-			System.out.println("msg3");
-			System.out.println(id_tipo_doc);
+		
 			if (id_tipo_doc != null) {
-				System.out.println("msg4");
+			
 				try {
 
 					if (isLinhaSelecionada()) {
@@ -1481,11 +1483,11 @@ public class DocumentoBean implements Serializable {
 				
 							
 		}else {
-			System.out.println("msg16");
+		
 			return null;
 		}
 		}
-		System.out.println("msg17");
+	
 		return null;
 	}
 
