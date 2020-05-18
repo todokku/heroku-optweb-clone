@@ -104,17 +104,16 @@ public class Usuario_Tipo_DocumentoBean implements Serializable {
 			}
 						
 		}else{
-			System.out.println("alterar");
+		
 			usuario_Tipo_DocumentoRN.alterar(usuario_Tipo_Documento);			
 			return "/restrito/usuario_tipo_documento/usuario_tipo_documento.xhtml?faces-redirect=true";
 		}
 		
 	}
 	
-	public List<Usuario_Tipo_Documento> listarPorIdUsuarioCodEmCodFiCodUni(Usuario usuario,BigInteger id_tipo_doc) {
+	public List<Usuario_Tipo_Documento> listarPorIdUsuarioCodEmCodFiCodUni(Usuario usuario) {
 	
-		 usuario_Tipo_DocumentoRN = new Usuario_Tipo_DocumentoRN();
-		
+		 usuario_Tipo_DocumentoRN = new Usuario_Tipo_DocumentoRN();		
 		return usuario_Tipo_DocumentoRN.listarPorIdUsuarioCodEmCodFiCodUni(usuario.getId_usuario(),usuario.getCod_empresa().getCod_empresa(),usuario.getCod_filial().getCod_filial(),usuario.getCod_unidade().getCod_unidade());
 		 		
 	}
