@@ -18,7 +18,7 @@ import br.com.OPT_WEB_002.usuario_tipo_documento.*;
 public class Usuario_Tipo_DocumentoBean implements Serializable {
 	
 	/**
-	 * 
+	 d* 
 	 */
 	private static final long serialVersionUID = 1L;
 	private BigInteger id_usuario_tipo_documento;
