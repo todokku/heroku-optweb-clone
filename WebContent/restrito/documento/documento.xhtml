@@ -68,7 +68,7 @@
 										
 										<p:selectOneMenu  value="#{documentoBean.id_tipo_doc}" style="width:349px;margin:auto 0" update = "formCadastro:tableDoc formCadastro:tableTransDoc formCadastro:tableCampAdic">
 											<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
-											<f:selectItems value="#{usuario_tipo_docBean.listarPorIdUsuarioCodEmCodFiCodUni(usuarioBean.usuarioL}" var="tipoDoc" itemLabel="#{tipoDoc.id_tipo_doc.cod_campo}" itemValue="#{tipoDoc.id_tipo_doc.id_tipo_doc}"/>
+											<f:selectItems value="#{usuario_tipo_docBean.listarPorIdUsuarioCodEmCodFiCodUni(usuarioBean.usuarioLogin)}" var="tipoDoc" itemLabel="#{tipoDoc.id_tipo_doc.cod_campo}" itemValue="#{tipoDoc.id_tipo_doc.id_tipo_doc}"/>
 											<p:ajax event="change"   listener="#{documentoBean.carregarDocTransDocCampAdic(usuarioBean.usuarioLogin)}" update="formCadastro:tableDoc formCadastro:tableTransDoc formCadastro:tableCampAdic" onstart="PF('dlg').show()" onsuccess="PF('dlg').hide()"/>
 										</p:selectOneMenu>
 										
